@@ -344,3 +344,39 @@ def eq_interval(ds_, iu, level=0.95):
     se = np.sqrt(var) / (D - 1)
     tq = stats.t.ppf(0.5 + level / 2, D - 1)
     return dict(est=est, lo=est - tq * se, hi=est + tq * se, se=se)
+
+
+# ================================================================ amended interval (change log 1, DEV_PREREG.md)
+def _bces_parts(m, LC, iu):
+    """Per-donor inputs for the equal-weight leak-corrected (BCES-type) estimator."""
+    return m[:, iu[0]], m[:, iu[1]], LC
+
+
+def _bces_est_se(X, Y, L):
+    """X, Y: (..., D, P) donor means; L: (..., D, P) leak terms. Returns unbiased estimate
+    S_B,jk - mean_d L_d and a sandwich SE (SD of per-donor centred products / sqrt(D))."""
+    D = X.shape[-2]
+    xc = X - X.mean(-2, keepdims=True); yc = Y - Y.mean(-2, keepdims=True)
+    q = xc * yc * D / (D - 1) - L
+    est = q.mean(-2)
+    se = q.std(-2, ddof=1) / np.sqrt(D)
+    return est, se
+
+
+def boot_t_interval(X, Y, L, B=999, seed=0, level=0.95, min_distinct=4):
+    """Donor bootstrap-t interval for Sigma_B,jk. Resamples donors (with their leak terms) with replacement;
+    resamples with fewer than `min_distinct` distinct donors are redrawn."""
+    D = X.shape[0]
+    est, se = _bces_est_se(X, Y, L)
+    rng = np.random.default_rng(seed)
+    tb = np.empty((B, X.shape[1]))
+    i = 0
+    while i < B:
+        idx = rng.integers(0, D, D)
+        if len(np.unique(idx)) < min_distinct:
+            continue
+        e_b, s_b = _bces_est_se(X[idx], Y[idx], L[idx])
+        tb[i] = (e_b - est) / np.maximum(s_b, 1e-300)
+        i += 1
+    lo_q, hi_q = np.quantile(tb, [0.5 + level / 2, 0.5 - level / 2], axis=0)
+    return dict(est=est, se=se, lo=est - lo_q * se, hi=est - hi_q * se)

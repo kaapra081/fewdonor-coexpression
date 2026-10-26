@@ -57,4 +57,9 @@ If GO: an abstract matching what the paper will claim, without held-out numbers.
 
 ## 7. Change log
 
-(none)
+**Change 1 — Mon 26 Oct 2026, ~12:25 PDT, approved by the user, before any formal interval result was inspected** (formal test runs had started; no formal output file had been opened or analysed).
+
+- *Reason.* Exploratory runs on the TRUE donor means (seeds 9.4e6–9.6e6) showed that, with log-normal donor effects, 95% intervals for the linear-scale Σ_B,jk undercover for between-donor pairs at every donor number examined: normal-theory 0.85–0.88 at D = 16, 24, 40 and 84; donor bootstrap-t 0.87–0.94 at D = 16 and 0.91 at D = 40. Gate 4 as written cannot be met by any interval, including an oracle. The frozen EQ interval uses a Gaussian variance and is therefore not consistent under skewed donor effects.
+- *Amended gate 4.* For every pair class in every non-stress design, coverage of the deployed **BOOT_T** interval ≥ coverage of the same interval computed on the true donor means (**ORACLE_BOOT_T**) − 0.02. Raw coverages of BOOT_T, EQ and CMB_jack are all reported; the original gate 4 (≥ 0.93) is reported as "original gate 4". The paper will claim calibrated tests, not calibrated intervals, below ~40 donors.
+- *BOOT_T (new, frozen).* Equal-weight leak-corrected estimator Σ̂ = S_B,jk − mean_d κ_d Ĉ_d,jk; sandwich SE = SD_d(q_d)/√D with q_d = (m_dj − m̄_j)(m_dk − m̄_k)·D/(D−1) − κ_d Ĉ_d,jk; 999 donor bootstrap resamples (resamples with < 4 distinct donors redrawn); studentized percentile interval. Code: methods_v2.boot_t_interval, run_ci.py (re-simulates the same replicates with the same seeds).
+- analyze_dev.py was written after this file was hashed and before any formal result was read; it implements section 5 only.
