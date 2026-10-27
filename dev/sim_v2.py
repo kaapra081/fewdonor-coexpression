@@ -127,12 +127,38 @@ def make_nd(st, rng):
     return np.clip(np.round(x), st["nd_min"], None).astype(int)
 
 
+_POOLS = {}
+
+
+def _pool(name):
+    """Per-donor library-size vectors of real donors (round3/empirical_designs.npz, or a bundled copy)."""
+    if name not in _POOLS:
+        for p in (os.path.join(HERE, "empirical_designs.npz"),
+                  os.path.join(HERE, "..", "..", "round3", "empirical_designs.npz")):
+            if os.path.exists(p):
+                z = np.load(p); pre = name + "__"
+                _POOLS[name] = [np.asarray(z[k], float) for k in sorted(z.files) if k.startswith(pre)]
+                break
+    return _POOLS[name]
+
+
 def simulate(panel, st, seed):
     rng = np.random.default_rng(seed)
     G, lab, mu, phi = panel["G"], panel["labels"], panel["mu"], panel["phi"]
     eta = panel["eta"] * st["eta_mult"]
     D = st["D"]; nd = make_nd(st, rng)
     a_d = rng.normal(0.0, ds.FITTED["sigma_a"] * st["sa_mult"], D)
+    libs = None
+    if st.get("pool"):                       # held-out: real donors' per-cell library sizes
+        pool = _pool(st["pool"]); pick = rng.choice(len(pool), size=D, replace=False)
+        libs = []
+        for i, r in enumerate(pick):
+            v = pool[r]
+            if st.get("pool_n") == "real":
+                libs.append(v.copy())
+            else:
+                libs.append(rng.choice(v, size=int(nd[i]), replace=int(nd[i]) > len(v)))
+        nd = np.array([len(v) for v in libs])
     Gm = _gload(panel, st["g"])
     u = {h: rng.normal(0.0, 1.0, D) for h in BETWEEN_PROGS}
     qh = panel["qhalf"]; gq = st["g_Q"]
@@ -165,7 +191,10 @@ def simulate(panel, st, seed):
         omega[:, idx["H"]] *= 1.0 + np.outer(zH, st["lam_H"] * rng.choice([-1.0, 1.0], size=len(idx["H"])))
         xi = rng.gamma(phi, 1.0 / phi, size=(n, G))
         theta = mu[None, :] * beta[None, :] * omega * xi
-        s = np.exp(ds.FITTED["m_L"] + a_d[d] + rng.normal(0.0, ds.FITTED["sigma_e"] * st["se_mult"], n))
+        if libs is not None:
+            s = libs[d].copy()
+        else:
+            s = np.exp(ds.FITTED["m_L"] + a_d[d] + rng.normal(0.0, ds.FITTED["sigma_e"] * st["se_mult"], n))
         if st["kappa"] != 0.0:
             s = s * np.exp(st["kappa"] * zW)
         Y = rng.poisson(s[:, None] * theta)

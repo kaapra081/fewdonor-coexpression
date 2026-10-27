@@ -269,15 +269,20 @@ def lcsp_test(ds_, iu, B=20000, seed=0, studentize=True, leak=True, refine_thr=5
     idx = np.where(p <= refine_thr)[0]
     if len(idx):
         PERM = np.argsort(rng.random((B2, D)), axis=1).astype(np.int32)
-        for i in idx:
-            x = R[:, a[i]]; y = R[:, b[i]]
-            T1 = (x[PERM] * y[None, :]).sum(1)
+        # vectorised over refined pairs, chunked over permutations (same PERM draws as the loop version)
+        X = R[:, a[idx]]; Yv = R[:, b[idx]]; cnt2 = np.zeros(len(idx))
+        ch = max(1, int(2e7 // max(1, D * len(idx))))
+        for s0 in range(0, B2, ch):
+            Pc = PERM[s0:s0 + ch]
+            Xp = X[Pc]                                         # ch x D x P'
+            T1 = np.einsum("bdp,dp->bp", Xp, Yv)
             if studentize:
-                T2 = ((x ** 2)[PERM] * (y ** 2)[None, :]).sum(1)
-                st = _tstat(T1, T2, D)
+                T2 = np.einsum("bdp,dp->bp", Xp ** 2, Yv ** 2)
+                stt = _tstat(T1, T2, D)
             else:
-                st = T1
-            p[i] = ((np.abs(st) >= aobs[i]).sum() + 1) / (B2 + 1)
+                stt = T1
+            cnt2 += (np.abs(stt) >= aobs[idx][None, :]).sum(0)
+        p[idx] = (cnt2 + 1) / (B2 + 1)
     # point estimate and t-interval for Sigma_B,jk: q_d estimates Sigma_B,jk * w_d, w_d = 1/sqrt(v_dj v_dk)
     w = 1.0 / np.sqrt(v[:, a] * v[:, b])
     est = S1o / w.sum(0)

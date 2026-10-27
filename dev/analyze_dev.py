@@ -25,7 +25,7 @@ def per_rep(design_dir):
             for c in NULLS + ALTS:
                 r["rej05_" + c] = float((p[cls == c] < 0.05).mean())
             rows.append(r)
-        for nm, (lo, hi) in INTERVALS.items():
+        for nm, (lo, hi) in list(INTERVALS.items()) + ([("BOOT_T", ("BT_lo", "BT_hi")), ("ORACLE_BOOT_T", ("OBT_lo", "OBT_hi"))] if "BT_lo" in z.files else []):
             cov = (z[lo] <= sb) & (sb <= z[hi])
             r = dict(rep=rep, interval=nm)
             for c in NULLS + ALTS:
