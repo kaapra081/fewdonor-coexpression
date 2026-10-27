@@ -1,3 +1,7 @@
 __pycache__/
 *.npz
 runs*/
+!dev/empirical_designs.npz
+.venv/
+*.pdf
+!paper/figures/*.pdf

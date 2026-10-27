@@ -1,0 +1,14 @@
+name: fewdonor-coexpression
+channels: [conda-forge]
+dependencies:
+  - python=3.11
+  - numpy=1.26
+  - scipy>=1.11
+  - pandas>=2.0
+  - matplotlib>=3.8
+  - anndata>=0.10
+  - h5py
+  - pytest
+  - pip
+  - pip:
+      - torch>=2.1   # optional: GPU permutations for the real-data analyses (real/real_gpu.py)

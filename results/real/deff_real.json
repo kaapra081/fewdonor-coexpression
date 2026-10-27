@@ -1,0 +1,38 @@
+{
+ "real_stats_seaad.npz": {
+  "D": 84,
+  "Deff_over_D_median": 0.9000063240864072,
+  "q10": 0.8002122177281163,
+  "q90": 0.947154887227267,
+  "gene_rel_median": 0.9655661055248017,
+  "median_noise_to_signal": 0.032765751912822695,
+  "frac_tau0": 0.0
+ },
+ "real_stats_seaad_cap40_r0.npz": {
+  "D": 84,
+  "Deff_over_D_median": 0.5274908490156638,
+  "q10": 0.28899323729987125,
+  "q90": 0.7107696298755426,
+  "gene_rel_median": 0.7525238334792053,
+  "median_noise_to_signal": 0.30119235278907763,
+  "frac_tau0": 0.0
+ },
+ "real_stats_lee.npz": {
+  "D": 80,
+  "Deff_over_D_median": 0.9810472906802772,
+  "q10": 0.9664567844639216,
+  "q90": 0.9896697047186189,
+  "gene_rel_median": 0.9921411693302484,
+  "median_noise_to_signal": 0.007372166457702293,
+  "frac_tau0": 0.0
+ },
+ "real_stats_lee_cap40_r0.npz": {
+  "D": 80,
+  "Deff_over_D_median": 0.5322428936281085,
+  "q10": 0.3648789116418915,
+  "q90": 0.6855407092794061,
+  "gene_rel_median": 0.7572617082279264,
+  "median_noise_to_signal": 0.30716842315362325,
+  "frac_tau0": 0.0
+ }
+}

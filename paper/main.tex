@@ -1,0 +1,126 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newcommand{\SB}{\Sigma^{\mathrm{B}}}
+\newcommand{\SW}{\Sigma^{\mathrm{W}}}
+\newcommand{\Deff}{D_{\mathrm{eff}}}
+\input{results.tex}
+
+\title{Between-donor gene co-expression from few donors:\\ a leak-corrected permutation test and a bound on what any test can detect}
+\author{[Author names and affiliations to be added by the authors]}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{abstract_body.tex}
+\end{abstract}
+
+\section{Introduction}
+
+Multi-donor single-cell RNA-seq cohorts now profile tens to hundreds of donors per cell type, and gene--gene co-expression is computed in them routinely, for network inference, module discovery and co-expression QTL mapping \citep{Li2023coeQTL}. Two genes can co-vary for two different reasons. They can co-vary \emph{within} donors, across the cells of one person, as members of a cell-state program; or they can co-vary \emph{between} donors, because donor-level factors (genotype, sex, age, disease, post-mortem handling) shift both genes' mean expression together. The two levels answer different biological questions, and a pooled analysis of all cells mixes them.
+
+The between-donor level is usually studied with pseudobulk: average each donor's cells, then correlate the donor means across donors. Pseudobulk has become the default for donor-level single-cell inference because it respects the donor as the unit of replication \citep{Squair2021,Zimmerman2021}. For co-expression it has a less obvious problem. A donor mean computed from $n_d$ cells carries finite-cell sampling error, and when two genes co-vary within donors their sampling errors co-vary as well. This within-donor covariance \emph{leaks} into the covariance of donor means and is reported as donor-level association. The leak is largest when it matters most: in rare cell types and small cohorts, where donors contribute tens rather than hundreds of cells.
+
+We study the between-donor covariance $\SB$ of latent expression on the count scale and make four contributions.
+(i) We derive the leak exactly under a Poisson measurement model (Lemma~\ref{lem:leak}): pseudobulk covariance targets $\SB+\bar\kappa\,\SW$, where $\bar\kappa\approx\overline{1/n_d}$, and the leak can be estimated without bias from each donor's own cells.
+(ii) We prove an information bound for testing a single gene pair (Theorem~\ref{thm:bound}): with $D$ donors, no test has more local power than an oracle that observes the true donor means of $\Deff=\sum_d\rho_{dj}\rho_{dk}$ donors, where $\rho_{dj}$ is the reliability of donor $d$'s mean for gene $j$. At about 40 cells per donor, $\Deff$ is between a quarter and a half of $D$ for typical genes in the two cohorts we analyse. This gives a design rule (donors are worth far more than cells) and an honest yardstick for any method.
+(iii) We propose LCP, a leak-corrected, precision-standardized donor-permutation test, give a proof outline that it is asymptotically exact under the null of independent donor effects, and show that its efficiency relative to the bound depends only on the spread of donor reliabilities (Theorem~\ref{thm:lcp}, Proposition~\ref{prop:are}).
+(iv) We report, with exact-truth simulations and frozen held-out designs that use the real cell numbers and sequencing depths of two Alzheimer's disease microglia cohorts, where LCP works and where nothing does: LCP controls the false discovery rate (FDR) from 24 donors upward and matches the power of a noise-limited oracle, whereas pseudobulk correlation inflates the FDR to \PBFDRrange{} and the existing moment-corrected test has almost no power; at 16 or fewer donors no test based on observed donor means, ours included, is calibrated in the tail that multiple-testing correction uses, and covariance intervals undercover even when computed from the true donor means.
+
+\paragraph{Related work.}
+The moment correction that subtracts a known, heteroscedastic, correlated error covariance from an observed covariance is classical: it is the BCES estimator of astronomy \citep{AkritasBershady1996,Kelly2007}, and precision-weighted debiased versions are used in Mendelian randomization \citep{Ye2021dIVW} and cross-trait LD score regression \citep{BulikSullivan2015b}. Multivariate random-effects meta-analysis treats study-level estimates with known within-study covariance \citep{JacksonWhiteRiley2013,RileyAbramsSutton2007}, and multilevel covariance-structure models separate within- and between-group covariance \citep{Muthen1994,Ludtke2008}. Attenuation of correlations by measurement error goes back to Spearman \citep{Fuller1987}. Single-cell methods estimate within-donor co-expression with measurement-error models (CS-CORE \citep{Su2023CSCORE}, memento \citep{Kim2024memento}, SPLN \citep{GeLi2026SPLN}), and co-expression QTL methods target between-donor variation \citep{Li2023coeQTL}; none provides a count-scale leak correction or a calibrated few-donor test for $\SB$. Our contribution is not the moment correction itself but the count-derived per-donor leak, the per-pair information bound, a test that attains it, and an explicit map of the regime in which between-donor co-expression cannot be resolved.
+
+\section{Setting and estimand}
+
+Donors $d=1,\dots,D$ contribute $n_d$ cells of one type. Cell $i$ has latent relative expression $\theta_i\in\mathbb{R}^G_+$ (expected UMI count per unit library size) and library size $s_i$; counts are $Y_{ij}\mid\theta_i,s_i\sim\mathrm{Poisson}(s_i\theta_{ij})$, independently across genes (extra-Poisson noise independent across genes is absorbed into $\theta$). Donor $d$'s cells are i.i.d.\ from a donor-specific distribution $F_d$, and the $F_d$ are i.i.d.\ draws from a donor population; the design ($n_d$ and the $s_i$) is ancillary and may differ arbitrarily between donors. With $\mu_{dj}=\mathrm{E}_{F_d}[\theta_j]$, the estimands are
+\[
+\SB_{jk}=\mathrm{Cov}(\mu_{dj},\mu_{dk}),\qquad \SW_{jk}=\mathrm{E}\big[\mathrm{Cov}_{F_d}(\theta_j,\theta_k)\big],
+\]
+with donors weighted equally. Off-diagonal entries of both are identified from count moments; the latent scale avoids the depth artefacts of log-normalized data. We test $H_0:\SB_{jk}=0$ for all pairs and control the FDR with Benjamini--Hochberg (BH).
+
+Per donor we use the ratio mean $m_{dj}=\sum_iY_{ij}/S_d$ ($S_d=\sum_is_i$), the depth-heterogeneity factor $\kappa_d=\sum_is_i^2/S_d^2$ ($=1/n_d$ at equal depth), the sample covariance $\hat C_d$ of $x_i=Y_i/s_i$, and the sampling variance $\hat\psi_{dj}=\kappa_d\hat\sigma^2_{dj}+m_{dj}/S_d$, where $\hat\sigma^2_{dj}$ is the Poisson-corrected within-donor variance.
+
+\section{The leak}
+
+\begin{lemma}[Leak]\label{lem:leak}
+For $j\neq k$, $\mathrm{E}[m_{dj}\mid F_d]=\mu_{dj}$ and $\mathrm{Cov}(m_{dj},m_{dk}\mid F_d)=\kappa_d\,\mathrm{Cov}_{F_d}(\theta_j,\theta_k)$. Hence $\mathrm{Cov}(m_{dj},m_{dk})=\SB_{jk}+\kappa_d\SW_{jk}$, and $\mathrm{E}[\kappa_d\hat C_{d,jk}\mid F_d]=\kappa_d\mathrm{Cov}_{F_d}(\theta_j,\theta_k)$.
+\end{lemma}
+The proof (Appendix~\ref{app:proofs}) uses only conditional independence of Poisson draws across genes and of cells within a donor. Two consequences follow. First, the covariance of donor means---the quantity pseudobulk correlation tests---equals $\SB+\bar\kappa\SW$; within-only programs ($\SB_{jk}=0$, $\SW_{jk}\neq0$) are called at a rate that grows with $\bar\kappa$, i.e.\ with fewer cells per donor. Second, the leak is known in form and estimable per donor, so
+$\hat\SB_{jk}=S_{B,jk}-D^{-1}\sum_d\kappa_d\hat C_{d,jk}$
+is unbiased for $\SB_{jk}$ (Proposition~\ref{prop:unbiased}, Appendix). With equal weights this is the BCES correction \citep{AkritasBershady1996} with a count-derived error covariance; we do not claim it as new.
+
+\section{What any per-pair test can detect}
+
+Write $a_d=\SB_{jj}+\psi_{dj}$, $b_d=\SB_{kk}+\psi_{dk}$ for the total variances of donor means, and $\rho_{dj}=\SB_{jj}/a_d$ for the reliability of donor $d$'s mean of gene $j$.
+
+\begin{theorem}[Information bound]\label{thm:bound}
+Let $m_d\sim N(\bar\mu,\SB+\Psi_d)$ independently with known sampling covariances $\Psi_d$, and consider $\sigma=\SB_{jk}$ with nuisance parameters $(\bar\mu,\SB_{jj},\SB_{kk})$. Donor $d$ contributes Fisher information $I_d(\sigma)=(a_db_d+c_d^2)/(a_db_d-c_d^2)^2$ with $c_d=\sigma+\ell_d$ ($\ell_d$ the leak). At $\sigma=0$ without leak the nuisance parameters are information-orthogonal to $\sigma$ and the efficient information is $I=\sum_d1/(a_db_d)$, against $I^\ast=D/(\SB_{jj}\SB_{kk})$ for an oracle that observes $\mu_d$. Consequently, for local alternatives $\sigma=h/\sqrt D$, no asymptotically level-$\alpha$ test based on genes $j$ and $k$ has power exceeding that of the oracle test with
+\[
+\Deff=\sum_{d=1}^D\rho_{dj}\rho_{dk}\quad\text{donors.}
+\]
+\end{theorem}
+Theorem~\ref{thm:bound} is the per-pair, heteroscedastic form of attenuation by measurement error; its use here is quantitative. With $\psi_{dj}\approx c_j/n_d$, $\rho_{dj}=(1+c_j/(\SB_{jj}n_d))^{-1}$: doubling cells per donor at most doubles $\Deff$ and saturates at $D$, while adding donors raises $\Deff$ linearly. In SEA-AD microglia the median noise-to-signal ratio $\psi_{dj}/\SB_{jj}$ at 40 cells per donor is \SEAADnsForty{} (Lee 2026: \LEEnsForty{}), so at 16 donors and ${\sim}40$ cells the best possible per-pair test for a typical gene pair behaves like an oracle with four to five donors.
+
+\section{LCP: a leak-corrected, precision-standardized permutation test}
+
+For each gene, a Paule--Mandel random-effects fit to $(m_{dj},\hat\psi_{dj})_d$ gives $\hat\mu_j$ and $\hat\tau^2_j$ (an estimate of $\SB_{jj}$), solving $\sum_d(m_{dj}-\hat\mu_j)^2/(\hat\tau_j^2+\hat\psi_{dj})=D-1$. Standardize $r_{dj}=(m_{dj}-\hat\mu_j)/\hat v_{dj}^{1/2}$ with $\hat v_{dj}=\hat\tau^2_j+\hat\psi_{dj}$, and for each pair form
+\[
+T_{jk}=\Big[\sum_d\big(r_{dj}r_{dk}-\tilde\ell_{d,jk}\big)\Big]\sqrt{\tfrac{D}{D+\sum_d\tilde\ell_{d,jk}^2}},\qquad \tilde\ell_{d,jk}=\frac{\kappa_d\hat C_{d,jk}}{(\hat v_{dj}\hat v_{dk})^{1/2}}.
+\]
+The reference distribution is that of $T^\pi_{jk}=\sum_dr_{\pi(d)j}r_{dk}$ over random donor permutations $\pi$ (20{,}000, refined to $4\times10^5$ when $p\le5\times10^{-4}$); permuted pairings come from different donors and therefore carry no leak. Each choice addresses a failure we observed: the leak term removes within-only false positives; standardization by the model-based total variance equalizes heteroscedastic donors (and, because of the Paule--Mandel root, fixes $\sum_dr_{dj}^2=D-1$, so the permutation variance is deterministic); and permutation replaces normal-theory references, which at 16 donors are anti-conservative in the BH-relevant tail even for Pearson correlation of the \emph{true} donor means. All pairs share one set of permutations, so the cost is a sequence of $G\times D$ by $D\times G$ matrix products.
+
+\begin{theorem}[Validity]\label{thm:lcp}
+Let $H_0$: the donor-level vectors $(\mu_{dj})_d$ and $(\mu_{dk})_d$ are independent. (a) If the leak is absent and the standardized deviations of one gene are exchangeable across donors, the LCP $p$-value is exactly valid. (b) Under bounded designs, bounded $4+\delta$ moments and consistent per-gene nuisance estimates, $T_{jk}/\sqrt D\Rightarrow N(0,1)$ under $H_0$ as $D\to\infty$, and the permutation distribution of $T^\pi_{jk}/\sqrt D$ converges in probability to the same limit, so LCP is asymptotically exact.
+\end{theorem}
+\begin{proposition}[Efficiency]\label{prop:are}
+Under the model of Theorem~\ref{thm:bound}, the asymptotic relative efficiency of LCP with respect to the bound is $\big[D^{-1}\sum_d(\rho_{dj}\rho_{dk})^{1/2}\big]^2/\big[D^{-1}\sum_d\rho_{dj}\rho_{dk}\big]\le1$, with equality iff $\rho_{dj}\rho_{dk}$ is constant across donors.
+\end{proposition}
+Proofs are in Appendix~\ref{app:proofs}; part (b) of Theorem~\ref{thm:lcp} is an outline whose finite-$D$ accuracy we assess by simulation. LCP tests independence, not the weaker $\SB_{jk}=0$: if donor effects are dependent but uncorrelated, the permutation variance is wrong (the phenomenon studentized permutation tests address \citep{DiCiccioRomano2017}). Studentizing restored weak-null validity in our development runs but removed almost all power at 16 donors, so we report the weak null as a stress case.
+
+\section{Simulations}
+
+\paragraph{Design.} The simulator has exact analytic truth on the latent scale and was checked numerically. Each gene panel (80 genes, 3{,}160 pairs) contains within-only programs (moderate and strong), between-only programs, programs at both levels with same and opposite signs, a sign-heterogeneous within-donor null, a between-donor weak null (dependent but uncorrelated donor effects) and independent genes. Donor effects are log-normal, with gene-specific donor variation matched to SEA-AD (median between-donor log-SD 0.19), and per-cell depths are taken from the SEA-AD fit. Development designs vary $D\in\{8,12,16,24,40\}$ with ${\sim}40$ cells per donor (log-normal, minimum 10); held-out designs use a new gene panel, new seeds and the real cell numbers and depths of SEA-AD and Lee 2026 donors. Criteria were pre-registered and hashed before each set of runs (Appendix~\ref{app:prereg}). Every design has $R=200$ replicates; we report Monte Carlo standard errors (MCSE). Comparators: pseudobulk Pearson of log-CPM donor means (PB), precision-standardized log-scale donor means (E5), count-scale donor-mean Pearson without correction (naive), the BCES-type moment-corrected estimator with donor jackknife (MC), an ORACLE (the same permutation test on the true donor means) and BOUND (true donor means plus independent Gaussian noise of the true sampling variance, standardized with true variances, i.e.\ a noise-limited oracle).
+
+\input{table_sim_main.tex}
+\begin{figure}[t]\centering\includegraphics[width=\textwidth]{figures/fig_sim.pdf}
+\caption{Development simulations ($R=200$ replicates per point; bars $\pm2$ MCSE; $\sim$40 cells per donor). (a) BH false discovery rate. (b) BH power. (c) Type-I error at $\alpha=0.05$ for strong within-only pairs ($\SB_{jk}=0$, $\SW_{jk}>0$), the pairs that leak into donor means. ORACLE uses the true donor means; BOUND adds noise of the true sampling variance without leak (the noise-limited benchmark of Theorem~\ref{thm:bound}).}\label{fig:sim}\end{figure}
+\paragraph{Results.} Table~\ref{tab:sim} and Fig.~\ref{fig:sim} summarize. \emph{From 24 donors}, LCP controls the FDR (\LCPFDRDtwentyfour{} at $D=24$, \LCPFDRDforty{} at $D=40$) and its power equals BOUND's (\LCPpowDtwentyfour{} vs \BOUNDpowDtwentyfour{}; \LCPpowDforty{} vs \BOUNDpowDforty{}); MC is valid but nearly powerless (\MCpowDforty{} at $D=40$); PB, E5 and naive have slightly higher nominal power but inflated FDR (PB \PBFDRrange{}; E5 and naive \OtherFDRrange{}), driven by within-only pairs (type-I error up to \PBSSmax{} for the strong within-only program). The ORACLE's much higher power (\ORACLEpowDforty{} at $D=40$) is the price of measurement noise predicted by Theorem~\ref{thm:bound}, not a deficiency of the test: LCP's power equals BOUND's in every design, although below 24 donors that power comes with an inflated FDR. \emph{At 16 or fewer donors}, every method that uses observed donor means is anti-conservative in the tail: LCP's FDR is \LCPFDRDsixteen{} at $D=16$, \LCPFDRDtwelve{} at $D=12$ and \LCPFDRDeight{} at $D=8$, while BOUND and ORACLE stay near 0.05. The excess comes mostly from independent pairs. A plausible mechanism is that donors with few cells have heavy-tailed noise in both genes at once, which the identity pairing multiplies and random pairings dilute; standardization equalizes variances but not tails. Held-out results (Table~\ref{tab:heldout}, Appendix) \HELDOUTsentence
+
+\paragraph{Intervals: a negative result.} For linear-scale $\SB_{jk}$, 95\% intervals undercover under skewed donor effects at every donor number we examined, \emph{including intervals computed from the true donor means}: normal-theory oracle intervals cover 0.85--0.88 for between-donor pairs at 16 to 84 donors, and donor bootstrap-$t$ oracle intervals 0.86--0.95. Our deployed bootstrap-$t$ interval tracks the oracle but falls more than 0.02 below it in 15 of 60 class--design cells. We therefore claim calibrated tests, not calibrated intervals.
+
+\section{Real data: microglia from two Alzheimer's disease cohorts}
+\begin{figure}[t]\centering\includegraphics[width=\textwidth]{figures/fig_real.pdf}
+\caption{Real data. (a) Twenty random 24- or 40-donor subsets per cohort; precision and recall of each method's calls against the full-cohort LCP calls (an estimate, not truth). Circles, SEA-AD 24; squares, SEA-AD 40; triangles, Lee 24; diamonds, Lee 40. (b) Call rate at 40 cells per donor among the top-1\% within-donor co-expressed pairs that show no between-donor evidence in the full cohort (three random cell draws per cohort; circles SEA-AD, triangles Lee; bars are means). (c) Corrected between-donor versus within-donor correlation for sex-linked and heat-shock gene pairs in both cohorts (circles SEA-AD, triangles Lee).}\label{fig:real}\end{figure}
+\input{realdata.tex}
+
+\section{Discussion}
+
+Between-donor co-expression is a different estimand from within-donor co-expression, and pseudobulk correlation does not estimate it: it adds $\bar\kappa\SW$, a leak that grows as cells per donor shrink. The leak is removable, and LCP removes it while remaining calibrated from about two dozen donors, at the power of a noise-limited oracle. Theorem~\ref{thm:bound} makes explicit what no method can recover: with ${\sim}40$ cells per donor, $D$ donors carry the per-pair information of about $D/3$ perfectly measured donors, so 16-donor rare-cell studies cannot resolve pair-level between-donor structure, and adding donors helps far more than sequencing more cells. Below 24 donors our test is not reliable in the tail, nor is any competitor we examined that uses observed donor means; covariance intervals undercover there even with true donor means.
+
+\paragraph{Limitations.} The analysis assumes Poisson counts given latent expression, depth independent of cell state within donors, and independent donors; violations of the second (depth--state coupling) are evaluated as a stress design. LCP tests independence of donor effects, not zero covariance. Gene-level borrowing across programs (e.g.\ low-rank between-donor models) could exceed the per-pair bound but changes the estimand and is left for future work. Real-data reference calls are themselves estimates.
+
+\paragraph{Code and data.} Code, pre-registrations, frozen specifications and scripts for every figure: \url{https://github.com/kaapra081/fewdonor-coexpression}. Data are public CELLxGENE datasets (SEA-AD MTG microglia c76098ba-eed3-45b1-98f2-96fcac55ed18; Lee et al.\ 2026 fresh myeloid 440da0a0-f321-4f40-9080-bb04031681e5); the repository contains a download script with dataset version identifiers and checksums.
+
+\bibliographystyle{unsrtnat}
+\bibliography{refs}
+
+\clearpage
+\appendix
+\input{appendix.tex}
+\end{document}
