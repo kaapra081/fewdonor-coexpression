@@ -47,6 +47,7 @@ res["est_bces"], res["leak"]          # leak-corrected between-donor covariance 
 | Post hoc ablations (not pre-registered) | `python dev/ablate_gpu.py --design D16 --out runs_ablate --device cuda:0` (or `--device cpu`; designs D16, D24, D40), then `python dev/analyze_ablate.py --runs runs_ablate --out results/ablate` |
 | Post hoc diagnostics (efficiency, depth–state coupling, donor factor) | `python diag/diag_sim.py`, `FEWDONOR_DATA=data/ python diag/diag_real.py`, `python diag/diag_null.py` (outputs in `results/diag/`) |
 | Rare-supertype analysis (frozen rule `prereg/RARE_PREREG.md`) | `FEWDONOR_DATA=data/ python rare/rare_prep.py`, `python rare/rare_run.py`, `python rare/rare_sim.py --set S1`, `python rare/rare_sim_summary.py`, `python rare/rare_descriptive.py`; outcomes in `prereg/RARE_RESULTS.md` |
+| Real-cell pseudo-donor null and LCP2 (frozen plan `prereg/FIX_PREREG.md`) | `FEWDONOR_DATA=data/ python fix/fix_null.py --set S1 --k 0` (k = 0..4; also S2), `python fix/fix_sim.py --design F_D16` (6 designs), `python fix/fix_summary.py` |
 | Figures, tables, numbers | `python paper/make_figs.py && python paper/make_results.py`, then compile `paper/main.tex` |
 
 Seeds are fixed in the scripts. Development seeds are 2,000,000 + 100,003·k + rep; held-out seeds are 5,000,000 + 100,019·k + rep, with gene panel seed 4112026.

@@ -1,0 +1,16 @@
+{
+ "S1": {
+  "med_absrw_null": 0.08560715615749359,
+  "med_absrw_realdonor": 0.0743186603992064,
+  "frac_nullPBcalls_that_are_real_LCP_calls": 0.3092940592900523,
+  "frac_nullPBcalls_that_are_real_PB_calls": 0.30844073130191657,
+  "real_LCP_call_rate": 0.10028131341080981
+ },
+ "S2": {
+  "med_absrw_null": 0.07118350267410278,
+  "med_absrw_realdonor": 0.06145770660422755,
+  "frac_nullPBcalls_that_are_real_LCP_calls": 0.4537901823760082,
+  "frac_nullPBcalls_that_are_real_PB_calls": 0.47278029971686764,
+  "real_LCP_call_rate": 0.2470369857959786
+ }
+}
