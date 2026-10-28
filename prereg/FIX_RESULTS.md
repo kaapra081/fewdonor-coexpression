@@ -29,7 +29,7 @@ Decisions:
 
 Criteria: (a) True, (b) True, (c) False.
 
-**Adopt LCP2 = False.** Criterion (c) fails: at 24 donors LCP2 has 0.87 of LCP's power, below the required 0.9. LCP2 is reported as a calibrated but lower-powered variant; recommending it for few-cell designs is post hoc.
+**Adopt LCP2 = False.** Criterion (c) fails: at 24 donors LCP2 has 0.87 of LCP's power, below the required 0.9. LCP2 is reported as a variant calibrated in simulation (FDR) but lower-powered, which, like LCP, fails the frozen real-cell top-1% type-I criterion (0.068 and 0.085); recommending it for few-cell designs is post hoc.
 
 ## Deviations
 
