@@ -91,6 +91,31 @@ def main():
                             frac_calls_in_fullLCP=float((rej & reff).sum() / max(rej.sum(), 1))))
     pd.DataFrame(cap).to_csv(os.path.join(a.out, "cap40_vs_full.csv"), index=False)
 
+    # split-half leak experiment: select on half A, test on half B capped at 40 cells (no reuse of cells)
+    sp_ = []
+    for name, z in Z.items():
+        coh, part = name.split("_")[0], name.split("_")[1]
+        if not part.startswith("halfBcap40") or f"{coh}_halfA" not in Z:
+            continue
+        A = Z[f"{coh}_halfA"]; rw = A["r_w"]; thr = np.nanquantile(np.abs(rw), 0.99)
+        wo = (np.abs(rw) >= thr) & (A["p_LCP"] > 0.05) & (A["p_PB"] > 0.05)
+        share = np.where(np.abs(z["S_pb"]) > 0, z["leak"] / z["S_pb"], np.nan)
+        for m in ("LCP", "PB", "naive", "MC"):
+            rej, _ = calls(z, m)
+            sp_.append(dict(name=name, cohort=coh, method=m, n_calls=int(rej.sum()), n_within_only=int(wo.sum()),
+                            n_called_within_only=int(rej[wo].sum()), callrate_within_only=float(rej[wo].mean()) if wo.any() else np.nan,
+                            leakshare_med_PBcalls=float(np.nanmedian(share[calls(z, "PB")[0]]))))
+    pd.DataFrame(sp_).to_csv(os.path.join(a.out, "split_leak.csv"), index=False)
+    # cross-method replication (non-circular): SEA-AD calls of method X replicated by method Y in Lee
+    cm = []
+    if "seaad_full" in Z and "lee_full" in Z:
+        for X in ("LCP", "PB"):
+            rx, sx = calls(Z["seaad_full"], X)
+            for Y in ("LCP", "PB"):
+                ry, sy = calls(Z["lee_full"], Y)
+                cm.append(dict(seaad_method=X, lee_method=Y, n_seaad=int(rx.sum()), repl=float((rx & ry & (sx == sy)).sum() / max(rx.sum(), 1))))
+    pd.DataFrame(cm).to_csv(os.path.join(a.out, "cross_method_replication.csv"), index=False)
+
     # genes of interest
     goi = []
     idx = {g: i for i, g in enumerate(sym)}

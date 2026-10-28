@@ -6,7 +6,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-V2 = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # repository root
+V2 = ROOT
 OUT = os.path.join(V2, "paper", "figures")
 os.makedirs(OUT, exist_ok=True)
 plt.rcParams.update({"font.size": 8, "axes.labelsize": 8, "axes.titlesize": 8, "legend.fontsize": 7,
@@ -21,11 +22,11 @@ ORDER = ["ORACLE", "BOUND", "LCP", "PB_logcpm", "CMB_naive", "E5", "CMB_mom"]
 
 
 def panel_letter(ax, s):
-    ax.text(-0.18, 1.06, s, transform=ax.transAxes, fontsize=10, fontweight="bold", va="bottom")
+    t = ax.get_title(loc="left"); ax.set_title(r"$\bf{" + s + "}$   " + t, loc="left")
 
 
 def fig_sim():
-    s = pd.read_csv(os.path.join(V2, "results", "dev", "summary_all.csv"))
+    s = pd.read_csv(os.path.join(ROOT, "results", "dev", "summary_all.csv"))
     designs = ["D8", "D12", "D16", "D24", "D40"]; xs = [8, 12, 16, 24, 40]
     s = s[s.design.isin(designs)]
     fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.5))
@@ -60,9 +61,9 @@ def fig_sim():
 
 
 def fig_real():
-    R = os.path.join(V2, "results", "real")
+    R = os.path.join(ROOT, "results", "real")
     sub = pd.read_csv(os.path.join(R, "subsample_vs_full.csv"))
-    cap = pd.read_csv(os.path.join(R, "cap40_vs_full.csv"))
+    cap = pd.read_csv(os.path.join(R, "split_leak.csv"))
     goi = pd.read_csv(os.path.join(R, "genes_of_interest.csv"))
     fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.5))
     mcol = {"LCP": COL["LCP"], "PB": COL["PB_logcpm"], "MC": COL["CMB_mom"], "naive": COL["CMB_naive"]}
@@ -75,8 +76,8 @@ def fig_real():
             ax.scatter(g.recall_of_fullLCP, g.precision_vs_fullLCP, s=8, marker=mm, color=mcol[m], alpha=0.6, lw=0)
     for m in ("MC", "PB", "LCP"):
         ax.scatter([], [], color=mcol[m], s=10, label=mlab[m])
-    ax.set_xlabel("Recall of full-cohort LCP calls"); ax.set_ylabel("Precision vs full-cohort LCP calls")
-    ax.set_title("Donor subsamples (24 or 40 donors)", loc="left"); ax.legend(frameon=False, loc="lower left")
+    ax.set_xlabel("Recall of full-cohort LCP calls"); ax.set_ylabel("Share of calls in full-cohort LCP set")
+    ax.set_title("Donor subsamples", loc="left"); ax.legend(frameon=True, framealpha=0.9, edgecolor="none", loc="lower left", fontsize=6)
     ax.set_ylim(0.85, 1.005)
     ax = axes[1]
     meths = ["LCP", "MC", "PB", "naive"]
@@ -88,8 +89,8 @@ def fig_real():
             ax.hlines(g.callrate_within_only.mean(), x - 0.12, x + 0.12, color=mcol[m], lw=1.5)
     short = {"LCP": "LCP", "MC": "Moment-\ncorrected", "PB": "Pseudo-\nbulk", "naive": "Count\nmeans"}
     ax.set_xticks(range(len(meths))); ax.set_xticklabels([short[m] for m in meths], rotation=0)
-    ax.set_ylabel("Call rate, within-dominant pairs")
-    ax.set_title("Leak at 40 cells per donor", loc="left")
+    ax.set_ylabel("Call rate on half B")
+    ax.set_title("Split-half leak test, 40 cells", loc="left")
     ax.set_ylim(-0.005, None)
     ax = axes[2]
     for setname, c, lab in (("sex", "#8E44AD", "XIST / Y-linked / KDM6A"), ("heat_shock", "#16A085", "Heat-shock genes")):
@@ -98,7 +99,7 @@ def fig_real():
             ax.scatter(g.r_within, g.rhoB, s=10, color=c, marker=mm, alpha=0.8, lw=0, label=lab if coh == "seaad" else None)
     ax.axhline(0, color="0.6", lw=0.5); ax.axvline(0, color="0.6", lw=0.5)
     ax.set_xlabel("Within-donor correlation"); ax.set_ylabel("Between-donor correlation (corrected)")
-    ax.set_title("Levels separate in both cohorts", loc="left")
+    ax.set_title("Levels separate", loc="left")
     from matplotlib.lines import Line2D
     ax.legend(handles=[Line2D([], [], ls="", marker="o", color="#8E44AD", ms=4, label="XIST / Y-linked / KDM6A"),
                        Line2D([], [], ls="", marker="o", color="#16A085", ms=4, label="Heat-shock genes")],

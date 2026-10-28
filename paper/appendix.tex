@@ -8,6 +8,7 @@ For fixed centring weights $\alpha,\beta$ with $\sum_d\alpha_d=\sum_d\beta_d=1$ 
 \[\hat\SB(w)=\frac{\sum_dw_d\big[r_{dj}r_{dk}-\hat\ell_d(1-\alpha_d-\beta_d)-\sum_e\alpha_e\beta_e\hat\ell_e\big]}{\sum_dw_d(1-\alpha_d-\beta_d+A)}\]
 is unbiased for $\SB_{jk}$; with $w\equiv1$ and $\alpha=\beta=1/D$ it equals $S_{B,jk}-D^{-1}\sum_d\hat\ell_d$.
 \end{proposition}
+The weights must be fixed, i.e.\ not functions of the donor means; with weights estimated from the same data (for example precision weights built from $\hat\psi_{dj}$) the estimator is unbiased only to first order.
 \begin{proof}
 Let $c_d=\mathrm{Cov}(m_{dj},m_{dk})=\SB_{jk}+\lambda_d$ with $\lambda_d=\kappa_d\SW_{jk}$. Independence across donors gives $\mathrm{E}[r_{dj}r_{dk}]=c_d(1-\alpha_d-\beta_d)+\sum_e\alpha_e\beta_ec_e$. Substituting $c_d$ and $\mathrm{E}\hat\ell_d=\lambda_d$, the $\lambda$ terms cancel and the numerator has expectation $\SB_{jk}\sum_dw_d(1-\alpha_d-\beta_d+A)$.
 \end{proof}
@@ -21,8 +22,16 @@ For a bivariate normal with covariance $V=\begin{psmallmatrix}a&c\\c&b\end{psmal
 \paragraph{Proof of Proposition~\ref{prop:are} (outline).}
 Under the Gaussian model with local alternative $\sigma=h/\sqrt D$, $\mathrm{E}[r_{dj}r_{dk}-\tilde\ell_d]=\sigma/(a_db_d)^{1/2}=\sigma(\rho_{dj}\rho_{dk})^{1/2}/(\SB_{jj}\SB_{kk})^{1/2}$ and the null variance per donor is $1+O(\ell^2)$, so the noncentrality of $T/\sqrt D$ is $h\,D^{-1}\sum_d(\rho_{dj}\rho_{dk})^{1/2}/(\SB_{jj}\SB_{kk})^{1/2}$. Squaring and dividing by the efficient information $\bar I$ gives the stated ratio; Cauchy--Schwarz gives $\le1$.
 
-\section{Pre-registration and changes}\label{app:prereg}
+\section{Analysis plans, amendments and outcomes}\label{app:prereg}
 Development gates, code hashes and the held-out specification were written and hashed before the corresponding runs and pushed to the repository (commits d00b9c2, eee7366, c986bab). Two development criteria were amended before the affected results were inspected, with reasons: (1) the usefulness criterion was changed from ``half the ORACLE's power at 16 donors'' to ``at least 80\% of BOUND's power'' after exploratory runs showed, and Theorem~\ref{thm:bound} implies, that no per-pair test can approach the ORACLE at 16 donors with ${\sim}40$ cells; (2) the interval criterion was changed to ``within 0.02 of the oracle interval'' after exploratory runs showed that oracle intervals themselves undercover. Under the original criteria, and under the amended interval criterion, the method fails at $D\le16$; we report this in the main text. Development seeds, held-out seeds, panel seeds and designs are listed in the repository.
+
+\section{Intervals}\label{app:ci}
+BOOT\_T uses the equal-weight leak-corrected estimator $\hat\SB_{jk}=S_{B,jk}-D^{-1}\sum_d\kappa_d\hat C_{d,jk}$ with sandwich standard error $\mathrm{SD}_d(q_d)/\sqrt D$, where $q_d=(m_{dj}-\bar m_j)(m_{dk}-\bar m_k)D/(D-1)-\kappa_d\hat C_{d,jk}$. We draw 999 donor bootstrap resamples (resamples with fewer than four distinct donors are redrawn), recompute the studentized statistic in each, and report the studentized percentile interval. ORACLE\_BOOT\_T applies the same procedure to the true donor means without leak correction. Table~\ref{tab:cov} gives coverage by pair class; both intervals undercover for pairs with nonzero $\SB_{jk}$ because log-normal donor effects make products of donor deviations skewed.
+\input{table_cov.tex}
+
+\section{Post hoc ablations}\label{app:ablate}
+These runs were not in the analysis plan; we added them after internal review. They reuse the development replicates (same seeds) at 16, 24 and 40 donors and compute every variant with the same $10^5$ donor permutations and no refinement, so the full method here (``LCP'') differs slightly from Table~\ref{tab:sim}, which used refinement. Variants: no leak term ($\tilde\ell\equiv0$); true variances (standardization by the true $\SB_{jj}+\psi_{dj}$ and true means, estimated leak); unstandardized (leak-corrected cross-products of raw donor deviations, which weights donors equally); pseudobulk with the same donor permutation instead of a normal-theory reference. Three conclusions are clear at every donor number: the leak term is what keeps strong within-only pairs at nominal type-I error (\ABLCPgpuSforty{} with it, \ABLCPnoleakSforty{} without it, at $D=40$); standardization by the total variance is needed for calibration (unstandardized FDR \ABLCPunstdFsixteen{}, \ABLCPunstdFtwentyfour{} and \ABLCPunstdFforty{}); and permutation does not remove pseudobulk's leak (within-only type-I \ABPBpermSforty{} at $D=40$). At 16 donors the full method's FDR (\ABLCPgpuFsixteen{}) is not reduced by using true variances (\ABLCPtruevFsixteen{}) but is reduced by dropping the leak term (\ABLCPnoleakFsixteen{}, at the cost of within-only type-I error \ABLCPnoleakSsixteen{}). Nuisance-parameter estimation therefore does not explain the few-donor failure, and noise in the estimated leak contributes to it; a shrunken leak estimate is a natural next step.
+\input{table_ablate.tex}
 
 \section{Additional tables}\input{table_sim.tex}
 \input{table_heldout.tex}

@@ -42,7 +42,9 @@ res["est_bces"], res["leak"]          # leak-corrected between-donor covariance 
 | Held-out evaluation | `python dev/run_heldout.py --design HO_seaad24 --out runs_heldout` (6 designs; see `prereg/HELDOUT_SPEC.md`) |
 | Data | `bash data/download.sh` (checksums verified), then `python data/make_seaad_v3.py` and `python data/p1_prepare_subset.py --h5ad data/lee2026_fresh_myeloid.h5ad --out data/P1_lee2026_microglia_80x1600.h5ad` |
 | Real-data statistics | `FEWDONOR_DATA=data/ python real/real_prep.py` |
+| Split-half leak experiment | `FEWDONOR_DATA=data/ python real/real_prep_split.py`, then `python real/real_gpu.py --part split` |
 | Real-data tests | `python real/real_gpu.py --part full` (also `cap`, `sub24`, `sub40`; `--device cpu` works but is slower), then `python real/real_summarize.py` |
+| Post hoc ablations (not pre-registered) | `python dev/ablate_gpu.py --design D16 --out runs_ablate --device cuda:0` (or `--device cpu`; designs D16, D24, D40), then `python dev/analyze_ablate.py --runs runs_ablate --out results/ablate` |
 | Figures, tables, numbers | `python paper/make_figs.py && python paper/make_results.py`, then compile `paper/main.tex` |
 
 Seeds are fixed in the scripts. Development seeds are 2,000,000 + 100,003·k + rep; held-out seeds are 5,000,000 + 100,019·k + rep, with gene panel seed 4112026.

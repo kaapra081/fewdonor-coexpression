@@ -67,3 +67,48 @@ These four results, together with the round-3 benchmark, make a coherent negativ
 3. **Continue developing the test for the journal paper.** Candidate repairs are a cell-split leak-free version, or restricting permutations to donors with similar cell counts. These are not for 4 Nov.
 
 Nothing has been registered, submitted or made public.
+
+## Update, Mon 26 Oct 22:45 PDT: all development designs finished, and your decision
+
+**Final development numbers for LCP** (R = 200 per design; MCSE in brackets):
+
+| Design | FDR | Power | BOUND power | ORACLE power | Pseudobulk FDR / power | Moment-corrected power |
+|---|---|---|---|---|---|---|
+| D24 | 0.046 (0.006) | 0.105 | 0.108 | 0.531 | 0.140 / 0.168 | 0.000 |
+| D40 | 0.050 (0.002) | 0.463 | 0.458 | 0.851 | 0.129 / 0.494 | 0.010 |
+| D16_strong | 0.065 (0.006) | 0.187 | 0.186 | 0.578 | 0.138 / 0.321 | 0.000 |
+| D16 stress | 0.230 (0.026) | 0.012 | 0.008 | 0.224 | 0.256 / 0.034 | 0.000 |
+
+**Gates on the final numbers:**
+- **Gate 2 (validity):** passes at D24 and D40. It fails at D8, D12, D16 and D16_strong (0.065 > 0.05 + 2·0.006).
+- **Gate 3 (amended):** passes. LCP power is at least 0.98 × BOUND everywhere, and 0.54 × ORACLE at D40.
+- **Gate 4:** fails.
+- **Overall:** NO-GO under the pre-registered rule, unchanged.
+
+**Your decision (26 Oct, ~21:00 PDT):** proceed to a RECOMB submission anyway ("we need recomb… finish it off"). The paper is scoped to what the evidence supports:
+1. the leak lemma;
+2. the information bound;
+3. a test calibrated from ~24 donors that reaches the bound;
+4. explicit negative results at ≤16 donors and for intervals.
+
+The frozen held-out evaluation (HELDOUT_SPEC.md) tests the ≥24-donor validity claim on new panels, seeds and real-donor designs. Any failure there will be reported in the paper.
+
+## Held-out evaluation (frozen spec HELDOUT_SPEC.md, commit c986bab), completed 27 Oct 2026
+
+R = 200 per design, panel seed 4112026, seeds 5,000,000 + 100,019·k + rep. HO_lee40, HO_seaad24, HO_D32 and HO_weak40 were
+partly run on Kaggle; that machine disconnected before results were downloaded, so all six designs were (re)run in full on
+the local machine with the same frozen code and seeds. Summary: dev/ho_results/summary_all.csv.
+
+| Design | LCP FDR (MCSE) | LCP power / BOUND power | PB FDR |
+|---|---|---|---|
+| HO_seaad24 | 0.046 (0.002) | 0.554 / 0.553 | 0.082 |
+| HO_seaad24_cap40 | 0.041 (0.004) | 0.122 / 0.117 | 0.170 |
+| HO_lee40 | 0.050 (0.002) | 0.559 / 0.547 | 0.190 |
+| HO_D32 | 0.048 (0.004) | 0.307 / 0.300 | 0.139 |
+| HO_weak40 | 0.048 (0.009) | 0.025 / 0.029 | 0.299 |
+| HO_D16_n100 (few-donor check, no claim) | 0.040 (0.005) | 0.077 / 0.085 | 0.133 |
+
+- Validity claim (FDR ≤ 0.05 + 2·MCSE; type-I ≤ 0.05 + 3·MCSE in WW, SS, HH, NN): PASSES in all five D ≥ 24 designs.
+- Power claim (≥ 0.8 × BOUND): PASSES in all five (ratios 0.89–1.04).
+- Weak null (QQ_cross), reported, no claim: LCP type-I 0.062–0.099 (anti-conservative, as in development).
+- Pseudobulk has higher power than LCP in HO_seaad24 (0.659 vs 0.554) where donors have hundreds of cells and the leak is small.

@@ -7,7 +7,7 @@ import numpy as np
 import torch
 from scipy import stats
 
-HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, "..", "dev"))
+HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 from methods_v2 import paule_mandel, bh, cmb_mom, pb_logcpm, pearson_fisher  # noqa: E402
 
 
@@ -100,6 +100,10 @@ def main():
         elif a.part == "cap":
             for r in range(3):
                 jobs.append((f"{coh}_cap40_r{r}", os.path.join(a.stats_dir, f"real_stats_{coh}_cap40_r{r}.npz"), None, 100_000, 21 + r))
+        elif a.part == "split":
+            jobs.append((f"{coh}_halfA", os.path.join(a.stats_dir, f"real_stats_{coh}_halfA.npz"), None, 100_000, 41))
+            for r in range(3):
+                jobs.append((f"{coh}_halfBcap40_r{r}", os.path.join(a.stats_dir, f"real_stats_{coh}_halfB_cap40_r{r}.npz"), None, 100_000, 51 + r))
         elif a.part in ("sub24", "sub40"):
             Dsub = int(a.part[3:])
             for s in range(a.nsub):
