@@ -17,7 +17,7 @@ COL = {"LCP": "#C0392B", "PB_logcpm": "#7F8C8D", "E5": "#A9CCE3", "CMB_naive": "
        "ORACLE": "#000000", "BOUND": "#E67E22"}
 LAB = {"LCP": "LCP (this work)", "PB_logcpm": "Pseudobulk Pearson", "E5": "Standardized log means",
        "CMB_naive": "Count-scale means, uncorrected", "CMB_mom": "Moment-corrected + jackknife",
-       "ORACLE": "Oracle: true donor means", "BOUND": "Noise-limited oracle (bound)"}
+       "ORACLE": "Oracle: true donor means", "BOUND": "Noise-matched oracle (NMO)"}
 ORDER = ["ORACLE", "BOUND", "LCP", "PB_logcpm", "CMB_naive", "E5", "CMB_mom"]
 
 
@@ -45,7 +45,7 @@ def fig_sim():
     axes[0].text(41.5, 0.05, "0.05", fontsize=6, va="center", ha="left", color="0.3")
     axes[0].set_ylabel("False discovery rate (BH, q = 0.05)")
     axes[0].set_title("LCP is calibrated from 24 donors", loc="left")
-    axes[1].set_ylabel("Power (BH, q = 0.05)"); axes[1].set_title("LCP tracks the noise-limited bound", loc="left")
+    axes[1].set_ylabel("Power (BH, q = 0.05)"); axes[1].set_title("LCP tracks the noise-matched oracle", loc="left")
     axes[2].axhline(0.05, color="0.3", lw=0.6, ls=":")
     axes[2].set_ylabel("Type-I error at α = 0.05")
     axes[2].set_title("Leak: strong within-only pairs", loc="left")

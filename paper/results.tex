@@ -32,6 +32,34 @@
 \newcommand{\PBSSmax}{0.22}
 \newcommand{\SEAADnsForty}{0.98}
 \newcommand{\LEEnsForty}{0.69}
+\newcommand{\SEAADnsFortyTop}{0.30}
+\newcommand{\LEEnsFortyTop}{0.31}
+\newcommand{\DeffSixteenTop}{8.4--8.5}
+\newcommand{\DeffSixteenUni}{4.1--5.6}
+\newcommand{\AREmin}{0.963}
+\newcommand{\AREmax}{0.997}
+\newcommand{\DeffSimMin}{0.62}
+\newcommand{\DeffSimMax}{0.63}
+\newcommand{\DeffCapRange}{0.53}
+\newcommand{\cplMedSEAAD}{0.046}
+\newcommand{\cplAbsSEAAD}{0.054}
+\newcommand{\cplFracSSEAAD}{0.58}
+\newcommand{\cplFracTSEAAD}{0.12}
+\newcommand{\sdLibSEAAD}{0.57}
+\newcommand{\pcOneSEAAD}{0.21}
+\newcommand{\pcNullSEAAD}{0.026}
+\newcommand{\pcCorrMaxSEAAD}{0.19}
+\newcommand{\cplMedLEE}{-0.007}
+\newcommand{\cplAbsLEE}{0.029}
+\newcommand{\cplFracSLEE}{0.33}
+\newcommand{\cplFracTLEE}{0.13}
+\newcommand{\sdLibLEE}{0.61}
+\newcommand{\pcOneLEE}{0.28}
+\newcommand{\pcNullLEE}{0.026}
+\newcommand{\pcCorrMaxLEE}{0.10}
+\newcommand{\cplStressW}{0.045}
+\newcommand{\sdLibNull}{0.56}
+\newcommand{\sdLibStress}{1.17}
 \newcommand{\DeffSEAADcap}{0.53}
 \newcommand{\DeffLEEcap}{0.53}
 \newcommand{\DeffSEAADfull}{0.90}
@@ -93,8 +121,10 @@
 \newcommand{\HOLCPFDRrange}{0.041--0.050}
 \newcommand{\HOratio}{0.89--1.04}
 \newcommand{\HOPBFDRrange}{0.08--0.30}
+\newcommand{\QQHO}{0.062--0.099}
 \newcommand{\HOsixteenFDR}{0.040\,(0.005)}
-\newcommand{\HELDOUTsentence}{With a new gene panel, new seeds and three designs built from real donors' cell numbers and depths, the frozen validity criterion held in all 5 held-out designs with at least 24 donors: LCP's FDR was 0.041--0.050 and its power 0.89--1.04 times BOUND's, while pseudobulk's FDR was 0.08--0.30. With 16 donors but about 100 cells each, LCP's FDR was 0.040\,(0.005) (pseudobulk 0.13), so the 16-donor failure in development depends on cells per donor as well as on the number of donors.}
+\newcommand{\HELDOUTsentence}{With a new gene panel and new seeds, the frozen validity criterion held in all 5 held-out designs with at least 24 donors: LCP's FDR was 0.041--0.050 and its power 0.89--1.04 times NMO's, while pseudobulk's FDR was 0.08--0.30 (the upper end from the weak-signal design, where pseudobulk makes few discoveries). In the one design with real SEA-AD cell numbers (18--1{,}068 per donor), pseudobulk's FDR is 0.082, and its power exceeds LCP's (0.659 vs 0.554). With 16 donors but about 100 cells each, LCP's FDR was 0.040\,(0.005) (pseudobulk 0.13), so the 16-donor failure in development depends on cells per donor as well as on the number of donors.}
+\newcommand{\ABfullSSrange}{0.048--0.054}
 \newcommand{\ABLCPgpuFsixteen}{0.083}
 \newcommand{\ABLCPgpuPsixteen}{0.014}
 \newcommand{\ABLCPgpuSsixteen}{0.048}

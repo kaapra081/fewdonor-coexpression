@@ -1,0 +1,50 @@
+{
+ "D16": {
+  "ARE_median": 0.974259970307742,
+  "Deff_over_D_median": 0.6218593564414027,
+  "coupling_W_median": -0.0037198351583140666,
+  "coupling_absother_median": 0.02627591580508623
+ },
+ "D24": {
+  "ARE_median": 0.975836270186057,
+  "Deff_over_D_median": 0.6335208101643249,
+  "coupling_W_median": 0.018415629529815326,
+  "coupling_absother_median": 0.02378049085324906
+ },
+ "D40": {
+  "ARE_median": 0.9746579319437014,
+  "Deff_over_D_median": 0.6284973054936669,
+  "coupling_W_median": 0.002954627771457685,
+  "coupling_absother_median": 0.01793296928545299
+ },
+ "D16_STRESS_depth": {
+  "ARE_median": 0.9612719041953002,
+  "Deff_over_D_median": 0.5670597417105704,
+  "coupling_W_median": 0.045021719179614395,
+  "coupling_absother_median": 0.04198231378853226
+ },
+ "HO_seaad24": {
+  "ARE_median": 0.997242942197707,
+  "Deff_over_D_median": 0.9065467297188231,
+  "coupling_W_median": 0.0043495025465065855,
+  "coupling_absother_median": 0.0073361935286228724
+ },
+ "HO_seaad24_cap40": {
+  "ARE_median": 0.9689741402596695,
+  "Deff_over_D_median": 0.5677478516982623,
+  "coupling_W_median": -7.439225887256974e-05,
+  "coupling_absother_median": 0.022517956183990332
+ },
+ "HO_lee40": {
+  "ARE_median": 0.9631609640656883,
+  "Deff_over_D_median": 0.6190294449845388,
+  "coupling_W_median": -0.008300634395461297,
+  "coupling_absother_median": 0.013273286084132212
+ },
+ "HO_D32": {
+  "ARE_median": 0.9688526039593235,
+  "Deff_over_D_median": 0.5828761949589744,
+  "coupling_W_median": -0.009096076903889591,
+  "coupling_absother_median": 0.018071602280067243
+ }
+}

@@ -45,6 +45,27 @@ M["QQLCP"] = f"{min(qq('LCP')):.3f}--{max(qq('LCP')):.3f}"; M["QQORACLE"] = f"{m
 M["STRESSLCPFDR"] = fm(s, "D16_STRESS_depth", "LCP", "FDR"); M["STRESSPBFDR"] = f3(get(s, "D16_STRESS_depth", "PB_logcpm", "FDR"))
 M["PBSSmax"] = f2(s[s.method == "PB_logcpm"].rej05_SS.max())
 M["SEAADnsForty"] = f2(cal["seaad"]["noise_signal_n40_q"][2]); M["LEEnsForty"] = f2(cal["lee"]["noise_signal_n40_q"][2])
+dj = json.load(open(os.path.join(R, "deff_real.json")))
+M["SEAADnsFortyTop"] = f2(dj["real_stats_seaad_cap40_r0.npz"]["median_noise_to_signal"]); M["LEEnsFortyTop"] = f2(dj["real_stats_lee_cap40_r0.npz"]["median_noise_to_signal"])
+_dt = [16 * dj[k]["Deff_over_D_median"] for k in ("real_stats_seaad_cap40_r0.npz", "real_stats_lee_cap40_r0.npz")]
+M["DeffSixteenTop"] = f"{min(_dt):.1f}--{max(_dt):.1f}"
+_du = [16 / (1 + cal[c]["noise_signal_n40_q"][2]) ** 2 for c in ("seaad", "lee")]   # pair of two median universe genes
+M["DeffSixteenUni"] = f"{min(_du):.1f}--{max(_du):.1f}"
+_ds = json.load(open(os.path.join(ROOT, "results", "diag", "diag_sim.json")))
+_are = [v["ARE_median"] for k, v in _ds.items() if "STRESS" not in k]
+M["AREmin"] = f"{min(_are):.3f}"; M["AREmax"] = f"{max(_are):.3f}"
+_dsim = [_ds[k]["Deff_over_D_median"] for k in ("D16", "D24", "D40")]
+M["DeffSimMin"] = f2(min(_dsim)); M["DeffSimMax"] = f2(max(_dsim))
+_dc = sorted({f2(dj[k]["Deff_over_D_median"]) for k in ("real_stats_seaad_cap40_r0.npz", "real_stats_lee_cap40_r0.npz")})
+M["DeffCapRange"] = "--".join(_dc)
+_dr = json.load(open(os.path.join(ROOT, "results", "diag", "diag_real.json"))); _dn = json.load(open(os.path.join(ROOT, "results", "diag", "diag_null.json")))
+for c, nm in (("seaad", "SEAAD"), ("lee", "LEE")):
+    M[f"cplMed{nm}"] = f3(_dr[c]["coupling_median"]); M[f"cplAbs{nm}"] = f3(_dr[c]["coupling_absmedian"])
+    M[f"cplFracS{nm}"] = f2(_dr[c]["frac_abs_gt_0045"]); M[f"cplFracT{nm}"] = f2(_dr[c]["frac_abs_gt_01"])
+    M[f"sdLib{nm}"] = f2(_dr[c]["sd_loglib_median"])
+    M[f"pcOne{nm}"] = f2(_dr[c]["pc1_share"]); M[f"pcNull{nm}"] = f3(_dn[c]["pc1_null_max"])
+    M[f"pcCorrMax{nm}"] = f2(max(abs(v) for v in _dr[c]["pc1_corr"].values()))
+M["cplStressW"] = f3(_ds["D16_STRESS_depth"]["coupling_W_median"]); M["sdLibNull"] = f2(_dn["D16"]["sd_loglib_median"]); M["sdLibStress"] = f2(_dn["D16_STRESS_depth"]["sd_loglib_median"])
 M["DeffSEAADcap"] = f2(deff["real_stats_seaad_cap40_r0.npz"]["Deff_over_D_median"])
 M["DeffLEEcap"] = f2(deff["real_stats_lee_cap40_r0.npz"]["Deff_over_D_median"])
 M["DeffSEAADfull"] = f2(deff["real_stats_seaad.npz"]["Deff_over_D_median"])
@@ -107,12 +128,15 @@ if ho is not None:
     M["HOLCPFDRrange"] = f"{min(fd):.3f}--{max(fd):.3f}"
     M["HOratio"] = f"{min(ratio):.2f}--{max(ratio):.2f}"
     M["HOPBFDRrange"] = f"{min(pbh):.2f}--{max(pbh):.2f}"
-    sent = (f"With a new gene panel, new seeds and three designs built from real donors' cell numbers and depths, the frozen validity criterion "
+    M["QQHO"] = f"{ho[(ho.method == 'LCP') & ho.design.isin(hod)].rej05_QQ_cross.min():.3f}--{ho[(ho.method == 'LCP') & ho.design.isin(hod)].rej05_QQ_cross.max():.3f}"
+    sent = (f"With a new gene panel and new seeds, the frozen validity criterion "
             + ("held in all " + str(len(hod)) + " held-out designs with at least 24 donors" if not fails else
                "failed in " + "; ".join(x.replace("_", "\\_") for x in fails))
-            + f": LCP's FDR was {M['HOLCPFDRrange']} and its power {M['HOratio']} times BOUND's"
+            + f": LCP's FDR was {M['HOLCPFDRrange']} and its power {M['HOratio']} times NMO's"
             + ("" if all(pw) else " (below the frozen 0.8 threshold in " + str(sum(not p for p in pw)) + " design(s))")
-            + f", while pseudobulk's FDR was {M['HOPBFDRrange']}.")
+            + f", while pseudobulk's FDR was {M['HOPBFDRrange']} (the upper end from the weak-signal design, where pseudobulk makes few discoveries)."
+            + (f" In the one design with real SEA-AD cell numbers (18--1{{,}}068 per donor), pseudobulk's FDR is {get(ho, 'HO_seaad24', 'PB_logcpm', 'FDR'):.3f}, and its power exceeds LCP's"
+               f" ({get(ho, 'HO_seaad24', 'PB_logcpm', 'power'):.3f} vs {get(ho, 'HO_seaad24', 'LCP', 'power'):.3f})." if "HO_seaad24" in hod else ""))
     if "HO_D16_n100" in set(ho.design):
         M["HOsixteenFDR"] = fm(ho, "HO_D16_n100", "LCP", "FDR")
         sent += (f" With 16 donors but about 100 cells each, LCP's FDR was {M['HOsixteenFDR']}"
@@ -130,7 +154,7 @@ with open(os.path.join(P, "results.tex"), "w") as f:
 # simulation table (development)
 designs = ["D8", "D12", "D16", "D24", "D40", "D16_strong", "D16_STRESS_depth"]
 names = {"D8": "8", "D12": "12", "D16": "16", "D24": "24", "D40": "40", "D16_strong": "16, strong", "D16_STRESS_depth": "16, stress$^\\dagger$"}
-meths = [("LCP", "LCP"), ("BOUND", "BOUND"), ("ORACLE", "ORACLE"), ("PB_logcpm", "PB"), ("E5", "E5"), ("CMB_naive", "naive"), ("CMB_mom", "MC")]
+meths = [("LCP", "LCP"), ("BOUND", "NMO"), ("ORACLE", "ORACLE"), ("PB_logcpm", "PB"), ("E5", "E5"), ("CMB_naive", "naive"), ("CMB_mom", "MC")]
 
 
 def table(df, dl, nm, caption, label, meths=meths, size="\\small"):
@@ -149,7 +173,7 @@ def table(df, dl, nm, caption, label, meths=meths, size="\\small"):
     return "\n".join(lines)
 
 
-MAIN = [("LCP", "LCP"), ("BOUND", "BOUND"), ("ORACLE", "ORACLE"), ("PB_logcpm", "Pseudobulk"), ("CMB_mom", "Moment-corr.")]
+MAIN = [("LCP", "LCP"), ("BOUND", "NMO"), ("ORACLE", "ORACLE"), ("PB_logcpm", "Pseudobulk"), ("CMB_mom", "Moment-corr.")]
 open(os.path.join(P, "table_sim_main.tex"), "w").write(table(s, designs, names, "Development simulations ($R=200$ per design, 3{,}160 pairs, ${\\sim}40$ cells per donor). FDR and power at BH $q=0.05$. MCSE of FDR $\\le$0.031 and of power $\\le$0.011. $^\\dagger$Depth--state coupling and doubled within-donor depth spread (stress design). All methods in Table~\\ref{tab:simfull}.", "tab:sim", meths=MAIN, size="") + "\n")
 tab = table(s, designs, names, "Development simulations ($R=200$ per design; panel of 3{,}160 pairs). BH at $q=0.05$; MCSE of FDR $\\le$0.031 and of power $\\le$0.011 throughout (full values in the repository).", "tab:simfull", size="\\footnotesize")
 open(os.path.join(P, "table_sim.tex"), "w").write(tab + "\n")
@@ -159,7 +183,7 @@ if ho is not None:
     capm = (f"Frozen held-out evaluation ($R=200$ per design; new gene panel and seeds). SEA-AD and Lee designs use real donors' cell numbers or depths; "
             f"MCSE of FDR $\\le${ho.FDR_mcse.max():.3f} and of power $\\le${ho.power_mcse.max():.3f}. All methods in Table~\\ref{{tab:heldout}}.")
     open(os.path.join(P, "table_heldout_main.tex"), "w").write(table(ho, list(hn), hn, capm, "tab:heldoutmain", meths=MAIN, size="") + "\n")
-    tabh = table(ho, list(hn), hn, f"Frozen held-out evaluation ($R=200$ per design; new gene panel, seeds and real-donor designs). MCSE of FDR $\\le${ho.FDR_mcse.max():.3f} and of power $\\le${ho.power_mcse.max():.3f}. Weak-null type-I error of LCP at $\\alpha=0.05$: {ho[ho.method=='LCP'].rej05_QQ_cross.min():.3f}--{ho[ho.method=='LCP'].rej05_QQ_cross.max():.3f}.", "tab:heldout", size="\\footnotesize")
+    tabh = table(ho, list(hn), hn, f"Frozen held-out evaluation ($R=200$ per design; new gene panel and seeds; the SEA-AD and Lee designs use real donors' cell numbers or depths). MCSE of FDR $\\le${ho.FDR_mcse.max():.3f} and of power $\\le${ho.power_mcse.max():.3f}. Weak-null type-I error of LCP at $\\alpha=0.05$: {ho[ho.method=='LCP'].rej05_QQ_cross.min():.3f}--{ho[ho.method=='LCP'].rej05_QQ_cross.max():.3f}.", "tab:heldout", size="\\footnotesize")
 else:
     tabh = "\\begin{table}[t]\\centering\\caption{Held-out evaluation pending.}\\label{tab:heldout}\\end{table}"
 open(os.path.join(P, "table_heldout.tex"), "w").write(tabh + "\n")
@@ -203,7 +227,9 @@ if os.path.exists(abp):
         L.append(" & ".join(row) + r" \\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
     open(os.path.join(P, "table_ablate.tex"), "w").write("\n".join(L) + "\n")
+    _ss = [get(ab, d, "LCP_gpu", "rej05_SS") for d in AD]
     with open(os.path.join(P, "results.tex"), "a") as f:
+        f.write(f"\\newcommand{{\\ABfullSSrange}}{{{min(_ss):.3f}--{max(_ss):.3f}}}\n")
         for d in AD:
             for k, _ in AV:
                 for col, tag in (("FDR", "F"), ("power", "P"), ("rej05_SS", "S")):

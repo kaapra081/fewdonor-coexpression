@@ -45,11 +45,14 @@ res["est_bces"], res["leak"]          # leak-corrected between-donor covariance 
 | Split-half leak experiment | `FEWDONOR_DATA=data/ python real/real_prep_split.py`, then `python real/real_gpu.py --part split` |
 | Real-data tests | `python real/real_gpu.py --part full` (also `cap`, `sub24`, `sub40`; `--device cpu` works but is slower), then `python real/real_summarize.py` |
 | Post hoc ablations (not pre-registered) | `python dev/ablate_gpu.py --design D16 --out runs_ablate --device cuda:0` (or `--device cpu`; designs D16, D24, D40), then `python dev/analyze_ablate.py --runs runs_ablate --out results/ablate` |
+| Post hoc diagnostics (efficiency, depth–state coupling, donor factor) | `python diag/diag_sim.py`, `FEWDONOR_DATA=data/ python diag/diag_real.py`, `python diag/diag_null.py` (outputs in `results/diag/`) |
 | Figures, tables, numbers | `python paper/make_figs.py && python paper/make_results.py`, then compile `paper/main.tex` |
 
 Seeds are fixed in the scripts. Development seeds are 2,000,000 + 100,003·k + rep; held-out seeds are 5,000,000 + 100,019·k + rep, with gene panel seed 4112026.
 
 ## Pre-registration
+
+Naming: the noise-matched oracle called NMO in the paper is called BOUND in the analysis plan and the code (`methods_v2.bound_test`); it is LCP with oracle nuisance parameters, not the information bound of Theorem 1.
 
 `prereg/` holds the development gates (`DEV_PREREG.md`), the frozen held-out specification and their SHA-256 hashes, each committed before the corresponding runs. It also holds the decision record (`GO_NOGO.md`). The decision record documents two criteria amended before the affected results were read, and reports that the development gates for validity at ≤16 donors and for intervals were **not** met.
 
