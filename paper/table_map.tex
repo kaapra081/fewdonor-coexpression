@@ -1,0 +1,19 @@
+\begin{table}[t]\centering\small\setlength{\tabcolsep}{4pt}
+\caption{Where LCP is calibrated. Simulated designs ordered by cells per donor ($R=100$ for the two SEA-AD supertype designs, $R=200$ otherwise). FDR at BH $q=0.05$ with MCSE; \checkmark: FDR $\le0.05+2\,$MCSE. $\Deff/D$: median over between-donor pairs. $^a$Exact per-donor cell numbers of the real supertype (Section~\ref{sec:real}).}\label{tab:map}
+\begin{tabular}{lrcccccc}
+\toprule
+Design & $D$ & cells/donor & $\Deff/D$ & LCP FDR & & PB FDR & LCP power \\
+\midrule
+SEA-AD Micro-PVM\_1 counts$^a$ & 79 & 15 & 0.38 & 0.075\,(0.004) & $\times$ & 0.549 & 0.472 \\
+Development & 16 & ${\sim}40$ & 0.62 & 0.089\,(0.017) & $\times$ & 0.220 & 0.015 \\
+Development & 24 & ${\sim}40$ & 0.63 & 0.046\,(0.006) & \checkmark & 0.140 & 0.105 \\
+Held-out, SEA-AD depths & 24 & ${\sim}40$ & 0.57 & 0.041\,(0.004) & \checkmark & 0.170 & 0.122 \\
+Held-out & 32 & ${\sim}40$ & 0.58 & 0.048\,(0.004) & \checkmark & 0.139 & 0.307 \\
+Development & 40 & ${\sim}40$ & 0.63 & 0.050\,(0.002) & \checkmark & 0.129 & 0.463 \\
+SEA-AD Micro-PVM\_3 counts$^a$ & 83 & 43 & 0.64 & 0.051\,(0.003) & \checkmark & 0.169 & 0.928 \\
+Held-out, Lee depths & 40 & ${\sim}60$ & 0.62 & 0.050\,(0.002) & \checkmark & 0.190 & 0.559 \\
+Held-out & 16 & ${\sim}100$ & 0.77 & 0.040\,(0.005) & \checkmark & 0.133 & 0.077 \\
+Held-out, SEA-AD counts & 24 & 18--1{,}068 & 0.91 & 0.046\,(0.002) & \checkmark & 0.082 & 0.554 \\
+\bottomrule
+\end{tabular}
+\end{table}

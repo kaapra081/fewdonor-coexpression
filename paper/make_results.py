@@ -237,3 +237,37 @@ if os.path.exists(abp):
                     f.write(f"\\newcommand{{\\{nm}}}{{{get(ab, d, k, col):.3f}}}\n")
 else:
     open(os.path.join(P, "table_ablate.tex"), "w").write("% ablations pending\n")
+
+# ---- design map (main text): where LCP is calibrated, by donors x cells per donor ----
+_rs = json.load(open(os.path.join(ROOT, "results", "rare", "rare_sim_summary.json"))); _rd = json.load(open(os.path.join(ROOT, "results", "diag", "diag_rare_deff.json")))
+_dsj = json.load(open(os.path.join(ROOT, "results", "diag", "diag_sim.json")))
+rows = []
+def _row(lab, D, cells, src, df, key, deff):
+    if src == "rare":
+        g = _rs[key]; rows.append((lab, D, cells, deff, g["LCP"]["fdp"][0], g["LCP"]["fdp"][1], g["PB"]["fdp"][0], g["LCP"]["pw"][0]))
+    else:
+        rows.append((lab, D, cells, deff, get(df, key, "LCP", "FDR"), get(df, key, "LCP", "FDR_mcse"), get(df, key, "PB_logcpm", "FDR"), get(df, key, "LCP", "power")))
+_row("SEA-AD Micro-PVM\\_1 counts$^a$", _rs["sim_S1"]["LCP"]["R"] and len(json.load(open(os.path.join(ROOT, "results", "rare", "rare_prep_meta.json")))["S1"]["n_list"]), "15", "rare", None, "sim_S1", _rd["S1"]["Deff_over_D_median"])
+_row("Development", 16, "${\\sim}40$", "dev", s, "D16", _dsj["D16"]["Deff_over_D_median"])
+_row("Development", 24, "${\\sim}40$", "dev", s, "D24", _dsj["D24"]["Deff_over_D_median"])
+if ho is not None:
+    _row("Held-out, SEA-AD depths", 24, "${\\sim}40$", "ho", ho, "HO_seaad24_cap40", _dsj["HO_seaad24_cap40"]["Deff_over_D_median"])
+    _row("Held-out", 32, "${\\sim}40$", "ho", ho, "HO_D32", _dsj["HO_D32"]["Deff_over_D_median"])
+_row("Development", 40, "${\\sim}40$", "dev", s, "D40", _dsj["D40"]["Deff_over_D_median"])
+_row("SEA-AD Micro-PVM\\_3 counts$^a$", len(json.load(open(os.path.join(ROOT, "results", "rare", "rare_prep_meta.json")))["S2"]["n_list"]), "43", "rare", None, "sim_S2", _rd["S2"]["Deff_over_D_median"])
+if ho is not None:
+    _row("Held-out, Lee depths", 40, "${\\sim}60$", "ho", ho, "HO_lee40", _dsj["HO_lee40"]["Deff_over_D_median"])
+    _row("Held-out", 16, "${\\sim}100$", "ho", ho, "HO_D16_n100", _dsj["HO_D16_n100"]["Deff_over_D_median"])
+    _row("Held-out, SEA-AD counts", 24, "18--1{,}068", "ho", ho, "HO_seaad24", _dsj["HO_seaad24"]["Deff_over_D_median"])
+L = [r"\begin{table}[t]\centering\small\setlength{\tabcolsep}{4pt}",
+     r"\caption{Where LCP is calibrated. Simulated designs ordered by cells per donor ($R=100$ for the two SEA-AD supertype designs, $R=200$ otherwise). FDR at BH $q=0.05$ with MCSE; \checkmark: FDR $\le0.05+2\,$MCSE. $\Deff/D$: median over between-donor pairs. $^a$Exact per-donor cell numbers of the real supertype (Section~\ref{sec:real}).}\label{tab:map}",
+     r"\begin{tabular}{lrcccccc}", r"\toprule", r"Design & $D$ & cells/donor & $\Deff/D$ & LCP FDR & & PB FDR & LCP power \\", r"\midrule"]
+for lab, D, cells, deff, fd, fse, pbf, pw in rows:
+    ok = r"\checkmark" if fd <= 0.05 + 2 * fse else r"$\times$"
+    L.append(f"{lab} & {D} & {cells} & {deff:.2f} & {fd:.3f}\\,({fse:.3f}) & {ok} & {pbf:.3f} & {pw:.3f} \\\\")
+L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
+open(os.path.join(P, "table_map.tex"), "w").write("\n".join(L) + "\n")
+_areall = [v["ARE_median"] for k, v in _dsj.items() if "STRESS" not in k] + [v["ARE_median"] for v in _rd.values()]
+with open(os.path.join(P, "results.tex"), "a") as f:
+    f.write(f"\\renewcommand{{\\AREmin}}{{{min(_areall):.3f}}}\\renewcommand{{\\AREmax}}{{{max(_areall):.3f}}}\n")
+    f.write(f"\\newcommand{{\\SoneFDR}}{{{_rs['sim_S1']['LCP']['fdp'][0]:.3f}}}\\newcommand{{\\SonePBFDR}}{{{_rs['sim_S1']['PB']['fdp'][0]:.2f}}}\n")

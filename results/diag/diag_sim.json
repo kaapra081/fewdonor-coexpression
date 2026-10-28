@@ -46,5 +46,9 @@
   "Deff_over_D_median": 0.5828761949589744,
   "coupling_W_median": -0.009096076903889591,
   "coupling_absother_median": 0.018071602280067243
+ },
+ "HO_D16_n100": {
+  "ARE_median": 0.9904075945608712,
+  "Deff_over_D_median": 0.7743210509936403
  }
 }
