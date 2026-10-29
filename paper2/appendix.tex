@@ -1,0 +1,49 @@
+\section{Proofs}\label{app:proofs}
+
+\paragraph{Proposition~\ref{prop:leak}.} Write $m_{dj}=\sum_c (s_c/S_d)\,(Y_{cj}/s_c)$. Given $Z_d$ and the donor's state, cells are independent, $\E[Y_{cj}/s_c\mid\cdot]=\theta_{dj}$, and for $j\neq k$ the covariance of $Y_{cj}/s_c$ and $Y_{ck}/s_c$ within a cell equals $\SW_{d,jk}$ because measurement is conditionally independent across genes. Hence $\Cov(m_{dj},m_{dk}\mid Z_d,\text{state})=\sum_c(s_c/S_d)^2\SW_{d,jk}=\kappa_d\SW_{d,jk}$, and the law of total covariance over donor states (independent of $Z_d$) gives $\SB_{jk}+\kappa_d\bar\Sigma^{\mathrm W}_{jk}$. For independent donors whose ratio means share the expectation $\E\theta_{dj}$, $\E\sum_d(m_{dj}-\bar m_j)(m_{dk}-\bar m_k)=(1-\tfrac1D)\sum_d\Cov(m_{dj},m_{dk})=(1-\tfrac1D)\big(D\,\SB_{jk}+\sum_d\kappa_d\bar\Sigma^{\mathrm W}_{jk}\big)$; dividing by $D-1$ gives the claim with $\bar\kappa=D^{-1}\sum_d\kappa_d$. $\square$
+
+\paragraph{Proposition~\ref{prop:transform}.} Under $H_0$, $g_{dj}$ and $g_{dk}$ are independent given $Z_d$, so $\E[g_{dj}g_{dk}]=\E\{\E[g_{dj}\mid Z_d]\E[g_{dk}\mid Z_d]\}$ and $\Cov(g_{dj},g_{dk})=\Cov_Z(b_j,b_k)$; centring at $\bar g$ costs $O(1)$ as in the previous proof. For $g=\log(1+am)$, a second-order Taylor expansion about $\theta_j$ gives $\E[g\mid Z]=\log(1+a\theta_j)-\tfrac{a^2}{2}\Var(m\mid Z)/(1+a\theta_j)^2+O(\E|m-\theta|^3)$, and $\Var(m_{dj}\mid Z_d)=\SB_{jj}+\kappa_d\bar\Sigma^{\mathrm W}_{jj}+\theta_j/S_d$ depends on $n_d$ through $\kappa_d$ and $S_d$. For $g=(m-\mu)(\tau^2+\hat\psi)^{-1/2}$, expanding $(\tau^2+\hat\psi)^{-1/2}$ about $\tau^2+\psi$ gives $\E[g\mid Z]=-\tfrac12(\tau^2+\psi)^{-3/2}\Cov(m,\hat\psi\mid Z)+O(\E|\hat\psi-\psi|^2)$, and $\hat\psi_{dj}=\kappa_d\hat\sigma^2_{dj}+m_{dj}/S_d$ is positively correlated with $m_{dj}$ (through $m_{dj}/S_d$ and the mean--variance relation of $\hat\sigma^2$), with a covariance that shrinks as $n_d$ grows. $\square$
+
+\paragraph{Proposition~\ref{prop:coupling}.} Let $a_c=s_cf_j(s_c)$ and $b_c=s_cf_k(s_c)$. Given $Z_d$ and the donor's state, $\E[Y_{cj}]=a_c$, $\E[Y_{ck}]=b_c$, and cells are independent, so $\E\sum_{c\neq c'}Y_{cj}Y_{c'k}=\sum_{c\neq c'}a_cb_{c'}=(\sum a)(\sum b)-\sum_c a_cb_c$. With $Q_d=\sum_cs_c^2$,
+\begin{align*}
+\E[u_{djk}]-\E[m_{dj}]\E[m_{dk}]&=\frac{(\sum a)(\sum b)-\sum a b}{S_d^2-Q_d}-\frac{(\sum a)(\sum b)}{S_d^2}\\
+&=-\frac{Q_d}{S_d^2-Q_d}\Big[\sum_c w_cf_j(s_c)f_k(s_c)-\Big(\sum_cv_cf_j(s_c)\Big)\Big(\sum_cv_cf_k(s_c)\Big)\Big],
+\end{align*}
+with $w_c=s_c^2/Q_d$ and $v_c=s_c/S_d$. The bracket vanishes when $f_j,f_k$ are constant in $s$ and is first order in the depth slopes of $f$ otherwise, because the two weightings have different means of $s$. This is the exact form of the statement in the main text. $\square$
+
+\paragraph{Theorem~\ref{thm:growth}.} $(T_D-\sum_d\beta_d)/\sqrt{\sum_d\Var h_d}\Rightarrow N(0,1)$ by Lindeberg's theorem (bounded variances; we assume uniformly bounded $2+\delta$ moments). If $\frac1D\sum\beta_d\to\bar\beta\neq0$, then $|\sum_d\beta_d|/\sqrt{\sum_d\Var h_d}\ge|\bar\beta|\sqrt{D/\bar v}\,(1+o(1))\to\infty$, so $|T_D|/\hat\sigma_D\to\infty$ in probability. If $\sum_d\beta_d=o(\sqrt D)$ the centring is asymptotically negligible and the rejection probability tends to $\alpha$. $\square$
+
+\paragraph{Theorem~\ref{thm:xds}.} Given $Z_d$ and the donor's state, the cells in $A_d$ and $B_d$ are independent, and the split is independent of the data. $R^A_{dj}$ is a function of the gene-$j$ data in $A_d$ and of $Z_d$ (through $\psi^{*}$), and $R^B_{dk}$ of the gene-$k$ data in $B_d$ and $Z_d$. Under $H_0$ the donor-level quantities for $j$ and $k$ are independent given $Z_d$, so $R^A_{dj}\perp R^B_{dk}\mid Z_d$. With depth independent of state, $\E[m^A_{dj}\mid Z_d,\text{state}]=\theta_{dj}$, hence $\E[m^A_{dj}\mid Z_d]=\E\theta_{dj}=\mu_j$ because states are independent of designs, and $\E[R^A_{dj}\mid Z_d]=0$; this uses no property of $n_d$ other than $|A_d|,|B_d|\ge2$. Independence across donors gives $\E T=0$ and the stated variance. If $\psi^*$ is correctly specified, $\E[(R^h_{dj})^2\mid Z_d]=1$, so $\Var T=D$. The permutation mean is $\bar R^A_j\bar R^B_kD=O_p(1)$, and the permutation variance $(D-1)^{-1}\sum_d(R^A_{dj}-\bar R^A_j)^2\sum_d(R^B_{dk}-\bar R^B_k)^2=D(1+o_p(1))$ by the law of large numbers; Lindeberg's theorem for $\sum_dR^A_{dj}R^B_{dk}$ with bounded $2+\delta/2$ moments (implied by bounded $4+\delta$ moments of each factor) gives the limit. Replacing $\mu,\sigma^2,\tau^2$ by pooled estimates perturbs each $R$ by $O_p(D^{-1/2})$ uniformly, which changes $T/\sqrt D$ by $o_p(1)$ (Slutsky). $\square$
+
+\section{Methods compared}\label{app:methods}
+
+All methods use the donor ratio means $m_{dj}$, the model-based sampling variance $\hat\psi_{dj}=\kappa_d\hat\sigma^2_{dj}+m_{dj}/S_d$ with $\hat\sigma^2_{dj}$ the donor's own Poisson-corrected within-cell variance, and Paule--Mandel estimates $\hat\mu_j,\hat\tau^2_j$.
+\begin{itemize}\itemsep0pt
+\item \textbf{PB}: Pearson correlation of $\log(1+10^6m_{dj})$ across donors, Fisher $z$ test. \textbf{PBlin}: the same without the log.
+\item \textbf{LCP}: $r_{dj}=(m_{dj}-\hat\mu_j)/(\hat\tau_j^2+\hat\psi_{dj})^{1/2}$; $T=[\sum_d(r_{dj}r_{dk}-\tilde\ell_d)]\sqrt{D/(D+\sum_d\tilde\ell_d^2)}$ with leak estimate $\tilde\ell_d=\kappa_d\hat C_{d,jk}/(\hat v_{dj}\hat v_{dk})^{1/2}$; donor-permutation reference. \textbf{LCP2} adds a delete-one-cell jackknife estimate of the leak estimate's variance to the scaling factor.
+\item \textbf{LCPd}: LCP with design-only $\psi^*$ in place of $\hat\psi$. \textbf{LCPX}: cross-split with self-standardization in each half. \textbf{XDS}: cross-split with design-only standardization (Section~\ref{sec:xds}).
+\item \textbf{XU}: $q_d=w_d(u_{djk}-c_{dk}m_{dj}-c_{dj}m_{dk}+c_{dj}c_{dk})$ with $u$ the off-diagonal U-statistic, $c$ a leave-one-donor-out mean and design-only weights $w_d=(v^*_{dj}v^*_{dk})^{-1/2}$; one-sample $t$ test on $(q_d)_d$.
+\end{itemize}
+Permutation $p$-values use $10^5$ shared donor permutations when $D\le100$; for $D\ge200$ we use the normal approximation with the exact permutation mean and variance. Runtime for XDS on 1,164 donors and 87,990 pairs is under one minute on one laptop CPU core.
+
+\section{Simulator}\label{app:sim}
+
+The simulator has exact analytic truth on the latent scale. Each 80-gene panel (3,160 pairs) contains within-only programs (moderate and strong), between-only programs, programs at both levels with the same and opposite signs, a sign-heterogeneous within-donor null, a between-donor weak null (dependent but uncorrelated donor effects) and independent genes. Donor effects are log-normal with gene-specific donor variation matched to SEA-AD; per-cell depths follow the SEA-AD fit. All results use the held-out panel (seed 4112026), which was not used to develop any method. Small designs: 16, 24 and 40 donors with about 40 cells; 16 donors with about 100 cells; the exact cell numbers of SEA-AD Micro-PVM\_1 and Micro-PVM\_3 ($R=100$). Large designs: 200, 500 and 1,000 donors with a median of 20 cells ($R=50$). Coupling stress designs add a depth--state coupling in which each cell's depth is multiplied by $\exp(0.3\,z)$, with $z$ its within-donor program score, and the standard deviation of residual log depth is doubled ($R=50$). FDR is the mean false discovery proportion over replicates; power is the mean fraction of true pairs called; MCSEs are given in the tables.
+
+\section{Split-seed dependence}\label{app:split}
+
+\SplitText
+
+\section{Analysis plans, amendments and outcomes}\label{app:prereg}
+
+Each plan was written and hashed (SHA-256) before the computations it governs; files are in \texttt{prereg/} of the repository.
+\begin{itemize}\itemsep0pt
+\item \textbf{FIX\_PREREG} (real-cell null in SEA-AD; LCP2). Outcome: pseudobulk false discoveries in real cells YES; LCP and LCP2 fail the top-1\% criterion; LCP2 not adopted (power 0.87 of LCP's at 24 donors).
+\item \textbf{XS\_PREREG} (LCPX). Amendment before any full run: the weak null is the class QQ\_cross only. Outcome: negative on all three criteria.
+\item \textbf{POP\_PREREG} (PsychAD). Outcomes: false discoveries grow with cohort size YES in all subtypes; replication does not protect pseudobulk YES; LCPX holds at population scale NO. Deviation: the $D\le100$ points were run after the larger ones and for one reassignment per subtype.
+\item \textbf{DSTD\_PREREG} (LCPd, XDS). Written after one exploratory reassignment (excluded). Outcomes: LCPd not adopted (fails the SEA-AD null); XDS holds every null but fails the frozen power criterion against LCP at 24 and 40 donors, so by that rule it does not replace LCP in small cohorts; the frozen claim comparing LCP with LCPd failed (LCPd type-I 0.058--0.118 at full size); the analogous LCPX-versus-XDS contrast is given in Table~\ref{tab:ablate} as a post hoc comparison.
+\item \textbf{XU\_PREREG} (XU). Outcome: XU fails the population-scale real-cell null; XDS remains the recommended large-cohort test.
+\item \textbf{COUPLE\_PREREG} (coupling stress, no decision). Outcome as predicted: XDS close to nominal, XU, LCP and pseudobulk inflated and growing with $D$.
+\item \textbf{DC\_PREREG} (AD differential co-expression). Outcomes in Section~\ref{sec:dc}.
+\end{itemize}
+The split-seed analysis (Appendix~\ref{app:split}) and the sign analysis of pseudobulk false calls were post hoc.

@@ -1,0 +1,13 @@
+\begin{table}[t]\centering\small\setlength{\tabcolsep}{4pt}\caption{Simulations with exact truth. FDR (MCSE) at BH $q=0.05$ and power. $R=100$ replicates for designs with up to 83 donors, $R=50$ for larger designs. Pseudobulk and LCP lose FDR control as donors are added; XDS keeps it, and its power deficit disappears from about 500 donors.}\label{tab:sim}
+\begin{tabular}{lcccccc}\toprule & \multicolumn{3}{c}{FDR} & \multicolumn{3}{c}{Power}\\\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Design & PB & LCP & XDS & PB & LCP & XDS\\\midrule
+16 donors, $\sim$40 cells & 0.216\,(0.022) & 0.110\,(0.025) & 0.025\,(0.013) & 0.047 & 0.014 & 0.002 \\
+24 donors, $\sim$40 cells & 0.174\,(0.013) & 0.050\,(0.007) & 0.043\,(0.018) & 0.181 & 0.122 & 0.018 \\
+40 donors, $\sim$40 cells & 0.133\,(0.006) & 0.051\,(0.004) & 0.041\,(0.006) & 0.499 & 0.501 & 0.156 \\
+79 donors, Micro-PVM\_1 cells (median 15) & 0.594\,(0.011) & 0.077\,(0.004) & 0.041\,(0.007) & 0.321 & 0.399 & 0.070 \\
+83 donors, Micro-PVM\_3 cells (median 43) & 0.179\,(0.006) & 0.051\,(0.002) & 0.048\,(0.003) & 0.877 & 0.929 & 0.665 \\
+16 donors, $\sim$100 cells & 0.122\,(0.009) & 0.039\,(0.008) & 0.049\,(0.014) & 0.190 & 0.087 & 0.031 \\
+200 donors, median 20 cells & 0.480\,(0.017) & 0.087\,(0.004) & 0.044\,(0.003) & 0.871 & 0.975 & 0.778 \\
+500 donors, median 20 cells & 0.569\,(0.011) & 0.135\,(0.006) & 0.042\,(0.003) & 0.993 & 1.000 & 0.986 \\
+1,000 donors, median 20 cells & 0.662\,(0.008) & 0.217\,(0.006) & 0.053\,(0.003) & 1.000 & 1.000 & 0.999 \\
+\bottomrule\end{tabular}\end{table}

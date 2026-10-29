@@ -1,0 +1,154 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newcommand{\SB}{\Sigma^{\mathrm{B}}}
+\newcommand{\SW}{\Sigma^{\mathrm{W}}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\input{nums.tex}
+
+\title{Why pseudobulk gene co-expression fails in large single-cell cohorts, and how to fix it}
+\author{[Author names and affiliations to be added by the authors]}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{abstract_body.tex}
+\end{abstract}
+
+\section{Introduction}
+
+Single-cell RNA-seq cohorts now profile hundreds to thousands of donors: the PsychAD prefrontal-cortex myeloid atlas profiled 1,607 donors \citep{Lee2023PsychADmyeloid}, and co-expression has been mapped across 982 blood donors of the OneK1K cohort \citep{Zhang2026scpcQTL}. One reason to collect so many donors is to study how genes co-vary \emph{between} donors, through genetic, environmental, disease or technical differences. Between-donor co-expression underlies co-expression QTL mapping \citep{vanderWijst2018,Li2023coeQTL}, donor-level gene networks \citep{Lu2023Dozer} and comparisons of co-expression between cases and controls. It is almost always computed in the same way: average each donor's cells of one type into a pseudobulk profile and correlate the profiles across donors. Pseudobulk is regarded as the safe choice for donor-level inference because it treats the donor, not the cell, as the unit of replication \citep{Squair2021,Zimmerman2021}.
+
+We show that for co-expression this safety is illusory, and that the failure becomes worse as cohorts grow. The reason is simple. A pseudobulk correlation is a sum over donors, and every donor contributes a small bias that does not depend on the number of donors $D$: it depends on the donor's own cell number. The summed bias grows like $D$ while the noise grows like $\sqrt D$, so at population scale the bias dominates. We identify three such per-donor biases (Section~\ref{sec:bias}). First, cell-state programs leak into donor means: the covariance of donor means is the between-donor covariance plus the within-donor covariance scaled by the donor's effective inverse cell count. Second, any transformation of a donor mean whose expectation depends on the donor's cell number, such as log-CPM or standardizing by the donor's own estimated sampling variance, adds a factor shared by all genes. Third, coupling between a cell's sequencing depth and its state biases moment corrections of the first two problems.
+
+These biases defeat not only pseudobulk but also corrections of it. We built a leak-corrected permutation test (LCP) and several refinements of it, and each failed on real cells at population scale in a way the theory predicts (Section~\ref{sec:neg}). What works is to remove the within-donor term by design rather than estimate it: split each donor's cells at random into two halves, take one gene's donor mean from one half and the other gene's from the other half, and standardize each mean using only the donor's design (cell number and depth). We call the resulting donor-permutation test XDS. Its validity requires many donors but not many cells per donor (Theorem~\ref{thm:xds}), which is the regime of population cohorts.
+
+Our evaluation rests on exact nulls built from real cells. Pooling the nuclei of one cell type and reassigning them to pseudo-donors with the real donors' cell numbers yields data with every real within-cell program and every real cell-number imbalance, but with zero between-donor covariance for every gene pair. In \NnucPsy{} PsychAD microglia and perivascular-macrophage nuclei with \DpsyRange{} pseudo-donors per subtype, pseudobulk declares \PBnullCalls{} of roughly 89,000 gene pairs co-expressed, and \PBrepFalse{} of these false edges replicate in an independent half of the pseudo-donors. XDS makes at most one false call. Because cell numbers differ between Alzheimer's disease (AD) cases and controls, the same artifact produces false \emph{differential} co-expression between them (Section~\ref{sec:dc}).
+
+\paragraph{Contributions.} (i) A decomposition of pseudobulk co-expression bias into three per-donor terms, and a result showing that any non-vanishing per-donor bias drives the false-positive rate to one as $D$ grows (Theorem~\ref{thm:growth}). (ii) XDS, a cross-split, design-standardized donor-permutation test, valid as $D\to\infty$ with bounded cells per donor. (iii) Exact real-cell nulls at up to 1,164 donors and simulations up to 1,000 donors, with false discoveries reported as a function of cohort size. (iv) A pre-registered record of six corrections that fail and why. (v) A demonstration that cell-number differences between AD cases and controls create false differential co-expression. All analyses followed plans frozen before they were run; the plans, their hashes and every deviation are listed in Appendix~\ref{app:prereg}.
+
+\paragraph{Related work.} Within-cell co-expression methods model counts given latent expression to remove measurement noise \citep{Su2023CSCORE,Lu2023Dozer}; they target a different estimand from ours. Count splitting and data thinning split each cell's counts into independent folds to avoid double use of data \citep{Neufeld2024countsplit,Neufeld2024thinning,Dharamshi2025gdt}. Thinning removes technical noise shared between folds but not cell state, which both folds of a cell share, so it does not remove the leak; splitting \emph{cells} does. The leak is a count-scale instance of the measurement-error decomposition behind BCES-type estimators \citep{AkritasBershady1996,Kelly2007}, and our design-only variances borrow the Paule--Mandel construction \citep{PauleMandel1982}. Calibration of single-cell analyses with synthetic or knock-off nulls is an active topic at RECOMB \citep{Song2025ClusterDE,Jiang2025Nullstrap}; our nulls instead permute real cells.
+
+\section{Setting}\label{sec:setting}
+
+Donors $d=1,\dots,D$ contribute $n_d$ cells of one type. Cell $c$ has size factor $s_c$, latent relative expression $\lambda_{c}\in\mathbb{R}^G_{+}$ and counts with $\E[Y_{cj}\mid \lambda_c,s_c]=s_c\lambda_{cj}$, conditionally independent across genes (Poisson-type measurement). Within a donor, cells are i.i.d.\ given the donor's latent state. The donor effect is $\theta_{dj}=\E[\lambda_{cj}\mid d]$ and the target is the between-donor covariance $\SB_{jk}=\Cov_d(\theta_{dj},\theta_{dk})$ with equal donor weights; the within-donor covariance is $\SW_{d,jk}=\Cov(\lambda_{cj},\lambda_{ck}\mid d)$. The donor ratio mean is $m_{dj}=\sum_{c\in d}Y_{cj}/S_d$ with $S_d=\sum_{c\in d}s_c$, and $\kappa_d=\sum_c s_c^2/S_d^2$ is the donor's effective inverse cell count ($\kappa_d=1/n_d$ with equal depths). The design of donor $d$ is $Z_d=(n_d,\{s_c\}_{c\in d})$. We test $H_0\colon$ the donor-level quantities that govern gene $j$ are independent of those that govern gene $k$, given the design; it implies $\SB_{jk}=0$.
+
+\section{Three per-donor biases}\label{sec:bias}
+
+\begin{proposition}[Leak]\label{prop:leak}
+If $s_c$ is independent of $\lambda_c$ within donors, then for $j\neq k$, $\Cov(m_{dj},m_{dk}\mid Z_d)=\SB_{jk}+\kappa_d\,\bar\Sigma^{\mathrm W}_{jk}$, where $\bar\Sigma^{\mathrm W}$ is the mean within-donor covariance. Hence the pseudobulk covariance $\frac1{D-1}\sum_d(m_{dj}-\bar m_j)(m_{dk}-\bar m_k)$ has expectation $\SB_{jk}+\bar\kappa\,\bar\Sigma^{\mathrm W}_{jk}+O(D^{-1})$.
+\end{proposition}
+
+The proof is the law of total covariance (Appendix~\ref{app:proofs}). The leak is not small at realistic cell numbers: a donor with 15 nuclei contributes one fifteenth of the within-donor covariance, and within-donor programs (cell cycle, stress, activation) are often far stronger than between-donor ones.
+
+\begin{proposition}[Donor-dependent transformations]\label{prop:transform}
+Let $g_{dj}=g(m_{dj};\mathcal D_d)$ be a per-donor summary that may use the donor's own cells $\mathcal D_d$, with $b_j(Z_d)=\E[g_{dj}\mid Z_d]-\E[g_{dj}]$. Under $H_0$, $\E\sum_d(g_{dj}-\bar g_j)(g_{dk}-\bar g_k)=D\,\Cov_Z\{b_j(Z),b_k(Z)\}+O(1)$. For log-CPM, $g=\log(1+am)$, a second-order expansion gives $b_j(Z_d)\approx-\tfrac{a^2}{2}\Var(m_{dj}\mid Z_d)/(1+a\theta_j)^2$, with $\Var(m_{dj}\mid Z_d)$ decreasing in $n_d$. For self-standardization, $g=(m-\mu)/\sqrt{\tau^2+\hat\psi_d}$ with $\hat\psi_d$ estimated from the donor's own cells, $b_j(Z_d)\approx-\tfrac12(\tau_j^2+\psi_{dj})^{-3/2}\Cov(m_{dj},\hat\psi_{dj}\mid Z_d)$.
+\end{proposition}
+
+In both cases $b_j$ has the same sign for most genes and varies with the donor's cell number, so it acts as a factor shared by all genes and induces spurious co-expression of a common sign. A summary is free of this bias if $\E[g_{dj}\mid Z_d]$ does not depend on $Z_d$. The ratio mean itself has this property, but its log and its self-standardized version do not. On one exploratory pseudo-donor reassignment (ADAM\_GPNMB, 744 pseudo-donors; excluded from all evaluations), self-standardized donor means correlated with $\log n_d$ (median over genes \Rcorrln{}), whereas raw ratio means did not (\Mcorrln{}); \PBposFrac{} of pseudobulk false calls in the PsychAD null are positive correlations.
+
+\begin{proposition}[Depth--state coupling]\label{prop:coupling}
+If $s_c$ and $\lambda_c$ are dependent within donors, then $\E[m_{dj}\mid Z_d]=\sum_c s_c f_j(s_c)/S_d$ with $f_j(s)=\E[\lambda_{cj}\mid s_c=s]$, and the exact off-diagonal U-statistic $u_{djk}=(Y_{dj+}Y_{dk+}-\sum_c Y_{cj}Y_{ck})/(S_d^2-\sum_c s_c^2)$ satisfies $\E[u_{djk}\mid Z_d]-\E[m_{dj}\mid Z_d]\E[m_{dk}\mid Z_d]=-\kappa_d'\Delta_{d,jk}$, with $\kappa'_d=\sum_c s_c^2/(S_d^2-\sum_c s_c^2)$ and $\Delta_{d,jk}=\sum_c w_cf_j(s_c)f_k(s_c)-\big(\sum_c v_cf_j(s_c)\big)\big(\sum_c v_cf_k(s_c)\big)$, $w_c\propto s_c^2$, $v_c\propto s_c$. $\Delta$ vanishes when $f_j,f_k$ do not depend on depth and is first order in their depth slopes otherwise.
+\end{proposition}
+
+So when depth tracks cell state, which it does in real data (in SEA-AD microglia the median within-donor correlation between depth and expression is \CouplingSEAAD{}, and \CouplingFrac{} of genes exceed 0.045 in absolute value; \CouplingFracLee{} in the Lee et al.\ cohort \citep{Lee2026}), any correction that removes same-cell products leaves a leak-like residual.
+
+\begin{theorem}[False positives grow with cohort size]\label{thm:growth}
+Let $T_D=\sum_{d\le D}h_d$ with independent $h_d$, $\E h_d=\beta_d$, $\Var h_d\in[\underline v,\bar v]$ with $0<\underline v$, and let a test reject when $|T_D|/\hat\sigma_D>z_{1-\alpha/2}$ with $\hat\sigma_D^2/\sum_d\Var h_d\to1$. If $\frac1D\sum_d\beta_d\to\bar\beta\neq0$, the rejection probability tends to one; if $\bar\beta=0$ and $\sum_d\beta_d=o(\sqrt D)$, it tends to $\alpha$.
+\end{theorem}
+
+The theorem is elementary, but it changes how the biases above should be read: a bias that is negligible at 20 donors decides the outcome at 1,000. It applies to each pair separately, so the expected number of false discoveries scales with the number of pairs whose bias is non-zero.
+
+\section{XDS: cross-split, design-standardized permutation test}\label{sec:xds}
+
+For each donor, draw a uniformly random subset $A_d$ of $\lfloor n_d/2\rfloor$ cells and let $B_d$ be the rest. Compute half-donor ratio means $m^A_{dj}$, $m^B_{dj}$, and design-only sampling variances $\psi^{*h}_{dj}=\kappa^h_d\sigma_j^2+\mu_j/S^h_d$, where $\mu_j$ and the within-cell variance $\sigma^2_j$ are pooled over donors, so $\psi^{*h}_{dj}$ depends on donor $d$ only through its design. With $\tau^2_j$ the Paule--Mandel between-donor variance, set $R^h_{dj}=(m^h_{dj}-\mu^h_j)/\sqrt{\tau_j^2+\psi^{*h}_{dj}}$. For a pair $j<k$ the statistic is $T_{jk}=\sum_d R^A_{dj}R^B_{dk}$, and the reference distribution is obtained by permuting donors in $R^B$; for $D\le100$ we use $10^5$ permutations, and for larger $D$ the normal approximation with the exact permutation mean and variance \citep{Hoeffding1951}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_schematic.pdf}
+\caption{Pseudobulk and XDS. Circles are cells; fill shade is a within-donor cell-state program. (a) Pseudobulk measures both genes on the same cells, so the program enters both donor means (the leak), and its log or self-standardized transform has an expectation that depends on the donor's cell number. (b) XDS measures gene $j$ on a random half of each donor's cells (blue outline) and gene $k$ on the other half (purple), and scales each mean by a variance that depends only on the donor's cell number and depths.}
+\label{fig:schematic}
+\end{figure}
+
+\begin{theorem}[Validity of XDS with bounded cell numbers]\label{thm:xds}
+Assume donors are independent; cells within a donor are i.i.d.\ given the donor's state, with depth independent of cell state; donor states are independent of designs; and $H_0$ holds. Treat $\mu$, $\sigma^2$, $\tau^2$ as known. Then for every donor and every $n_d\ge4$, $R^A_{dj}$ and $R^B_{dk}$ are independent given $Z_d$ and $\E[R^A_{dj}\mid Z_d]=0$, so $\E T_{jk}=0$ exactly and $\Var T_{jk}=\sum_d\E[(R^A_{dj})^2\mid Z_d]\,\E[(R^B_{dk})^2\mid Z_d]$. If in addition $n_d$ is bounded, the standardized counts have bounded $4+\delta$ moments, and $\psi^{*}$ is correctly specified, the permutation-moment statistic converges to $N(0,1)$ as $D\to\infty$. With the pooled plug-in estimates the same limit holds.
+\end{theorem}
+
+The contrast with leak correction is the point of the construction. A leak-corrected statistic is unbiased only if the per-donor leak estimate is, and its variance matches the permutation variance only if the leak estimate's own variance is negligible, which requires $\min_d n_d\to\infty$. XDS has no within-donor term to estimate: the leak (Proposition~\ref{prop:leak}) is zero because the two genes are measured on disjoint cells; the transformation bias (Proposition~\ref{prop:transform}) is zero because the standardization is design-only; and depth--state coupling enters only through $\E[m^h_{dj}\mid Z_d]$, which is unaffected when coupling does not vary systematically between donors. The price is that each gene uses half of each donor's cells, which costs power when donors are few and cells per donor are few (Section~\ref{sec:sim}).
+
+\section{Results}\label{sec:results}
+
+\paragraph{Data.} PsychAD frozen prefrontal-cortex microglia and perivascular macrophages (CELLxGENE dataset 09642770, \NnucPsy{} nuclei, 1,469 donors, 10x 3$'$ v3) \citep{Lee2023PsychADmyeloid}: subtypes Homeo\_CECR2 (\DPone{} donors with $\ge$4 nuclei, median \MedPone), PVM\_CD163 (\DPtwo, median \MedPtwo) and ADAM\_GPNMB (\DPthree, median \MedPthree). SEA-AD middle temporal gyrus microglia \citep{Gabitto2024SEAAD}: supertypes Micro-PVM\_1 (79 donors, median 15 nuclei) and Micro-PVM\_3 (83 donors, median 43). For each subtype we test all pairs among the 400 most expressed genes plus control genes not already among them (heat-shock, sex-linked and perivascular markers; 420--424 genes, about 89,000 pairs per subtype). Multiple testing uses Benjamini--Hochberg (BH) at $q=0.05$.
+
+\paragraph{Comparators.} PB: Pearson correlation of log-CPM donor means. LCP: leak-corrected, self-standardized donor permutation (Appendix~\ref{app:methods}). The variants in Section~\ref{sec:neg} isolate each bias.
+
+\subsection{Simulations with exact truth}\label{sec:sim}
+
+The simulator draws latent donor and within-donor programs for 80 genes on the count scale (Appendix~\ref{app:sim}); true pairs have $\SB\neq0$ and nulls include pairs with only within-donor co-expression. Table~\ref{tab:sim} reports FDR and power. In large cohorts with a median of 20 cells per donor, pseudobulk's FDR rises from \LPBFDRa{} at 200 donors to \LPBFDRc{} at 1,000, and LCP's from \LLCPFDRa{} to \LLCPFDRc{}, as Theorem~\ref{thm:growth} predicts, whereas XDS stays at \LXDSFDRrange{} with power \LXDSpowRange. Theorem~\ref{thm:xds} assumes that depth is independent of cell state. In the same large designs with strong depth--state coupling (the stress setting of Appendix~\ref{app:sim}; frozen plan COUPLE\_PREREG), XDS had FDR \CoupleXDS{} at 200, 500 and 1,000 donors, whereas the U-statistic test XU, whose coupling bias is first order (Proposition~\ref{prop:coupling}), rose to \CoupleXU{}, LCP to \CoupleLCP{} and pseudobulk to \CouplePB{}. In small cohorts XDS remains calibrated (FDR \SXDSFDRrange{} in six designs with 16--83 donors) but loses power (\SXDSpowDforty{} versus \SLCPpowDforty{} for LCP at 40 donors with about 40 cells).
+
+\input{table_sim.tex}
+
+\subsection{Real-cell nulls: false discoveries grow with the number of donors}\label{sec:null}
+
+Figure~\ref{fig:growth} and Table~\ref{tab:null} show the PsychAD pseudo-donor null. At full cohort size pseudobulk made \PBnullCalls{} false calls per reassignment (per-pair type-I error \PBnullTI), of which \PBrepFalse{} replicated (same sign, $p<0.05$) in an independent half of the pseudo-donors. LCP made \LCPnullCalls{} (type-I \LCPnullTI). XDS made at most one per reassignment, with type-I \XDSnullTI{} and \XDSnullTop{} for the 1\% of pairs with the strongest within-donor correlation, and no false call replicated. Pseudobulk's false calls rose from \PBgrowA{} at 25 pseudo-donors and \PBgrowC{} at 200 to the full-cohort totals; LCP made essentially none at 100 or fewer (\LCPgrowB) and thousands at full size. On three further reassignments drawn for a later plan, XDS again made a mean of \XDSfreshCalls{} false calls. In SEA-AD, with 79 and 83 pseudo-donors, XDS made no false calls and had type-I \SeaXDSTI{} (top 1\%: \SeaXDSTop), whereas LCP's top-1\% type-I was \SeaLCPTop{} and pseudobulk made \SeaPBcalls{} false calls per reassignment.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_growth.pdf}
+\caption{False discoveries grow with cohort size. (a) Mean BH false calls in the PsychAD real-cell null against the number of pseudo-donors (nested random subsets; three reassignments for 200 or more pseudo-donors, one for 25--100), for three myeloid subtypes; the panel title gives the full number of pseudo-donors. Every call is false. The vertical axis is linear below 1 and logarithmic above. (b) FDR in simulations with exact truth; open circles, about 40 cells per donor ($R=100$); filled squares, median 20 cells ($R=50$); bars, $\pm2$ MCSE. Pseudobulk and the leak-corrected test (LCP) degrade as donors are added; XDS does not.}
+\label{fig:growth}
+\end{figure}
+
+\input{table_null.tex}
+
+The pseudo-donor null pools real donors, so real between-donor covariance becomes within-pseudo-donor covariance and the null's within-donor structure is somewhat stronger than that of real donors. The simulations, which have no pooling, show the same growth (Table~\ref{tab:sim}).
+
+\subsection{What fails and why}\label{sec:neg}
+
+Each correction we tried removes some biases and not others, and the ones it leaves are those Propositions~\ref{prop:leak}--\ref{prop:coupling} predict (Table~\ref{tab:ablate}). Removing the log transform (PBlin) leaves the leak. Leak subtraction with self-standardization (LCP) leaves the transformation bias and the error of the leak estimate; adding a jackknife variance for that error (LCP2) restored simulated FDR control but not the real-cell null. Design-only standardization with leak subtraction (LCPd) fixes the transformation bias but not the leak-estimate error, which matters most in the subtype with the fewest nuclei. Cross-splitting with self-standardization (LCPX) removes the leak but not the transformation bias, and with half of the cells per mean that bias is larger, so it made more false calls than LCP. An exact U-statistic with design weights and a studentized test (XU) removes the leak in expectation under independent depth, but depth--state coupling (Proposition~\ref{prop:coupling}) left \XUnullCalls{} false calls. Only the combination of disjoint cells and design-only standardization removes all three.
+
+\input{table_ablate.tex}
+
+\subsection{False differential co-expression between Alzheimer's cases and controls}\label{sec:dc}
+
+\DCtext{} In Homeo\_CECR2 the 816 XDS calls involve 215 genes, and the homeostatic receptors \emph{CX3CR1} and \emph{P2RY12} are the fifth and sixth most connected genes (post hoc, descriptive).
+
+\subsection{Real donors}\label{sec:real}
+
+On real PsychAD donors, between-donor co-expression is dense: XDS called \RealXDSfrac{} of pairs in the three subtypes, and \RealXDSrep{} of its calls in one random half of the donors replicated in the other half (pseudobulk: \RealPBrep). Pseudobulk made \RealPBonly{} calls per subtype that XDS did not. These are disagreements rather than proven errors, since XDS has less power, but the null results show that pseudobulk would make a comparable number of calls with no between-donor covariance at all.
+
+\section{Discussion}\label{sec:disc}
+
+The message for practice is that the donor being the unit of replication is necessary but not sufficient for valid between-donor co-expression. A per-donor summary must have an expectation that does not depend on the donor's cell number, and the two genes of a pair must not be measured on the same cells. Pseudobulk correlation violates both, and the violation is invisible at the cohort sizes on which it was validated. XDS satisfies both at a cost of power that disappears in large cohorts. For cohorts below about 100 donors, where XDS is underpowered, LCP is calibrated in simulation from 24 donors with about 40 cells per donor but exceeds nominal per-pair error for the most within-correlated pairs on real cells; we would report its results with that caveat.
+
+\paragraph{Limitations.} The real-cell null pools donors (Section~\ref{sec:null}). XDS tests independence of donor effects, not zero covariance, and relies on depth--state coupling not varying systematically between donors; both are assumptions about real data that our nulls probe but cannot prove. One random split makes results depend on the split seed (Appendix~\ref{app:split}). We studied the 400 most expressed genes in myeloid cells of two brain cohorts; low-expressed genes and other tissues remain to be tested. The design-only standardization was introduced after an exploratory look at one pseudo-donor reassignment, which is excluded from every evaluation; all other analyses followed frozen plans.
+
+\paragraph{Code and data availability.} Code, frozen plans with SHA-256 hashes, and all result files: [public repository URL]. Data are public on CZ CELLxGENE Discover.
+
+\bibliographystyle{abbrvnat}
+\bibliography{refs}
+
+\clearpage
+\appendix
+\input{appendix.tex}
+\end{document}

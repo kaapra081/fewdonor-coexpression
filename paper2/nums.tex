@@ -1,0 +1,54 @@
+\newcommand{\NnucPsy}{289{,}279}
+\newcommand{\DpsyRange}{744--1{,}164}
+\newcommand{\NdMedRange}{12--28}
+\newcommand{\DPone}{1{,}054}
+\newcommand{\MedPone}{28}
+\newcommand{\DPtwo}{1{,}164}
+\newcommand{\MedPtwo}{19}
+\newcommand{\DPthree}{744}
+\newcommand{\MedPthree}{12}
+\newcommand{\PBnullCalls}{19{,}158--31{,}617}
+\newcommand{\PBnullTI}{0.34--0.44}
+\newcommand{\LCPnullCalls}{4{,}986--12{,}880}
+\newcommand{\LCPnullTI}{0.20--0.30}
+\newcommand{\XDSnullTI}{0.048--0.050}
+\newcommand{\XDSnullTop}{0.047--0.053}
+\newcommand{\XDSnullMaxCall}{1}
+\newcommand{\PBrepFalse}{3{,}798--12{,}827}
+\newcommand{\XDSrepFalse}{0}
+\newcommand{\PBgrowA}{1{,}063--1{,}778}
+\newcommand{\PBgrowC}{7{,}036--10{,}443}
+\newcommand{\LCPgrowB}{0--19}
+\newcommand{\XUnullCalls}{12{,}073--19{,}934}
+\newcommand{\XDSfreshCalls}{0.0--1.3}
+\newcommand{\LPBFDRa}{0.48}
+\newcommand{\LLCPFDRa}{0.087}
+\newcommand{\LPBFDRb}{0.57}
+\newcommand{\LLCPFDRb}{0.135}
+\newcommand{\LPBFDRc}{0.66}
+\newcommand{\LLCPFDRc}{0.217}
+\newcommand{\LXDSFDRrange}{0.042--0.053}
+\newcommand{\LXDSpowRange}{0.778--0.999}
+\newcommand{\SXDSFDRrange}{0.025--0.049}
+\newcommand{\SXDSpowDforty}{0.156}
+\newcommand{\SLCPpowDforty}{0.501}
+\newcommand{\SeaXDSTI}{0.050}
+\newcommand{\SeaXDSTop}{0.043--0.050}
+\newcommand{\SeaLCPTop}{0.092--0.099}
+\newcommand{\SeaPBcalls}{2{,}714--3{,}714}
+\newcommand{\RealXDSfrac}{37--63\%}
+\newcommand{\RealXDSrep}{68--82\%}
+\newcommand{\RealPBrep}{62--80\%}
+\newcommand{\RealPBonly}{10{,}086--14{,}643}
+\newcommand{\CouplingSEAAD}{0.046}
+\newcommand{\CouplingFrac}{58\%}
+\newcommand{\CouplingFracLee}{33\%}
+\newcommand{\Rcorrln}{0.155}
+\newcommand{\Mcorrln}{0.000}
+\newcommand{\PBposFrac}{70--82\%}
+\newcommand{\CouplePB}{0.524, 0.605, 0.718}
+\newcommand{\CoupleLCP}{0.104, 0.143, 0.191}
+\newcommand{\CoupleXDS}{0.059, 0.047, 0.056}
+\newcommand{\CoupleXU}{0.060, 0.104, 0.223}
+\newcommand{\DCtext}{Cell numbers differ between AD cases and controls in all three PsychAD subtypes (medians 21 versus 36 nuclei in Homeo\_CECR2, 23 versus 18 in PVM\_CD163 and 17 versus 10 in ADAM\_GPNMB; Mann--Whitney $p\le8\times10^{-5}$). By Propositions~\ref{prop:leak} and~\ref{prop:transform}, groups with different cell numbers have different biases, so comparing co-expression between groups should produce false differences. We tested this in the real-cell null, with each pseudo-donor carrying the AD label of the real donor whose cell number it has (three reassignments per subtype; frozen plan DC\_PREREG). Pseudobulk differential co-expression (difference of Fisher-transformed correlations) made 718--5{,}634 false calls per reassignment (per-pair type-I 0.13--0.21), so the pre-registered decision that pseudobulk differential co-expression is confounded by cell number is YES. XDS differential co-expression (Welch test of the per-donor cross-split products between groups) made 0 (type-I 0.048--0.052; decision YES), and the leak-corrected version made 0--6 (type-I 0.048--0.056). On real donors pseudobulk reported 5{,}806, 2{,}441 and 2{,}561 AD-associated co-expression changes in Homeo\_CECR2, PVM\_CD163 and ADAM\_GPNMB. With only cell-number differences it makes 5{,}188, 3{,}134 and 1{,}002 on average, that is 89\%, 128\% and 39\% of those numbers, so in the first two subtypes pseudobulk differential co-expression cannot be distinguished from the cell-number artifact. XDS reported 816, 19 and 0. The caveat of Section~\ref{sec:null} applies: the pooled null has somewhat stronger within-donor structure than real donors.}
+\newcommand{\SplitText}{XDS uses one random split per donor. On real PsychAD donors we repeated XDS with three split seeds (post hoc). The numbers of BH calls were Homeo\_CECR2 50{,}210, 49{,}779, 49{,}835; PVM\_CD163 54{,}679, 54{,}794, 54{,}663; ADAM\_GPNMB 33{,}312, 33{,}267, 33{,}302, and the Jaccard index between call sets from different seeds was 0.79 (Homeo\_CECR2); 0.83 (PVM\_CD163); 0.67 (ADAM\_GPNMB). Call counts are stable, but a fifth to a third of individual calls depend on the seed; aggregating several splits (for example by a Cauchy combination of $p$-values) is a natural extension that we have not evaluated.}

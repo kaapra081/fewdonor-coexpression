@@ -1,0 +1,10 @@
+\begin{table}[t]\centering\small\setlength{\tabcolsep}{3pt}\caption{Each correction and the bias it leaves. Calls and TI: PsychAD real-cell null at full size (range over subtypes; XU on fresh reassignments). SEA-AD: type-I for the 1\% most within-correlated pairs in the SEA-AD real-cell null (79 and 83 pseudo-donors). LCP2 (not shown) had SEA-AD top-1\% type-I 0.068--0.085.}\label{tab:ablate}
+\resizebox{\linewidth}{!}{\begin{tabular}{lllllll}\toprule Method & Standardization & Leak handling & Bias left & Calls & TI & SEA-AD\\\midrule
+PB & log-CPM, own cells & -- & leak, transform & 19{,}158--31{,}617 & 0.335--0.441 & 0.607--0.674 \\
+PBlin & ratio mean, own cells & -- & leak & 12{,}016--29{,}440 & 0.270--0.419 & 0.621--0.711 \\
+LCP & self-standardized & subtract estimate & transform, leak-estimate error & 4{,}986--12{,}880 & 0.201--0.301 & 0.092--0.099 \\
+LCPd & design-only & subtract estimate & leak-estimate error & 38--1{,}218 & 0.058--0.118 & 0.141--0.197 \\
+LCPX & self-standardized & disjoint halves & transform (larger) & 15{,}538--32{,}801 & 0.354--0.497 & 0.074--0.153 \\
+XU & design-only weights & exact U-statistic & depth--state coupling & 12{,}073--19{,}934 & 0.271--0.360 & 0.102--0.119 \\
+XDS & design-only & disjoint halves & none detected & 0--1 & 0.048--0.050 & 0.043--0.050 \\
+\bottomrule\end{tabular}}\end{table}
