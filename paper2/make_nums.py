@@ -2,7 +2,11 @@
 import os, sys, json, glob, numpy as np
 H = os.path.dirname(os.path.abspath(__file__)); R = os.path.join(H, "..")
 sys.path.insert(0, os.path.join(R, "dev")); from methods_v2 import bh  # noqa: E402
-J = lambda p: json.load(open(os.path.join(R, p)))
+def J(p):
+    """Local layout (recomb_v2/<dir>/<file>) or repository layout (results/<dir>/<file>)."""
+    for cand in (os.path.join(R, p), os.path.join(R, "results", p)):
+        if os.path.exists(cand): return json.load(open(cand))
+    d, f = os.path.split(p); return json.load(open(os.path.join(R, "results", {"dstd": "dstd", "xsplit": "xsplit", "fix": "fix"}.get(d, d), f)))
 pop = J("pop/pop_results.json"); dres = J("dstd/d_results.json"); xs = J("xsplit/xs_results.json"); fx = J("fix/fix_results.json")
 xu = J("xu/xu_results.json"); sp = J("split/split_results.json"); dg = J("diag/diag_real.json")
 info = {s: J(f"pop/pop_{s}_info.json") for s in ("P1", "P2", "P3")}
@@ -52,7 +56,12 @@ fm = lambda m: ", ".join(f3(cp[d][m]["FDR"]) for d in ("LS200", "LS500", "LS1000
 for m in ("PB", "LCP", "XDS", "XU"): M["Couple" + m] = fm(m)
 # differential co-expression
 dc = {}
-for s in S:
+_dcj = os.path.join(H, "dc_summary.json")
+if not glob.glob(os.path.join(R, "dc", "out", "DC_*.npz")) and os.path.exists(_dcj):
+    dc = json.load(open(_dcj)); S_dc = ()
+else:
+    S_dc = S
+for s in S_dc:
     nul = [np.load(f) for f in sorted(glob.glob(os.path.join(R, "dc", "out", f"DC_{s}_k*.npz")))]
     real = np.load(os.path.join(R, "dc", "out", f"DC_{s}_real.npz"))
     dc[s] = {m: dict(null_calls=[int(bh(z[m].astype(float)).sum()) for z in nul], null_typeI=[float((z[m] < 0.05).mean()) for z in nul],
