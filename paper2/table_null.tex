@@ -1,7 +1,7 @@
-\begin{table}[t]\centering\small\setlength{\tabcolsep}{3.5pt}\caption{PsychAD real-cell null at full cohort size (pseudo-donors; median nuclei), mean over three reassignments. Calls: BH false discoveries among $\sim$89{,}000 pairs. TI: per-pair type-I error at 0.05, over all pairs and over the 1\% most within-correlated pairs. Rep.: false calls replicated (same sign, $p<0.05$) in an independent half of the pseudo-donors.}\label{tab:null}
-\begin{tabular}{lccccccccccc}\toprule & \multicolumn{3}{c}{PB} & \multicolumn{3}{c}{LCP} & \multicolumn{3}{c}{XDS} & \multicolumn{2}{c}{Rep.}\\\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}\cmidrule(lr){11-12}
- Subtype & Calls & TI & top 1\% & Calls & TI & top 1\% & Calls & TI & top 1\% & PB & XDS\\\midrule
-Homeo\_CECR2 (1{,}054; 28) & 19{,}158 & 0.335 & 0.920 & 4{,}986 & 0.201 & 0.360 & 0 & 0.050 & 0.053 & 3{,}876 & 0 \\
-PVM\_CD163 (1{,}164; 19) & 31{,}617 & 0.441 & 0.919 & 12{,}880 & 0.301 & 0.705 & 1 & 0.050 & 0.051 & 12{,}515 & 0 \\
-ADAM\_GPNMB (744; 12) & 24{,}544 & 0.378 & 0.979 & 9{,}125 & 0.265 & 0.787 & 0 & 0.048 & 0.047 & 7{,}876 & 0 \\
-\bottomrule\end{tabular}\end{table}
+\begin{table}[t]\centering\small\setlength{\tabcolsep}{3.5pt}\caption{PsychAD real-cell null at full cohort size (pseudo-donors; median nuclei), mean over three reassignments. Calls: BH false discoveries among $\sim$89{,}000 pairs. TI: per-pair type-I error at 0.05, over all pairs and over the 1\% most within-correlated pairs. Rep.: PB false calls replicated (same sign, $p<0.05$) in an independent half of the pseudo-donors. Runs: reassignments with at least one false call (equal to the FDR under this complete null) among further reassignments, for XDS and XDS-M.}\label{tab:null}
+\resizebox{\linewidth}{!}{\begin{tabular}{lcccccccccccc}\toprule & \multicolumn{3}{c}{PB} & \multicolumn{3}{c}{LCP} & \multicolumn{3}{c}{XDS} & Rep. & \multicolumn{2}{c}{Runs $V\ge1$}\\\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}\cmidrule(lr){12-13}
+ Subtype & Calls & TI & top 1\% & Calls & TI & top 1\% & Calls & TI & top 1\% & PB & XDS & XDS-M\\\midrule
+Homeo\_CECR2 (1{,}054; 28) & 19{,}158 & 0.335 & 0.920 & 4{,}986 & 0.201 & 0.360 & 0 & 0.050 & 0.053 & 3{,}876 & 11/100 & 4/100 \\
+PVM\_CD163 (1{,}164; 19) & 31{,}617 & 0.441 & 0.919 & 12{,}880 & 0.301 & 0.705 & 1 & 0.050 & 0.051 & 12{,}515 & 20/100 & 5/100 \\
+ADAM\_GPNMB (744; 12) & 24{,}544 & 0.378 & 0.979 & 9{,}125 & 0.265 & 0.787 & 0 & 0.048 & 0.047 & 7{,}876 & 11/100 & 2/100 \\
+\bottomrule\end{tabular}}\end{table}

@@ -1,13 +1,13 @@
-\begin{table}[t]\centering\small\setlength{\tabcolsep}{4pt}\caption{Simulations with exact truth. FDR (MCSE) at BH $q=0.05$ and power. $R=100$ replicates for designs with up to 83 donors, $R=50$ for larger designs. Pseudobulk and LCP lose FDR control as donors are added; XDS keeps it, and its power deficit disappears from about 500 donors.}\label{tab:sim}
-\begin{tabular}{lcccccc}\toprule & \multicolumn{3}{c}{FDR} & \multicolumn{3}{c}{Power}\\\cmidrule(lr){2-4}\cmidrule(lr){5-7}
-Design & PB & LCP & XDS & PB & LCP & XDS\\\midrule
-16 donors, $\sim$40 cells & 0.216\,(0.022) & 0.110\,(0.025) & 0.025\,(0.013) & 0.047 & 0.014 & 0.002 \\
-24 donors, $\sim$40 cells & 0.174\,(0.013) & 0.050\,(0.007) & 0.043\,(0.018) & 0.181 & 0.122 & 0.018 \\
-40 donors, $\sim$40 cells & 0.133\,(0.006) & 0.051\,(0.004) & 0.041\,(0.006) & 0.499 & 0.501 & 0.156 \\
-79 donors, Micro-PVM\_1 cells (median 15) & 0.594\,(0.011) & 0.077\,(0.004) & 0.041\,(0.007) & 0.321 & 0.399 & 0.070 \\
-83 donors, Micro-PVM\_3 cells (median 43) & 0.179\,(0.006) & 0.051\,(0.002) & 0.048\,(0.003) & 0.877 & 0.929 & 0.665 \\
-16 donors, $\sim$100 cells & 0.122\,(0.009) & 0.039\,(0.008) & 0.049\,(0.014) & 0.190 & 0.087 & 0.031 \\
-200 donors, median 20 cells & 0.480\,(0.017) & 0.087\,(0.004) & 0.044\,(0.003) & 0.871 & 0.975 & 0.778 \\
-500 donors, median 20 cells & 0.569\,(0.011) & 0.135\,(0.006) & 0.042\,(0.003) & 0.993 & 1.000 & 0.986 \\
-1,000 donors, median 20 cells & 0.662\,(0.008) & 0.217\,(0.006) & 0.053\,(0.003) & 1.000 & 1.000 & 0.999 \\
+\begin{table}[t]\centering\small\setlength{\tabcolsep}{3pt}\caption{Simulations with exact truth: FDR at BH $q=0.05$ and power. $R=100$ replicates for designs with up to 83 donors, $R=50$ for larger designs; the largest FDR MCSE is 0.040 (all MCSEs in the repository). XDS-M uses a normal reference and is intended for large cohorts.}\label{tab:sim}
+\begin{tabular}{lcccccccccc}\toprule & \multicolumn{5}{c}{FDR} & \multicolumn{5}{c}{Power}\\\cmidrule(lr){2-6}\cmidrule(lr){7-11}
+Design & PB & LCP & LCPd & XDS & XDS-M & PB & LCP & LCPd & XDS & XDS-M\\\midrule
+16 donors, $\sim$40 cells & 0.216 & 0.110 & 0.086 & 0.025 & 0.265 & 0.05 & 0.01 & 0.01 & 0.00 & 0.01 \\
+24 donors, $\sim$40 cells & 0.174 & 0.050 & 0.062 & 0.043 & 0.135 & 0.18 & 0.12 & 0.10 & 0.02 & 0.02 \\
+40 donors, $\sim$40 cells & 0.133 & 0.051 & 0.052 & 0.041 & 0.052 & 0.50 & 0.50 & 0.44 & 0.16 & 0.11 \\
+16 donors, $\sim$100 cells & 0.122 & 0.039 & 0.037 & 0.049 & 0.213 & 0.19 & 0.09 & 0.08 & 0.03 & 0.02 \\
+79 donors, median 15 cells & 0.594 & 0.077 & 0.049 & 0.041 & 0.031 & 0.32 & 0.40 & 0.32 & 0.07 & 0.09 \\
+83 donors, median 43 cells & 0.179 & 0.051 & 0.047 & 0.048 & 0.045 & 0.88 & 0.93 & 0.90 & 0.66 & 0.66 \\
+200 donors, median 20 & 0.480 & 0.087 & 0.050 & 0.044 & 0.043 & 0.87 & 0.98 & 0.96 & 0.78 & 0.87 \\
+500 donors, median 20 & 0.569 & 0.135 & 0.047 & 0.042 & 0.045 & 0.99 & 1.00 & 1.00 & 0.99 & 1.00 \\
+1,000 donors, median 20 & 0.662 & 0.217 & 0.050 & 0.053 & 0.050 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
 \bottomrule\end{tabular}\end{table}

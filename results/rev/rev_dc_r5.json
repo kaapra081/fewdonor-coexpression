@@ -1,0 +1,77 @@
+{
+ "P1": {
+  "real_PB": 5806,
+  "null_union": 14585,
+  "overlap": 1005,
+  "expected": 944.3,
+  "p_overlap": 0.013891603181402375,
+  "XDSg_real": 117,
+  "XDSg_in_pooled": 117,
+  "XDSg_top": [
+   [
+    "CYFIP1",
+    13
+   ],
+   [
+    "ZFP36L2",
+    11
+   ],
+   [
+    "NAV2",
+    10
+   ],
+   [
+    "MAP4K4",
+    9
+   ],
+   [
+    "CAPZB",
+    9
+   ],
+   [
+    "RASGEF1C",
+    9
+   ],
+   [
+    "CX3CR1",
+    8
+   ],
+   [
+    "LYST",
+    6
+   ]
+  ],
+  "false_r_median": 0.10349420640576559,
+  "false_r_gt01": 0.5535276207046542,
+  "false_r_gt02": 0.03617224880382775,
+  "false_r_n": 57475
+ },
+ "P2": {
+  "real_PB": 2441,
+  "null_union": 9053,
+  "overlap": 251,
+  "expected": 251.1,
+  "p_overlap": 0.5140535965408082,
+  "XDSg_real": 0,
+  "XDSg_in_pooled": 0,
+  "XDSg_top": [],
+  "false_r_median": 0.10804119570970928,
+  "false_r_gt01": 0.5764243242103487,
+  "false_r_gt02": 0.1073567241597436,
+  "false_r_n": 94852
+ },
+ "P3": {
+  "real_PB": 2561,
+  "null_union": 2967,
+  "overlap": 108,
+  "expected": 85.5,
+  "p_overlap": 0.00871359845161131,
+  "XDSg_real": 0,
+  "XDSg_in_pooled": 0,
+  "XDSg_top": [],
+  "false_r_median": 0.12862783201509395,
+  "false_r_gt01": 0.8426342165663919,
+  "false_r_gt02": 0.1353098559030843,
+  "false_r_n": 73631
+ }
+}
