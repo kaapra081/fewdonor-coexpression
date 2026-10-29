@@ -28,7 +28,9 @@ Part A pseudo-donor null at full D (K = 3; P3 uses k = 1..3, k = 0 was the explo
 At D = 200: PB 7,036 / 10,013 / 10,443; LCP 137 / 145 / 566; XDS 1 / 0 / 0.
 Replicated false calls across pseudo-donor halves: PB 3,798-12,827; LCP 502-2,285; XDS 0 in all 9.
 - "LCPX holds at population scale": NO. "Replication does not protect pseudobulk": YES (all >= 50).
-- "PB false discoveries grow with cohort size": evaluated against D = 100 in pop/pop_results.json once the small-D runs finish.
+- "PB false discoveries grow with cohort size" (frozen: calls at full D >= 3x calls at D = 100 and >= 100; k = 0 for P1/P2, k = 1 for P3): YES in all three.
+  PB calls at D = 25 / 50 / 100 / full: P1 1,778 / 2,578 / 3,929 / 19,267; P2 1,063 / 3,320 / 6,288 / 31,571; P3 1,409 / 1,803 / 4,031 / 24,962 (ratio full/100: 4.9, 5.0, 6.2).
+  LCP calls at D <= 100: 0 except 19 (P2, D = 100); at full D 4,610-13,707. XDS: 0 at every D.
 Part B real donors (full D): XDS calls 32,790 / 49,852 / 55,021 (37 / 56 / 63% of pairs); PB-only calls 13,307 / 10,086 / 14,643;
 replication in independent donor halves: XDS 79 / 82 / 68%, PB 73 / 80 / 62%.
 Caveat: pooling real donors into pseudo-donors turns real between-donor covariance into within-pseudo-donor covariance, so this
