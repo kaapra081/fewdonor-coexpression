@@ -55,6 +55,23 @@ if os.path.exists(_b2):
             M[f"Btwo{lab}Any{s.replace('P1','One').replace('P2','Two').replace('P3','Three')}"] = f"{B2[s][m]['any']}/{B2[s][m]['n']}"
             M[f"Btwo{lab}TI{s.replace('P1','One').replace('P2','Two').replace('P3','Three')}"] = f"{B2[s][m]['t05']:.3f}"
     M["BtwoPBwRangeLow"] = f"{min(B2[s]['PBw']['minV'] for s in ('P1','P3'))}--{max(B2[s]['PBw']['maxV'] for s in ('P1','P3'))}"
+
+# REV2 C (real donors with XDS-M; A5 diagnostic; positive control)
+if S.get("C"):
+    C = S["C"]; ss = [s for s in ("P1", "P2", "P3") if s in C]; pct = lambda x: f"{100 * x:.0f}\\%"
+    M["RealXDSMfrac"] = ", ".join(pct(C[s]["seeds"]["frac_pairs"]) for s in ss)
+    M["RealXDSMcalls"] = ", ".join(f"{C[s]['seeds']['n_calls'][0]:,}" for s in ss)
+    J = [x for s in ss for x in C[s]["seeds"]["jaccard"]]; M["RealXDSMjac"] = f"{min(J):.2f}--{max(J):.2f}"
+    R = [C[s]["halves"]["replicated"] / max(C[s]["halves"]["calls_h0"], 1) for s in ss]; M["RealXDSMrep"] = f"{100 * min(R):.0f}--{100 * max(R):.0f}\\%"
+    r2 = [x for s in ss for x in C[s]["A5"]["mean_R2"]]; M["AfiveRtwo"] = f"{min(r2):.2f}--{max(r2):.2f}"
+    M["PosXYnM"] = str(sum(C[s]["sex_XDSM"]["xist_y"]["n"] for s in ss)); M["PosYYnM"] = str(sum(C[s]["sex_XDSM"]["y_y"]["n"] for s in ss))
+    M["PosXYokM"] = str(sum(C[s]["sex_XDSM"]["xist_y"]["sig_right_sign"] for s in ss)); M["PosYYokM"] = str(sum(C[s]["sex_XDSM"]["y_y"]["sig_right_sign"] for s in ss))
+    def sci(x):
+        e = math.floor(math.log10(x)); c = math.ceil(x / 10 ** e - 1e-12)
+        c, e = (1, e + 1) if c == 10 else (c, e); return f"{c}\\times10^{{{e}}}"
+    M["PosXYmaxpM"] = sci(max(C[s]["sex_XDSM"]["xist_y"]["max_p"] for s in ss)); M["PosYYmaxpM"] = sci(max(C[s]["sex_XDSM"]["y_y"]["max_p"] for s in ss))
+    M["PosXYokPB"] = str(sum(C[s]["sex_PB"]["xist_y"]["sig_right_sign"] for s in ss)); M["PosYYokPB"] = str(sum(C[s]["sex_PB"]["y_y"]["sig_right_sign"] for s in ss))
+    M["PosYYmaxpPB"] = sci(max(C[s]["sex_PB"]["y_y"]["max_p"] for s in ss)); M["PosXYmaxpPB"] = sci(max(C[s]["sex_PB"]["xist_y"]["max_p"] for s in ss))
 M.setdefault("REVtwoOutcomes", S.get("outcomes2", "[pending]")); M.setdefault("REVthreeOutcomes", S.get("outcomes3", "[pending]"))
 open(os.path.join(HERE, "rev2nums.tex"), "w").write("".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in M.items()))
 json.dump(M, open(os.path.join(HERE, "rev2_macros.json"), "w"), indent=1); print(len(M), "macros")
