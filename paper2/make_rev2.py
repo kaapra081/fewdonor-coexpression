@@ -115,6 +115,21 @@ if os.path.exists(_a2):
         M["AtwoPBcalls"] = f"{min(A2[k]['all']['PB']['Vtotal_mean'] for k in kk) / 1e6:.2f}--{max(A2[k]['all']['PB']['Vtotal_mean'] for k in kk) / 1e6:.2f} million"
         M["AtwoXDSMcalls"] = ", ".join(f"{A2[k]['all']['XDSM5']['Vtotal_mean']:.1f}" for k in kk)
         M["AtwoRuns"] = ", ".join(str(A2[k]["runs"]) for k in kk)
+    def _rr(keys, m, strata, thr_i, Ds=("200", "all")):
+        v = [A2[k][D][m][s]["ratio"][thr_i] for k in keys for D in Ds for s in strata if s in A2[k][D][m] and A2[k][D][m][s]["exp"][thr_i] >= 20]
+        return (min(v), max(v)) if v else None
+    def _dec(keys, m, strata, Ds=("200", "all")):
+        c = [A2[k][D][m][s]["calibrated"] for k in keys for D in Ds for s in strata if s in A2[k][D][m]]
+        return sum(x is True for x in c), sum(x is not None for x in c)
+    hi_keys = [k for k in A2 if k.split("_")[0] in ("B1", "B2")]; lo_keys = [k for k in A2 if k.startswith("B1x")]
+    fmt = lambda t: ("n/a" if not t else (f"{t[0]:,.0f}--{t[1]:,.0f}" if t[0] >= 100 else f"{t[0]:.2f}--{t[1]:.2f}"))
+    for m, lab in (("XDSM5", "M"), ("XDS", "S"), ("XDSM1", "Mone"), ("XDSM10", "Mten"), ("PB", "PB")):
+        M[f"AtwoHiFour{lab}"] = fmt(_rr(hi_keys, m, ("0", "1", "2"), 1)); M[f"AtwoHiFive{lab}"] = fmt(_rr(hi_keys, m, ("0", "1", "2"), 2))
+        M[f"AtwoLoFour{lab}"] = fmt(_rr(lo_keys, m, ("3",), 1)); M[f"AtwoLoFive{lab}"] = fmt(_rr(lo_keys, m, ("3",), 2))
+        a_, b_ = _dec(hi_keys, m, ("0", "1", "2")); M[f"AtwoHiDec{lab}"] = f"{a_} of {b_}"
+        a_, b_ = _dec(lo_keys, m, ("3",)); M[f"AtwoLoDec{lab}"] = f"{a_} of {b_}"
+    if "P3_n0" in A2 or "P3_n1" in A2: M["AtwoHasPthree"] = "yes"
+    M["AtwoRunsAll"] = "; ".join(f"{k.replace('_n0', ' pooled').replace('_n1', ' donor-centred')}: {A2[k]['runs']}" for k in sorted(A2))
 M.setdefault("REVtwoOutcomes", S.get("outcomes2", "[pending]")); M.setdefault("REVthreeOutcomes", S.get("outcomes3", "[pending]"))
 open(os.path.join(HERE, "rev2nums.tex"), "w").write("".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in M.items()))
 json.dump(M, open(os.path.join(HERE, "rev2_macros.json"), "w"), indent=1); print(len(M), "macros")
