@@ -30,9 +30,31 @@ for m, lab in MS:
     M[f"RtwoAny{key}"] = f"{k}/{n}"; M[f"RtwoHolds{key}"] = f"{nh} of {len(v)}"
     M[f"RtwoRange{key}"] = f"{min(a['any'] for a in v)}--{max(a['any'] for a in v)}"
     M[f"RtwoMeanV{key}"] = f"{min(a['meanV'] for a in v):,.1f}--{max(a['meanV'] for a in v):,.1f}" if max(a['meanV'] for a in v) < 100 else f"{min(a['meanV'] for a in v):,.0f}--{max(a['meanV'] for a in v):,.0f}"
+from scipy.stats import beta as _beta
+def _cp(k, n):
+    lo = 0.0 if k == 0 else _beta.ppf(0.025, k, n - k + 1); hi = 1.0 if k == n else _beta.ppf(0.975, k + 1, n - k); return lo, hi
+for m, lab in MS:
+    v = runs(m); k = sum(a["any"] for a in v); n = sum(a["n"] for a in v); lo, hi = _cp(k, n); key = lab.replace("-", "")
+    M[f"RtwoPooled{key}"] = f"{100 * k / n:.1f}\\% (95\\% CI {100 * lo:.1f}--{100 * hi:.1f}\\%)"
+    M[f"RtwoCells{key}"] = str(len(v)); M[f"RtwoRuns{key}"] = str(n)
+    va = runs(m, Ds=("all",)); ka = sum(a["any"] for a in va); na = sum(a["n"] for a in va); lo, hi = _cp(ka, na)
+    M[f"RtwoPooledAll{key}"] = f"{ka}/{na} ({100 * ka / na:.1f}\\%, 95\\% CI {100 * lo:.1f}--{100 * hi:.1f}\\%)"
 for t in ecols:
     for m, lab in MS:
-        if m in S["E"][t]: M[f"Onek{t}Any{lab.replace('-', '')}"] = f"{S['E'][t][m]['any']}/{S['E'][t][m]['n']}"
+        if m in S["E"][t]: M[f"Onek{t.replace('1','One').replace('2','Two').replace('3','Three')}Any{lab.replace('-', '')}"] = f"{S['E'][t][m]['any']}/{S['E'][t][m]['n']}"
+
+# REV3 B2 (stronger pseudobulk baselines), if summarized
+_b2 = os.path.join(HERE, "..", "rev3", "results", "B2_summary.json")
+if os.path.exists(_b2):
+    B2 = json.load(open(_b2)); f0 = lambda x: f"{x:,.0f}"
+    for m, lab in (("PB", "PB"), ("PBres", "PBres"), ("PBw", "PBw")):
+        v = [B2[s][m]["meanV"] for s in ("P1", "P2", "P3")]
+        M[f"Btwo{lab}"] = f"{f0(min(v))}--{f0(max(v))}"
+        for s in ("P1", "P2", "P3"):
+            M[f"Btwo{lab}{s.replace('P1','One').replace('P2','Two').replace('P3','Three')}"] = f0(B2[s][m]["meanV"])
+            M[f"Btwo{lab}Any{s.replace('P1','One').replace('P2','Two').replace('P3','Three')}"] = f"{B2[s][m]['any']}/{B2[s][m]['n']}"
+            M[f"Btwo{lab}TI{s.replace('P1','One').replace('P2','Two').replace('P3','Three')}"] = f"{B2[s][m]['t05']:.3f}"
+    M["BtwoPBwRangeLow"] = f"{min(B2[s]['PBw']['minV'] for s in ('P1','P3'))}--{max(B2[s]['PBw']['maxV'] for s in ('P1','P3'))}"
 M.setdefault("REVtwoOutcomes", S.get("outcomes2", "[pending]")); M.setdefault("REVthreeOutcomes", S.get("outcomes3", "[pending]"))
 open(os.path.join(HERE, "rev2nums.tex"), "w").write("".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in M.items()))
 json.dump(M, open(os.path.join(HERE, "rev2_macros.json"), "w"), indent=1); print(len(M), "macros")
