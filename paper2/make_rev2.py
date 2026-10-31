@@ -72,6 +72,35 @@ if S.get("C"):
     M["PosXYmaxpM"] = sci(max(C[s]["sex_XDSM"]["xist_y"]["max_p"] for s in ss)); M["PosYYmaxpM"] = sci(max(C[s]["sex_XDSM"]["y_y"]["max_p"] for s in ss))
     M["PosXYokPB"] = str(sum(C[s]["sex_PB"]["xist_y"]["sig_right_sign"] for s in ss)); M["PosYYokPB"] = str(sum(C[s]["sex_PB"]["y_y"]["sig_right_sign"] for s in ss))
     M["PosYYmaxpPB"] = sci(max(C[s]["sex_PB"]["y_y"]["max_p"] for s in ss)); M["PosXYmaxpPB"] = sci(max(C[s]["sex_PB"]["xist_y"]["max_p"] for s in ss))
+
+# REV2 D (differential co-expression): D1 donor-centred null and real, D3 halves, D2 true-DC simulation
+if S.get("D1"):
+    D1 = S["D1"]; ss = [s for s in ("P1", "P2", "P3") if s in D1]
+    nul = {m: [D1[s][k][m] for s in ss for k in D1[s] if k.startswith("k")] for m in ("PB", "XDSg", "XDSMg", "XDSMgu")}
+    rg = lambda v, f=lambda x: f"{x:,}": f"{f(min(v))}--{f(max(v))}" if min(v) != max(v) else f(min(v))
+    M["DCdcPB"] = rg([a["V"] for a in nul["PB"]]); M["DCdcPBTI"] = rg([a["t05"] for a in nul["PB"]], lambda x: f"{x:.2f}")
+    xs = nul["XDSg"] + nul["XDSMg"] + nul["XDSMgu"]; M["DCdcXDS"] = rg([a["V"] for a in xs]); M["DCdcXDSTI"] = rg([a["t05"] for a in xs], lambda x: f"{x:.3f}")
+    M["DCdcRuns"] = str(len(nul["PB"]) // max(len(ss), 1))
+    for m, lab in (("PB", "PB"), ("XDSMg", "M"), ("XDSMgu", "U"), ("XDSg", "G")):
+        if all("real" in D1[s] for s in ss): M[f"DCreal{lab}"] = ", ".join(f"{D1[s]['real'][m]['V']:,}" for s in ss)
+if S.get("D3") and "P1" in S["D3"]:
+    d3 = S["D3"]["P1"]
+    for m, lab in (("PB", "PB"), ("XDSMgu", "U"), ("XDSMg", "M")):
+        M[f"DCthree{lab}"] = f"{d3[m]['replicated']:,} of {d3[m]['calls_h0']:,}"
+if S.get("D2"):
+    d2 = S["D2"]
+    for m, lab in (("PB", "PB"), ("XDSMg", "M"), ("XDSMgu", "U"), ("XDSg", "G")):
+        if m in d2: M[f"DCtwoFDR{lab}"] = f"{d2[m]['FDR']:.3f}"; M[f"DCtwoPow{lab}"] = f"{d2[m]['power']:.3f}"; M[f"DCtwoFDRse{lab}"] = f"{d2[m]['FDR_mcse']:.3f}"
+# OneK1K E (30 further reassignments)
+if S.get("E"):
+    E = S["E"]; tt = [t_ for t_ in ("B1", "B2", "B3") if t_ in E]
+    M["OnekEruns"] = ", ".join(f"{E[t_]['PB']['n']}" for t_ in tt)
+    for m, lab in (("PB", "PB"), ("PBlin", "PBlin"), ("LCP", "LCP"), ("XDSM", "XDSM")):
+        M[f"OnekE{lab}"] = ", ".join(f"{E[t_][m]['meanV']:,.0f}" if E[t_][m]['meanV'] >= 10 else f"{E[t_][m]['meanV']:.1f}" for t_ in tt)
+        M[f"OnekEany{lab}"] = ", ".join(f"{E[t_][m]['any']}/{E[t_][m]['n']}" for t_ in tt)
+    _nm = {"B1": "transitional B cells", "B2": "naive B cells", "B3": "naive CD4 T cells"}
+    fl = [_nm[t_] for t_ in tt if not holds(E[t_]["XDSM"])]; ok = [_nm[t_] for t_ in tt if holds(E[t_]["XDSM"])]
+    M["OnekEfailXDSM"] = (" and ".join(fl) if fl else "none of the cell types"); M["OnekEholdXDSM"] = (" and ".join(ok) if ok else "none")
 M.setdefault("REVtwoOutcomes", S.get("outcomes2", "[pending]")); M.setdefault("REVthreeOutcomes", S.get("outcomes3", "[pending]"))
 open(os.path.join(HERE, "rev2nums.tex"), "w").write("".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in M.items()))
 json.dump(M, open(os.path.join(HERE, "rev2_macros.json"), "w"), indent=1); print(len(M), "macros")

@@ -252,8 +252,7 @@ if ok_:
         + " times those at 200 donors, so the frozen growth criterion (at least 2) was met in " + str(sum(on[t_]['all']['PB']['mean_calls'] >= 2 * on[t_]['200']['PB']['mean_calls'] and on[t_]['all']['PB']['mean_calls'] >= 100 for t_ in ok_))
         + " of " + str(len(ok_)) + " cell types; XDS met its criterion in " + str(sum(on[t_]['all']['LCPXd']['holds'] and on[t_]['200']['LCPXd']['holds'] for t_ in ok_)) + " and XDS-M in "
         + str(sum(on[t_]['all']['XDSM']['holds'] and on[t_]['200']['XDSM']['holds'] for t_ in ok_))
-        + "; XDS-M made no false call but exceeded the top-1\\% bound at 200 transitional B cell donors (" + f3(on['B1']['200']['XDSM']['top1']) + "), a reminder that its $t$ reference needs many donors. Even with a median of " + c(on['B3']['info']['median_n']) + " cells per donor, pseudobulk fails at " + c(on['B3']['info']['donors']) + " donors; the leak is small there, but LCP's residual false calls ("
-        + c(on['B3']['all']['LCP']['mean_calls']) + ") and pseudobulk's far larger count point to the log-transform bias of Proposition~\\ref{prop:transform}, which does not vanish as fast as the leak.")
+        + "; XDS-M made no false call but exceeded the top-1\\% bound at 200 transitional B cell donors (" + f3(on['B1']['200']['XDSM']['top1']) + "), a reminder that its $t$ reference needs many donors. Even in naive CD4 T cells, with a median of " + c(on['B3']['info']['median_n']) + " cells per donor, pseudobulk failed at " + c(on['B3']['info']['donors']) + " donors.")
     M["OnekAbs"] = ("In three OneK1K blood cell types, pseudobulk made " + rng([on[t_]["all"]["PB"]["mean_calls"] for t_ in ok_]) + " false calls per reassignment, even with a median of " + c(on['B3']['info']['median_n']) + " cells per donor, and XDS-M none.")
 else: M["OnekText"] = None; M["OnekAbs"] = None
 
@@ -296,7 +295,7 @@ M["DCtext"] = (
     f"On real donors pseudobulk reported {c(dc['P1']['PB']['real_calls'])}, {c(dc['P2']['PB']['real_calls'])} and {c(dc['P3']['PB']['real_calls'])} AD-associated "
     f"co-expression changes in Homeo\\_CECR2, PVM\\_CD163 and ADAM\\_GPNMB. With only cell-number differences it makes {c(pbm['P1'])}, {c(pbm['P2'])} and {c(pbm['P3'])} on average, "
     f"that is {100 * pbm['P1'] / dc['P1']['PB']['real_calls']:.0f}\\%, {100 * pbm['P2'] / dc['P2']['PB']['real_calls']:.0f}\\% and {100 * pbm['P3'] / dc['P3']['PB']['real_calls']:.0f}\\% of those numbers, "
-    f"so in the first two subtypes pseudobulk differential co-expression cannot be distinguished from the cell-number artifact. XDS with pooled centring reported {c(dc['P1']['XDS']['real_calls'])}, {c(dc['P2']['XDS']['real_calls'])} and {c(dc['P3']['XDS']['real_calls'])}. "
+    f"comparable in size to the real-donor counts, although a comparison of counts cannot show which real calls are artifacts. XDS with pooled centring reported {c(dc['P1']['XDS']['real_calls'])}, {c(dc['P2']['XDS']['real_calls'])} and {c(dc['P3']['XDS']['real_calls'])}, mostly mean-shift artifacts (below). "
     "The caveat of Section~\\ref{sec:null} applies: the pooled null has somewhat stronger within-donor structure than real donors.") if dc else None
 M["SplitText"] = ("XDS uses one random split per donor. On real PsychAD donors we repeated XDS with three split seeds (post hoc). The numbers of BH calls were "
     + "; ".join(f"{SUBN[s]} {', '.join(c(v) for v in sp[s]['n_calls'])}" for s in S)
