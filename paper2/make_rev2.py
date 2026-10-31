@@ -39,6 +39,7 @@ for m, lab in MS:
     M[f"RtwoCells{key}"] = str(len(v)); M[f"RtwoRuns{key}"] = str(n)
     va = runs(m, Ds=("all",)); ka = sum(a["any"] for a in va); na = sum(a["n"] for a in va); lo, hi = _cp(ka, na)
     M[f"RtwoPooledAll{key}"] = f"{ka}/{na} ({100 * ka / na:.1f}\\%, 95\\% CI {100 * lo:.1f}--{100 * hi:.1f}\\%)"
+    M[f"RtwoPctAll{key}"] = f"{100 * ka / na:.0f}\\%"
 for t in ecols:
     for m, lab in MS:
         if m in S["E"][t]: M[f"Onek{t.replace('1','One').replace('2','Two').replace('3','Three')}Any{lab.replace('-', '')}"] = f"{S['E'][t][m]['any']}/{S['E'][t][m]['n']}"
@@ -88,7 +89,7 @@ if S.get("D3") and "P1" in S["D3"]:
     for m, lab in (("PB", "PB"), ("XDSMgu", "U"), ("XDSMg", "M")):
         M[f"DCthree{lab}"] = f"{d3[m]['replicated']:,} of {d3[m]['calls_h0']:,}"
 if S.get("D2"):
-    d2 = S["D2"]
+    d2 = S["D2"]; M["DCtwoAlt"] = f"{d2['n_alt']:,}"; M["DCtwoPairs"] = f"{d2['n_pairs']:,}"; M["DCtwoR"] = str(d2["PB"]["R"])
     for m, lab in (("PB", "PB"), ("XDSMg", "M"), ("XDSMgu", "U"), ("XDSg", "G")):
         if m in d2: M[f"DCtwoFDR{lab}"] = f"{d2[m]['FDR']:.3f}"; M[f"DCtwoPow{lab}"] = f"{d2[m]['power']:.3f}"; M[f"DCtwoFDRse{lab}"] = f"{d2[m]['FDR_mcse']:.3f}"
 # OneK1K E (30 further reassignments)
@@ -101,6 +102,19 @@ if S.get("E"):
     _nm = {"B1": "transitional B cells", "B2": "naive B cells", "B3": "naive CD4 T cells"}
     fl = [_nm[t_] for t_ in tt if not holds(E[t_]["XDSM"])]; ok = [_nm[t_] for t_ in tt if holds(E[t_]["XDSM"])]
     M["OnekEfailXDSM"] = (" and ".join(fl) if fl else "none of the cell types"); M["OnekEholdXDSM"] = (" and ".join(ok) if ok else "none")
+
+# REV3 A2 (tail calibration by expression stratum), if summarized
+_a2 = os.path.join(HERE, "..", "rev3", "results", "A2_SUMMARY.json")
+if os.path.exists(_a2):
+    A2 = json.load(open(_a2))
+    kk = [k for k in A2 if k.startswith("B1_")]
+    if kk:
+        npairs = sum(A2[kk[0]]["all"]["PB"][s]["pairs"] for s in A2[kk[0]]["all"]["PB"] if s.isdigit())
+        fr = [A2[k]["all"]["PB"]["Vtotal_mean"] / npairs for k in kk]
+        M["AtwoPBfrac"] = f"{100 * min(fr):.0f}--{100 * max(fr):.0f}\\%"; M["AtwoPairs"] = f"{npairs / 1e6:.1f} million"
+        M["AtwoPBcalls"] = f"{min(A2[k]['all']['PB']['Vtotal_mean'] for k in kk) / 1e6:.2f}--{max(A2[k]['all']['PB']['Vtotal_mean'] for k in kk) / 1e6:.2f} million"
+        M["AtwoXDSMcalls"] = ", ".join(f"{A2[k]['all']['XDSM5']['Vtotal_mean']:.1f}" for k in kk)
+        M["AtwoRuns"] = ", ".join(str(A2[k]["runs"]) for k in kk)
 M.setdefault("REVtwoOutcomes", S.get("outcomes2", "[pending]")); M.setdefault("REVthreeOutcomes", S.get("outcomes3", "[pending]"))
 open(os.path.join(HERE, "rev2nums.tex"), "w").write("".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in M.items()))
 json.dump(M, open(os.path.join(HERE, "rev2_macros.json"), "w"), indent=1); print(len(M), "macros")
