@@ -1,0 +1,67 @@
+cd onek && python3 onek_run2.py --typ B3 --k0 3 --k1 8 > ../logs/on_B3_3.log 2>&1
+cd onek && python3 onek_run2.py --typ B3 --k0 8 --k1 13 > ../logs/on_B3_8.log 2>&1
+cd onek && python3 onek_run2.py --typ B3 --k0 13 --k1 18 > ../logs/on_B3_13.log 2>&1
+cd onek && python3 onek_run2.py --typ B3 --k0 18 --k1 23 > ../logs/on_B3_18.log 2>&1
+cd onek && python3 onek_run2.py --typ B3 --k0 23 --k1 28 > ../logs/on_B3_23.log 2>&1
+cd onek && python3 onek_run2.py --typ B3 --k0 28 --k1 33 > ../logs/on_B3_28.log 2>&1
+cd onek && python3 onek_run2.py --typ B2 --k0 3 --k1 8 > ../logs/on_B2_3.log 2>&1
+cd onek && python3 onek_run2.py --typ B2 --k0 8 --k1 13 > ../logs/on_B2_8.log 2>&1
+cd onek && python3 onek_run2.py --typ B2 --k0 13 --k1 18 > ../logs/on_B2_13.log 2>&1
+cd onek && python3 onek_run2.py --typ B2 --k0 18 --k1 23 > ../logs/on_B2_18.log 2>&1
+cd onek && python3 onek_run2.py --typ B2 --k0 23 --k1 28 > ../logs/on_B2_23.log 2>&1
+cd onek && python3 onek_run2.py --typ B2 --k0 28 --k1 33 > ../logs/on_B2_28.log 2>&1
+cd onek && python3 onek_run2.py --typ B1 --k0 3 --k1 8 > ../logs/on_B1_3.log 2>&1
+cd onek && python3 onek_run2.py --typ B1 --k0 8 --k1 13 > ../logs/on_B1_8.log 2>&1
+cd onek && python3 onek_run2.py --typ B1 --k0 13 --k1 18 > ../logs/on_B1_13.log 2>&1
+cd onek && python3 onek_run2.py --typ B1 --k0 18 --k1 23 > ../logs/on_B1_18.log 2>&1
+cd onek && python3 onek_run2.py --typ B1 --k0 23 --k1 28 > ../logs/on_B1_23.log 2>&1
+cd onek && python3 onek_run2.py --typ B1 --k0 28 --k1 33 > ../logs/on_B1_28.log 2>&1
+cd rev2 && python3 rev2_F.py --design L200 > ../logs/F_L200.log 2>&1
+cd rev2 && python3 rev2_F.py --design L500 > ../logs/F_L500.log 2>&1
+cd rev2 && python3 rev2_D2.py > ../logs/D2.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P1 --k0 0 --k1 10 > ../logs/A_P1_0.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P1 --k0 10 --k1 20 > ../logs/A_P1_10.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P1 --k0 20 --k1 30 > ../logs/A_P1_20.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P1 --k0 30 --k1 40 > ../logs/A_P1_30.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P1 --k0 40 --k1 50 > ../logs/A_P1_40.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P1 --k0 50 --k1 60 > ../logs/A_P1_50.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P1 --k0 60 --k1 70 > ../logs/A_P1_60.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P1 --k0 70 --k1 80 > ../logs/A_P1_70.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P1 --k0 80 --k1 90 > ../logs/A_P1_80.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P1 --k0 90 --k1 100 > ../logs/A_P1_90.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P2 --k0 0 --k1 10 > ../logs/A_P2_0.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P2 --k0 10 --k1 20 > ../logs/A_P2_10.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P2 --k0 20 --k1 30 > ../logs/A_P2_20.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P2 --k0 30 --k1 40 > ../logs/A_P2_30.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P2 --k0 40 --k1 50 > ../logs/A_P2_40.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P2 --k0 50 --k1 60 > ../logs/A_P2_50.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P2 --k0 60 --k1 70 > ../logs/A_P2_60.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P2 --k0 70 --k1 80 > ../logs/A_P2_70.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P2 --k0 80 --k1 90 > ../logs/A_P2_80.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P2 --k0 90 --k1 100 > ../logs/A_P2_90.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P3 --k0 0 --k1 10 > ../logs/A_P3_0.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P3 --k0 10 --k1 20 > ../logs/A_P3_10.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P3 --k0 20 --k1 30 > ../logs/A_P3_20.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P3 --k0 30 --k1 40 > ../logs/A_P3_30.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P3 --k0 40 --k1 50 > ../logs/A_P3_40.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P3 --k0 50 --k1 60 > ../logs/A_P3_50.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P3 --k0 60 --k1 70 > ../logs/A_P3_60.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P3 --k0 70 --k1 80 > ../logs/A_P3_70.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P3 --k0 80 --k1 90 > ../logs/A_P3_80.log 2>&1
+cd rev2 && python3 rev2_A.py --sub P3 --k0 90 --k1 100 > ../logs/A_P3_90.log 2>&1
+cd rev2 && python3 rev2_C.py --sub P1 > ../logs/C_P1.log 2>&1
+cd rev2 && python3 rev2_D.py --sub P1 --k 10 > ../logs/D_P1_10.log 2>&1
+cd rev2 && python3 rev2_D.py --sub P1 --k 11 > ../logs/D_P1_11.log 2>&1
+cd rev2 && python3 rev2_D.py --sub P1 --k 12 > ../logs/D_P1_12.log 2>&1
+cd rev2 && python3 rev2_D.py --sub P1 --k -1 > ../logs/D_P1_-1.log 2>&1
+cd rev2 && python3 rev2_C.py --sub P2 > ../logs/C_P2.log 2>&1
+cd rev2 && python3 rev2_D.py --sub P2 --k 10 > ../logs/D_P2_10.log 2>&1
+cd rev2 && python3 rev2_D.py --sub P2 --k 11 > ../logs/D_P2_11.log 2>&1
+cd rev2 && python3 rev2_D.py --sub P2 --k 12 > ../logs/D_P2_12.log 2>&1
+cd rev2 && python3 rev2_D.py --sub P2 --k -1 > ../logs/D_P2_-1.log 2>&1
+cd rev2 && python3 rev2_C.py --sub P3 > ../logs/C_P3.log 2>&1
+cd rev2 && python3 rev2_D.py --sub P3 --k 10 > ../logs/D_P3_10.log 2>&1
+cd rev2 && python3 rev2_D.py --sub P3 --k 11 > ../logs/D_P3_11.log 2>&1
+cd rev2 && python3 rev2_D.py --sub P3 --k 12 > ../logs/D_P3_12.log 2>&1
+cd rev2 && python3 rev2_D.py --sub P3 --k -1 > ../logs/D_P3_-1.log 2>&1
+cd rev2 && python3 rev2_D.py --sub P1 --k -2 > ../logs/D_P1_-2.log 2>&1
