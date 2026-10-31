@@ -18,7 +18,7 @@ def pear(Mx):
     Mc = Mx - Mx.mean(0); cov = Mc.T @ Mc / (len(Mx) - 1); sd = np.sqrt(np.diag(cov)); return np.clip((cov / np.outer(sd, sd))[iu], -0.999999, 0.999999)
 def welch(q1, q0):
     z = (q1.mean(0) - q0.mean(0)) / np.sqrt(q1.var(0, ddof=1) / len(q1) + q0.var(0, ddof=1) / len(q0)); return 2 * norm.sf(np.abs(z))
-res = {m: dict(fdp=[], pw=[]) for m in ("PB", "XDSg", "XDSMg")}
+res = {m: dict(fdp=[], pw=[]) for m in ("PB", "XDSg", "XDSMg", "XDSMgu")}
 for rep in range(50):
     grp_out = []
     for g, st in ((0, st0), (1, st1)):
@@ -28,10 +28,11 @@ for rep in range(50):
         qs = []
         for h in hs:
             RA, _ = design_R(h["mA"], h["psiA"], h["kappaA"], h["SA"]); RB, _ = design_R(h["mB"], h["psiB"], h["kappaB"], h["SB"]); qs.append(RA[:, A_] * RB[:, B_])
-        grp_out.append(dict(L=np.log1p(1e6 * f_["m"]), q1=qs[0], qM=sum(qs) / len(qs)))
+        qu = [(h["mA"] - h["mA"].mean(0))[:, A_] * (h["mB"] - h["mB"].mean(0))[:, B_] for h in hs]   # REV2 Amendment 1
+        grp_out.append(dict(L=np.log1p(1e6 * f_["m"]), q1=qs[0], qM=sum(qs) / len(qs), qU=sum(qu) / len(qu)))
     g0, g1 = grp_out; n0, n1 = len(g0["L"]), len(g1["L"])
     p = {"PB": 2 * norm.sf(np.abs((np.arctanh(pear(g1["L"])) - np.arctanh(pear(g0["L"]))) / np.sqrt(1 / (n1 - 3) + 1 / (n0 - 3)))),
-         "XDSg": welch(g1["q1"], g0["q1"]), "XDSMg": welch(g1["qM"], g0["qM"])}
+         "XDSg": welch(g1["q1"], g0["q1"]), "XDSMg": welch(g1["qM"], g0["qM"]), "XDSMgu": welch(g1["qU"], g0["qU"])}
     for m, pv in p.items():
         rj = bh(pv); n = rj.sum(); res[m]["fdp"].append(float((rj & ~alt).sum() / max(n, 1))); res[m]["pw"].append(float((rj & alt).sum() / alt.sum()))
     print(rep, {m: (round(res[m]["fdp"][-1], 3), round(res[m]["pw"][-1], 3)) for m in res}, flush=True)

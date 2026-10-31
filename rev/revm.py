@@ -30,16 +30,16 @@ def methods(full, halves, iu, chunk=10000):
     Rs = [(design_R(h["mA"], h["psiA"], h["kappaA"], h["SA"])[0], design_R(h["mB"], h["psiB"], h["kappaB"], h["SB"])[0]) for h in halves]
     RA, RB = Rs[0]; T = (RA[:, a] * RB[:, b]).sum(0); out["XDS"] = normal_perm_p(RA, RB, a, b, T); out["sign_XDS"] = np.sign(T)
     R, v = design_R(full["m"], full["psi"], full["kappa"], full["S"])
-    pM = np.empty(P); pK = np.empty(P)
+    pM = np.empty(P); pK = np.empty(P); sM = np.empty(P)
     for c0 in range(0, P, chunk):
         aa, bb = a[c0:c0 + chunk], b[c0:c0 + chunk]
         q = np.zeros((D, len(aa)))
         for RA_, RB_ in Rs: q += RA_[:, aa] * RB_[:, bb]
-        q /= len(Rs); t = q.mean(0) / (q.std(0, ddof=1) / np.sqrt(D)); pM[c0:c0 + chunk] = 2 * norm.sf(np.abs(t))
+        q /= len(Rs); t = q.mean(0) / (q.std(0, ddof=1) / np.sqrt(D)); pM[c0:c0 + chunk] = 2 * norm.sf(np.abs(t)); sM[c0:c0 + chunk] = np.sign(t)
         y = R[:, aa] * R[:, bb]; x = full["kappa"][:, None] / np.sqrt(v[:, aa] * v[:, bb])
         xm = x.mean(0); ym = y.mean(0); sxx = ((x - xm) ** 2).sum(0); beta = ((x - xm) * (y - ym)).sum(0) / sxx; alpha = ym - beta * xm
         e = y - alpha - beta * x
         w = 1.0 / D - xm * (x - xm) / sxx            # intercept = sum_d w_d y_d
         se = np.sqrt((w ** 2 * e ** 2).sum(0)); pK[c0:c0 + chunk] = 2 * norm.sf(np.abs(alpha / se))
-    out["XDSM"] = pM; out["KX"] = pK
+    out["XDSM"] = pM; out["KX"] = pK; out["sign_XDSM"] = sM
     return out

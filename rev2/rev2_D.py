@@ -54,6 +54,12 @@ def run(Xm, libm, lab_, seed_):
     out["XDSg"], out["sXDSg"] = welch(qg(hs[0], grp), qg(hs[0], ~grp))
     q1 = sum(qg(h, grp) for h in hs) / len(hs); q0 = sum(qg(h, ~grp) for h in hs) / len(hs)
     out["XDSMg"], out["sXDSMg"] = welch(q1, q0)
+    # REV2 Amendment 1 (code audit, before any D computation): unstandardized group-centred cross-split product,
+    # whose mean is the between-donor covariance whatever the donor's cell number
+    def qu(h, g):
+        mA = h["mA"][g]; mB = h["mB"][g]; return (mA - mA.mean(0))[:, A_] * (mB - mB.mean(0))[:, B_]
+    u1 = sum(qu(h, grp) for h in hs) / len(hs); u0 = sum(qu(h, ~grp) for h in hs) / len(hs)
+    out["XDSMgu"], out["sXDSMgu"] = welch(u1, u0)
     return out, int(n1), int(n0)
 
 
@@ -64,11 +70,11 @@ if a.k == -2:
         sel = set(ud[rows]); mask = np.array([d_ in sel for d_ in don])
         o, _, _ = run(X[np.where(mask)[0]], lib[mask], don[mask], seed + 1 + j); hv.append(o)
     res = {}
-    for m_ in ("PB", "XDSg", "XDSMg"):
+    for m_ in ("PB", "XDSg", "XDSMg", "XDSMgu"):
         c0 = bh(hv[0][m_]); rep = c0 & (hv[1][m_] < 0.05) & (hv[0]["s" + m_] == hv[1]["s" + m_])
         res[m_] = dict(calls_h0=int(c0.sum()), replicated=int(rep.sum()))
     json.dump(res, open(os.path.join(HERE, "out", f"D3_{a.sub}.json"), "w")); print(a.sub, "halves", res, flush=True); sys.exit()
 o, n1, n0 = run(X, lib, lab, seed)
 tag = f"k{a.k}" if a.k >= 0 else "real"
-res = {m_: dict(V=int(bh(o[m_]).sum()), t05=float((o[m_] < 0.05).mean())) for m_ in ("PB", "XDSg", "XDSMg")}; res["n1"] = n1; res["n0"] = n0
+res = {m_: dict(V=int(bh(o[m_]).sum()), t05=float((o[m_] < 0.05).mean())) for m_ in ("PB", "XDSg", "XDSMg", "XDSMgu")}; res["n1"] = n1; res["n0"] = n0
 json.dump(res, open(os.path.join(HERE, "out", f"D1_{a.sub}_{tag}.json"), "w")); print(a.sub, tag, res, round(time.time() - t0), "s", flush=True)
