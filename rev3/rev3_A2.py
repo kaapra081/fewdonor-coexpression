@@ -9,7 +9,7 @@ from revm import stats_from_cells, methods as rmethods  # noqa: E402
 ap = argparse.ArgumentParser(); ap.add_argument("--ds", required=True); ap.add_argument("--null", type=int, required=True)
 ap.add_argument("--k0", type=int, default=0); ap.add_argument("--k1", type=int, default=20); ap.add_argument("--dev", default="cuda:0"); a = ap.parse_args()
 dev = torch.device(a.dev if torch.cuda.is_available() else "cpu"); torch.set_num_threads(1)
-dsi = {"B1": 1, "B2": 2, "P3": 3}[a.ds]; OD = os.path.join(HERE, "out"); os.makedirs(OD, exist_ok=True)
+dsi = {"B1": 1, "B2": 2, "P3": 3, "B1x": 1}[a.ds]; BASE = 71_000_000 if a.ds.endswith("x") else 70_000_000; OD = os.path.join(HERE, "out"); os.makedirs(OD, exist_ok=True)
 X = sp.load_npz(os.path.join(HERE, "data", f"a2_{a.ds}_X.npz")).tocsr(); M = np.load(os.path.join(HERE, "data", f"a2_{a.ds}_meta.npz"), allow_pickle=True)
 lib = M["lib"].astype(float); don = M["donor"].astype(str); umi = M["umi"]; G = X.shape[1]
 edges = [(1, np.inf), (0.3, 1), (0.1, 0.3), (0.03, 0.1), (-1, 0.03)]
@@ -58,7 +58,7 @@ def summarize(o):
 for k in range(a.k0, a.k1):
     fn = os.path.join(OD, f"A2_{a.ds}_n{a.null}_k{k}.json")
     if os.path.exists(fn): continue
-    t0 = time.time(); seed = 70_000_000 + 1_000 * a.null + 10 * k + dsi; rng = np.random.default_rng(seed); lab = rng.permutation(don)
+    t0 = time.time(); seed = BASE + 1_000 * a.null + 10 * k + dsi; rng = np.random.default_rng(seed); lab = rng.permutation(don)
     pu = np.unique(lab); prow = [np.where(lab == u)[0] for u in pu]; cells = [(X[r].toarray().astype(np.float64), lib[r]) for r in prow]
     full, halves = stats_from_cells(cells, seed, S=10); del cells; Dall = len(pu); order = rng.permutation(Dall); res = {"D_all": Dall, "check": {}}
     for D in (200, Dall):
