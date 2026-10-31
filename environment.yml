@@ -11,4 +11,7 @@ dependencies:
   - pytest
   - pip
   - pip:
-      - torch>=2.1   # optional: GPU permutations for the real-data analyses (real/real_gpu.py)
+      - torch>=2.1   # required by pop/, dstd/, xsplit/, xu/, rev/, rev2/, rev3/, onek/ (rev/revm.py imports pop/pop_core.py); a GPU only speeds up the permutation runs
+# Versions the tests in tests/ were last run with: python 3.11.17, numpy 1.26.4, scipy 1.17.1, pandas 2.3.3, torch 2.14.1, anndata 0.12.19, pytest 9.2
+# Only for re-fetching OneK1K from CELLxGENE Census (onek/onek_fetch*.py, rev3/rev3_fetch.py), which also needs network access to the Census S3 bucket:
+#   pip install cellxgene-census tiledbsoma

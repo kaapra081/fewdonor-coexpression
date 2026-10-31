@@ -5,3 +5,11 @@ runs*/
 .venv/
 *.pdf
 !paper/figures/*.pdf
+# paper2/main.tex includes figures/fig_growth.pdf and figures/fig_schematic.pdf: commit them (fig_growth.pdf is written by paper2/make_fig.py)
+!paper2/figures/*.pdf
+# raw public data, upload bundles, job logs and fetch caches (large or machine-specific)
+*.h5ad
+*.tgz
+logs/
+rev3/data/
+.DS_Store
