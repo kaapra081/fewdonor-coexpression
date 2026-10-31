@@ -34,13 +34,14 @@ def std_R(m, psi):
 
 def perm_counts(L, Rr, a, b, obs, stud_obs=None, B=100_000, seed=0, batch=200):
     """Two-sided donor-permutation p-values for sum_d L[pi(d),a] Rr[d,b] (and its studentized version)."""
-    D = L.shape[0]; Lt = torch.tensor(L, dtype=torch.float32); Rt = torch.tensor(Rr, dtype=torch.float32)
-    ai = torch.tensor(a); bi = torch.tensor(b); o = torch.tensor(np.abs(obs) - 1e-5, dtype=torch.float32)
-    c = torch.zeros(len(a), dtype=torch.int64); cs = torch.zeros(len(a), dtype=torch.int64)
-    if stud_obs is not None: os_ = torch.tensor(np.abs(stud_obs) - 1e-5, dtype=torch.float32); L2 = Lt ** 2; R2t = (Rt ** 2).T.unsqueeze(0)
+    dv = torch.device(os.environ.get("PERM_DEVICE", "cpu") if torch.cuda.is_available() or os.environ.get("PERM_DEVICE", "cpu") == "cpu" else "cpu")   # optional GPU; permutations still drawn on the CPU generator
+    D = L.shape[0]; Lt = torch.tensor(L, dtype=torch.float32, device=dv); Rt = torch.tensor(Rr, dtype=torch.float32, device=dv)
+    ai = torch.tensor(a, device=dv); bi = torch.tensor(b, device=dv); o = torch.tensor(np.abs(obs) - 1e-5, dtype=torch.float32, device=dv)
+    c = torch.zeros(len(a), dtype=torch.int64, device=dv); cs = torch.zeros(len(a), dtype=torch.int64, device=dv)
+    if stud_obs is not None: os_ = torch.tensor(np.abs(stud_obs) - 1e-5, dtype=torch.float32, device=dv); L2 = Lt ** 2; R2t = (Rt ** 2).T.unsqueeze(0)
     RtT = Rt.T.unsqueeze(0); g = torch.Generator(); g.manual_seed(int(seed) % (2 ** 31)); done = 0
     while done < B:
-        bb = min(batch, B - done); perms = torch.argsort(torch.rand(bb, D, generator=g), dim=1)
+        bb = min(batch, B - done); perms = torch.argsort(torch.rand(bb, D, generator=g), dim=1).to(dv)
         S1 = torch.matmul(RtT, Lt[perms])                      # [bb, G, G]: entry (k, j) = sum_d Rr[d,k] L[pi(d), j]
         S1ab = S1[:, bi, ai]; c += (S1ab.abs() >= o).sum(0)
         if stud_obs is not None:
@@ -48,8 +49,8 @@ def perm_counts(L, Rr, a, b, obs, stud_obs=None, B=100_000, seed=0, batch=200):
             var = (S2 - S1ab ** 2 / D) / (D - 1); t = (S1ab / D) / torch.sqrt(torch.clamp(var, min=1e-30)) * np.sqrt(D)
             cs += (t.abs() >= os_).sum(0)
         done += bb
-    p = (c.numpy() + 1) / (B + 1)
-    return (p, (cs.numpy() + 1) / (B + 1)) if stud_obs is not None else p
+    p = (c.cpu().numpy() + 1) / (B + 1)
+    return (p, (cs.cpu().numpy() + 1) / (B + 1)) if stud_obs is not None else p
 
 
 def normal_perm_p(L, Rr, a, b, obs):
