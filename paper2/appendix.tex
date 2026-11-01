@@ -61,6 +61,10 @@ The simulator has exact analytic truth on the latent scale. Each 80-gene panel (
 
 \SplitText
 
+\section{Small cohorts and null-construction sensitivity}\label{app:smallD}
+
+\input{table_smallD.tex}
+
 \section{Analysis plans, amendments and outcomes}\label{app:prereg}
 
 Each plan was written and hashed (SHA-256) before the computations it governs; files are in \texttt{prereg/}, \texttt{rev2/} and \texttt{rev3/} of the repository. Hashes establish that a file was not changed after it was hashed, not when it was written; the git history gives commit times, and several plans were committed together with their results (commit \texttt{b38f509}), so the order of plan and computation rests on our record. The methods themselves were developed on the same data: XDS-M, its number of splits ($S=5$) and the cohort-size grid were chosen after earlier results had been seen.

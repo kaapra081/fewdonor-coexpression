@@ -10,7 +10,7 @@ def cell(a):
     if a is None: return "--"
     x = f"{a['any']}"; return x if holds(a) else x + "$^\\dagger$"
 L = ["\\begin{table}[t]\\centering\\small\\setlength{\\tabcolsep}{2.6pt}",
-     "\\caption{Run-level error on the donor-centred real-cell nulls (frozen plan REV2\\_PREREG): number of reassignments with at least one BH call, which under a complete null equals the run-level FDR numerator. PsychAD: " + ", ".join(sorted({f'{s}: {S["A"][s]["all"]["PB"]["n"]}' for s in S["A"]})) + " reassignments per subtype at nested subsets of 200, 400 and all pseudo-donors. OneK1K: " + (", ".join(f'{t}: {S["E"][t]["PB"]["n"]}' for t in ecols) if ecols else "--") + " reassignments at full size. $^\\dagger$ fails the frozen rule (fraction $>0.05+2$\\,SE).}\\label{tab:runlevel}",
+     "\\caption{Run-level error on the donor-centred real-cell nulls (frozen plan REV2\\_PREREG): number of reassignments with at least one BH call (under a complete null, the FDR equals the fraction of such reassignments). PsychAD: " + ", ".join(sorted({f'{s}: {S["A"][s]["all"]["PB"]["n"]}' for s in S["A"]})) + " reassignments per subtype at nested subsets of 200, 400 and all pseudo-donors. OneK1K: " + (", ".join(f'{t}: {S["E"][t]["PB"]["n"]}' for t in ecols) if ecols else "--") + " reassignments at full size. $^\\dagger$ fails the frozen rule (fraction $>0.05+2$\\,SE).}\\label{tab:runlevel}",
      "\\begin{tabular}{l" + "c" * len(cols) + ("|" + "c" * len(ecols) if ecols else "") + "}\\toprule"]
 hdr1 = " & " + " & ".join(f"\\multicolumn{{3}}{{c}}{{{s}}}" for s in ("P1", "P2", "P3") if s in S["A"]) + ((" & \\multicolumn{%d}{c}{OneK1K}" % len(ecols)) if ecols else "") + "\\\\"
 hdr2 = "Method & " + " & ".join("all" if D == "all" else D for _, D in cols) + ((" & " + " & ".join(ecols)) if ecols else "") + "\\\\\\midrule"
@@ -130,6 +130,45 @@ if os.path.exists(_a2):
         a_, b_ = _dec(lo_keys, m, ("3",)); M[f"AtwoLoDec{lab}"] = f"{a_} of {b_}"
     if "P3_n0" in A2 or "P3_n1" in A2: M["AtwoHasPthree"] = "yes"
     M["AtwoRunsAll"] = "; ".join(f"{k.replace('_n0', ' pooled').replace('_n1', ' donor-centred')}: {A2[k]['runs']}" for k in sorted(A2))
+
+# REV2 F (A5 overdispersion stress), if summarized
+if S.get("F"):
+    for d in ("L200", "L500"):
+        if d in S["F"]:
+            lab = {"L200": "Ftwo", "L500": "Ffive"}[d]
+            for m, ml in (("PB", "PB"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("XDS", "XDS"), ("XDSM", "XDSM"), ("KX", "KX")):
+                v = S["F"][d][m]; M[f"{lab}FDR{ml}"] = f"{v['FDR']:.3f}"; M[f"{lab}se{ml}"] = f"{v['FDR_mcse']:.3f}"; M[f"{lab}Pow{ml}"] = f"{v['power']:.2f}"
+            M[f"{lab}R"] = str(S["F"][d]["PB"]["R"])
+
+# REV3 A3 (small-D run-level) and B3 (clip sensitivity)
+_a3 = os.path.join(HERE, "..", "rev3", "results", "A3B3_SUMMARY.json")
+if os.path.exists(_a3):
+    AB = json.load(open(_a3)); A3 = {s: v for s, v in AB["A3"].items() if v}; B3 = AB["B3"].get("P3")
+    MS3 = [("PB", "PB"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("XDSperm", "XDS (perm.)"), ("XDSM", "XDS-M"), ("KX", "KX")]
+    subs = [s for s in ("P1", "P2", "P3") if s in A3]; Ds3 = ("25", "50", "100")
+    L3 = ["\\begin{table}[h]\\centering\\small\\setlength{\\tabcolsep}{3pt}",
+          "\\caption{Run-level error at small cohort sizes on the donor-centred null (frozen plan REV3\\_PREREG, analysis A3): reassignments with at least one BH call, out of " + ", ".join(f"{s}: {A3[s]['n']}" for s in subs) + ", at nested subsets of 25, 50 and 100 pseudo-donors. XDS (perm.) uses donor-permutation $p$-values. Last block: P3 with the donor-centring factors clipped to $[0.5,2]$ instead of $[0.1,10]$ (analysis B3, " + (str(B3["n"]) if B3 else "--") + " reassignments). $^\\dagger$ fails the frozen rule.}\\label{tab:smallD}",
+          "\\begin{tabular}{l" + "ccc" * len(subs) + ("|ccc" if B3 else "") + "}\\toprule",
+          " & " + " & ".join(f"\\multicolumn{{3}}{{c}}{{{s}}}" for s in subs) + (" & \\multicolumn{3}{c}{P3, clip $[0.5,2]$}" if B3 else "") + "\\\\",
+          "Method & " + " & ".join(D for _ in subs for D in Ds3) + (" & 200 & 400 & all" if B3 else "") + "\\\\\\midrule"]
+    for m, lab in MS3:
+        row = [cell(A3[s][D].get(m)) for s in subs for D in Ds3] + ([cell(B3[D].get(m)) for D in ("200", "400", "all")] if B3 else [])
+        L3.append(lab + " & " + " & ".join(row) + "\\\\")
+    L3.append("\\bottomrule\\end{tabular}\\end{table}")
+    open(os.path.join(HERE, "table_smallD.tex"), "w").write("\n".join(L3) + "\n")
+    def rng3(m, Ds):
+        v = [A3[s][D][m]["any"] / A3[s][D][m]["n"] for s in subs for D in Ds]; a_, b_ = round(100 * min(v)), round(100 * max(v))
+        return f"{a_}\\%" if a_ == b_ else f"{a_}--{b_}\\%"
+    M["AthreeSubs"] = ", ".join(f"{s} ({A3[s]['n']} runs)" for s in subs)
+    M["AthreeXDSpermAny"] = str(sum(A3[s][D]["XDSperm"]["any"] for s in subs for D in Ds3)); M["AthreeXDSpermN"] = str(sum(A3[s][D]["XDSperm"]["n"] for s in subs for D in Ds3))
+    M["AthreeXDSMtwentyfive"] = rng3("XDSM", ("25",)); M["AthreeXDSMfifty"] = rng3("XDSM", ("50",)); M["AthreeXDSMhundred"] = rng3("XDSM", ("100",))
+    M["AthreeLCPsmall"] = rng3("LCP", ("25", "50")); M["AthreeLCPhundred"] = rng3("LCP", ("100",)); M["AthreeKXtwentyfive"] = rng3("KX", ("25",)); M["AthreeLCPdtwentyfive"] = rng3("LCPd", ("25",))
+    M["AthreeXDSMhundredHolds"] = "all" if all(holds(A3[s]["100"]["XDSM"]) for s in subs) else "not all"
+    M["AthreeLCPfailCells"] = ", ".join(f"{s} at {D}" for s in subs for D in Ds3 if not holds(A3[s][D]["LCP"])) or "none"
+    if B3:
+        M["BthreeXDSM"] = ", ".join(f"{B3[D]['XDSM']['any']}/{B3[D]['XDSM']['n']}" for D in ("200", "400", "all"))
+        M["BthreeLCPd"] = ", ".join(f"{B3[D]['LCPd']['any']}/{B3[D]['LCPd']['n']}" for D in ("200", "400", "all"))
+        M["BthreeXDS"] = ", ".join(f"{B3[D]['XDS']['any']}/{B3[D]['XDS']['n']}" for D in ("200", "400", "all")); M["BthreeR"] = str(B3["n"])
 M.setdefault("REVtwoOutcomes", S.get("outcomes2", "[pending]")); M.setdefault("REVthreeOutcomes", S.get("outcomes3", "[pending]"))
 open(os.path.join(HERE, "rev2nums.tex"), "w").write("".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in M.items()))
 json.dump(M, open(os.path.join(HERE, "rev2_macros.json"), "w"), indent=1); print(len(M), "macros")

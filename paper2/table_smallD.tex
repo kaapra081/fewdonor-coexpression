@@ -1,0 +1,12 @@
+\begin{table}[h]\centering\small\setlength{\tabcolsep}{3pt}
+\caption{Run-level error at small cohort sizes on the donor-centred null (frozen plan REV3\_PREREG, analysis A3): reassignments with at least one BH call, out of P2: 75, P3: 100, at nested subsets of 25, 50 and 100 pseudo-donors. XDS (perm.) uses donor-permutation $p$-values. Last block: P3 with the donor-centring factors clipped to $[0.5,2]$ instead of $[0.1,10]$ (analysis B3, 40 reassignments). $^\dagger$ fails the frozen rule.}\label{tab:smallD}
+\begin{tabular}{lcccccc|ccc}\toprule
+ & \multicolumn{3}{c}{P2} & \multicolumn{3}{c}{P3} & \multicolumn{3}{c}{P3, clip $[0.5,2]$}\\
+Method & 25 & 50 & 100 & 25 & 50 & 100 & 200 & 400 & all\\\midrule
+PB & 75$^\dagger$ & 75$^\dagger$ & 75$^\dagger$ & 100$^\dagger$ & 100$^\dagger$ & 100$^\dagger$ & 40$^\dagger$ & 40$^\dagger$ & 40$^\dagger$\\
+LCP & 2 & 0 & 5 & 2 & 0 & 46$^\dagger$ & 40$^\dagger$ & 40$^\dagger$ & 40$^\dagger$\\
+LCPd & 16$^\dagger$ & 0 & 0 & 12$^\dagger$ & 0 & 0 & 7$^\dagger$ & 36$^\dagger$ & 40$^\dagger$\\
+XDS (perm.) & 0 & 0 & 0 & 0 & 0 & 0 & 6$^\dagger$ & 4 & 8$^\dagger$\\
+XDS-M & 37$^\dagger$ & 12$^\dagger$ & 5 & 49$^\dagger$ & 13$^\dagger$ & 6 & 1 & 2 & 1\\
+KX & 75$^\dagger$ & 59$^\dagger$ & 19$^\dagger$ & 100$^\dagger$ & 71$^\dagger$ & 19$^\dagger$ & 3 & 2 & 6$^\dagger$\\
+\bottomrule\end{tabular}\end{table}
