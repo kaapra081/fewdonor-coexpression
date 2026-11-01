@@ -1,4 +1,4 @@
-# Fourth-round (external AI review) analyses: frozen plan (1 Nov 2026, ~19:45 UTC, before any computation below)
+# Fourth-round (external AI review) analyses: frozen plan (1 Nov 2026, ~19:30 UTC, before any computation below)
 
 Context: an external AI program-committee review of the full draft (1 Nov 2026). It pointed out that with B = 10^5 permutations the smallest
 permutation p-value is about 1e-5, while BH over ~88,000 pairs needs p <= 5.7e-7 for a first call, so permutation-based tests (XDS for D <= 100,
