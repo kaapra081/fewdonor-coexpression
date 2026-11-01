@@ -164,11 +164,37 @@ if os.path.exists(_a3):
     M["AthreeXDSMtwentyfive"] = rng3("XDSM", ("25",)); M["AthreeXDSMfifty"] = rng3("XDSM", ("50",)); M["AthreeXDSMhundred"] = rng3("XDSM", ("100",))
     M["AthreeLCPsmall"] = rng3("LCP", ("25", "50")); M["AthreeLCPhundred"] = rng3("LCP", ("100",)); M["AthreeKXtwentyfive"] = rng3("KX", ("25",)); M["AthreeLCPdtwentyfive"] = rng3("LCPd", ("25",))
     M["AthreeXDSMhundredHolds"] = "all" if all(holds(A3[s]["100"]["XDSM"]) for s in subs) else "not all"
+    _w = {0: "none", 1: "one", 2: "two", 3: "three"}
+    for m_, ml in (("XDSM", "XDSM"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("KX", "KX"), ("XDSperm", "XDSperm")):
+        for D, dl in (("25", "TwentyFive"), ("50", "Fifty"), ("100", "Hundred")):
+            M[f"AthreeHolds{ml}{dl}"] = f"{_w.get(sum(holds(A3[s][D][m_]) for s in subs), str(sum(holds(A3[s][D][m_]) for s in subs)))} of {_w.get(len(subs), str(len(subs)))}"
     M["AthreeLCPfailCells"] = ", ".join(f"{s} at {D}" for s in subs for D in Ds3 if not holds(A3[s][D]["LCP"])) or "none"
     if B3:
         M["BthreeXDSM"] = ", ".join(f"{B3[D]['XDSM']['any']}/{B3[D]['XDSM']['n']}" for D in ("200", "400", "all"))
         M["BthreeLCPd"] = ", ".join(f"{B3[D]['LCPd']['any']}/{B3[D]['LCPd']['n']}" for D in ("200", "400", "all"))
         M["BthreeXDS"] = ", ".join(f"{B3[D]['XDS']['any']}/{B3[D]['XDS']['n']}" for D in ("200", "400", "all")); M["BthreeR"] = str(B3["n"])
+
+# Outcome strings for the pre-registration appendix
+try:
+    hc = {lab: f"{sum(holds(a) for a in runs(m))} of {len(runs(m))}" for m, lab in MS}
+    fails = [f"{s} at {D}" for s in ("P1", "P2", "P3") if s in S["A"] for D in ("200", "400", "all") if not holds(S["A"][s][D]["XDSM"])]
+    o2 = (f"(A) cells within the run-level bound: XDS-M {hc['XDS-M']}" + (f" (fails {', '.join(fails)})" if fails else "") + f", KX {hc['KX']}, LCPd {hc['LCPd']}, single-split XDS {hc['XDS']}, pseudobulk and LCP {hc['PB']}; LCPd is therefore not co-recommended. ")
+    if S.get("C"): o2 += "(B, C) no trend of the standardized mean square with cell number; real-donor XDS-M results in Section~\\ref{sec:real}. "
+    if S.get("D1"): o2 += f"(D) pseudobulk differential co-expression confounded on the donor-centred null (\\DCdcPB{{}} false calls); group-centred XDS-M variants \\DCdcXDS{{}}. "
+    if S.get("E"): o2 += f"(E) XDS-M within the bound in \\OnekEholdXDSM{{}}, not in \\OnekEfailXDSM. "
+    if S.get("F"): o2 += "(F) reported in Section~\\ref{sec:null}."
+    M["REVtwoOutcomes"] = o2
+except Exception as e:
+    print("outcome2 failed", e)
+try:
+    o3 = []
+    if "AtwoHiDecM" in M: o3.append(f"(A2) XDS-M (S = 5) met the calibration rule in {M['AtwoHiDecM']} combinations for genes above 0.1 UMI per cell and in {M['AtwoLoDecM']} for 0.03--0.1 UMI per cell; pseudobulk in none")
+    if "AthreeHoldsXDSMHundred" in M: o3.append(f"(A3) XDS with permutation $p$-values held at every size; XDS-M held at 100 donors in {M['AthreeHoldsXDSMHundred']} subtypes, at 50 in {M['AthreeHoldsXDSMFifty']}, at 25 in {M['AthreeHoldsXDSMTwentyFive']}; LCP held at 25 and 50 and failed at 100")
+    if "BtwoPBw" in M: o3.append("(B2) the frozen criterion that covariate adjustment does not fix pseudobulk was not met, because precision weighting left fewer than 100 mean false calls in two subtypes, although it made at least one false call in every run")
+    if "BthreeXDSM" in M: o3.append(f"(B3) descriptive: XDS-M {M['BthreeXDSM']}, LCPd {M['BthreeLCPd']} runs with a false call")
+    M["REVthreeOutcomes"] = "; ".join(o3) + "." if o3 else "[pending]"
+except Exception as e:
+    print("outcome3 failed", e)
 M.setdefault("REVtwoOutcomes", S.get("outcomes2", "[pending]")); M.setdefault("REVthreeOutcomes", S.get("outcomes3", "[pending]"))
 open(os.path.join(HERE, "rev2nums.tex"), "w").write("".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in M.items()))
 json.dump(M, open(os.path.join(HERE, "rev2_macros.json"), "w"), indent=1); print(len(M), "macros")
