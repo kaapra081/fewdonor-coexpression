@@ -25,4 +25,4 @@ C6. Mantis gene map, robustness: (a) eta-squared of null false-edge degree (and 
     10,000 random partitions of the same sizes (gene-label permutation), P1. (b) Per-gene null false-edge degree in the first R3 reassignment of P2 and
     P3 for genes in the P1 map; Spearman correlation with P1 and the rank of the heat-shock leaf (heat-shock genes were in the panel a priori as
     within-cell-program controls). Descriptive.
-C7. REV3 A3 coincidence (XDS-M 49/100 runs at 25 donors in every subtype): run-index overlap across subtypes (computed from the REV3 per-run files).
+C7. REV3 A3 coincidence (XDS-M 49/100 runs at 25 donors in every subtype): run-index overlap across subtypes from the REV3 per-run files. NOTE: C7 was computed shortly BEFORE this amendment was written (overlaps 24, 22, 27; 13 in all three); listed for completeness.
