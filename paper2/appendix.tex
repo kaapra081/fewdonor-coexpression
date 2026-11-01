@@ -61,6 +61,10 @@ The simulator has exact analytic truth on the latent scale. Each 80-gene panel (
 
 \SplitText
 
+\section{Differential co-expression: simulation and replication}\label{app:dc}
+
+In simulations with exact truth in which \DCtwoAlt{} of \DCtwoPairs{} pairs differ in $\SB$ between two groups of 300 donors with medians of 15 and 40 cells ($R=\DCtwoR$), pseudobulk had FDR \DCtwoFDRPB{} (MCSE \DCtwoFDRsePB), the standardized XDS-Mg \DCtwoFDRM{} (MCSE \DCtwoFDRseM) and XDS-Mgu \DCtwoFDRU{} (MCSE \DCtwoFDRseU) with power \DCtwoPowU. In Homeo\_CECR2, \DCthreeU{} XDS-Mgu calls made in one random half of the donors replicated in the other half, against \DCthreePB{} pseudobulk calls. The standardized single-split variant XDS-g had FDR \DCtwoFDRG{} (MCSE \DCtwoFDRseG) and power \DCtwoPowG. XDS-Mg and XDS-Mgu disagree on real PVM\_CD163 donors (\DCrealM{} versus \DCrealU{} calls in the three subtypes) because the standardized products of the two groups are scaled by cell-number-dependent variances (Section~\ref{sec:dc}); we rely on XDS-Mgu.
+
 \section{Small cohorts and null-construction sensitivity}\label{app:smallD}
 
 \input{table_smallD.tex}

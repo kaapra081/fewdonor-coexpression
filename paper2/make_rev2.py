@@ -2,6 +2,13 @@
 import sys, json, math, os
 S = json.load(open(sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), "rev2_summary.json")))
 HERE = os.path.dirname(os.path.abspath(__file__))
+# REV2_PREREG E: XDS-M run-level fraction over all 33 OneK1K runs (3 ONEK_PREREG reassignments + 30 REV2 reassignments)
+_on = os.path.join(HERE, "onek_summary.json")
+if S.get("E") and os.path.exists(_on):
+    _o = json.load(open(_on))
+    for _t, _v in S["E"].items():
+        if "XDSM" in _v and _t in _o and "XDSM" in _o[_t].get("all", {}):
+            _c = _o[_t]["all"]["XDSM"]["calls"]; _v["XDSM"] = dict(_v["XDSM"]); _v["XDSM"]["any"] += sum(c >= 1 for c in _c); _v["XDSM"]["n"] += len(_c)
 def holds(a): return a["any"] / a["n"] <= 0.05 + 2 * math.sqrt(0.05 * 0.95 / a["n"])
 MS = [("PB", "PB"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("XDS", "XDS"), ("XDSM", "XDS-M"), ("KX", "KX")]
 cols = [(s, D) for s in ("P1", "P2", "P3") for D in ("200", "400", "all") if s in S["A"]]
@@ -10,7 +17,7 @@ def cell(a):
     if a is None: return "--"
     x = f"{a['any']}"; return x if holds(a) else x + "$^\\dagger$"
 L = ["\\begin{table}[t]\\centering\\small\\setlength{\\tabcolsep}{2.6pt}",
-     "\\caption{Run-level error on the donor-centred real-cell nulls (frozen plan REV2\\_PREREG): number of reassignments with at least one BH call (under a complete null, the FDR equals the fraction of such reassignments). PsychAD: " + ", ".join(sorted({f'{s}: {S["A"][s]["all"]["PB"]["n"]}' for s in S["A"]})) + " reassignments per subtype at nested subsets of 200, 400 and all pseudo-donors. OneK1K: " + (", ".join(f'{t}: {S["E"][t]["PB"]["n"]}' for t in ecols) if ecols else "--") + " reassignments at full size. $^\\dagger$ fails the frozen rule (fraction $>0.05+2$\\,SE).}\\label{tab:runlevel}",
+     "\\caption{Run-level error on real-cell nulls (frozen plan REV2\\_PREREG): number of reassignments with at least one BH call (under a complete null, the FDR equals the fraction of such reassignments). PsychAD, donor-centred null: P1 Homeo\\_CECR2, P2 PVM\\_CD163, P3 ADAM\\_GPNMB, " + ", ".join(sorted({str(S["A"][s]["all"]["PB"]["n"]) for s in S["A"]})) + " reassignments each at nested subsets of 200, 400 and all pseudo-donors. OneK1K, pooled null at full size: B1 transitional B cells, B2 naive B cells, B3 naive CD4 T cells; " + (", ".join(sorted({str(S["E"][t]["PB"]["n"]) for t in ecols})) if ecols else "--") + " reassignments (XDS-M: " + (", ".join(sorted({str(S["E"][t]["XDSM"]["n"]) for t in ecols})) if ecols else "--") + ", including the three ONEK\\_PREREG reassignments, as the plan specifies). $^\\dagger$ fails the frozen rule (fraction $>0.05+2$\\,SE).}\\label{tab:runlevel}",
      "\\begin{tabular}{l" + "c" * len(cols) + ("|" + "c" * len(ecols) if ecols else "") + "}\\toprule"]
 hdr1 = " & " + " & ".join(f"\\multicolumn{{3}}{{c}}{{{s}}}" for s in ("P1", "P2", "P3") if s in S["A"]) + ((" & \\multicolumn{%d}{c}{OneK1K}" % len(ecols)) if ecols else "") + "\\\\"
 hdr2 = "Method & " + " & ".join("all" if D == "all" else D for _, D in cols) + ((" & " + " & ".join(ecols)) if ecols else "") + "\\\\\\midrule"
@@ -101,7 +108,7 @@ if S.get("E"):
         M[f"OnekEany{lab}"] = ", ".join(f"{E[t_][m]['any']}/{E[t_][m]['n']}" for t_ in tt)
     _nm = {"B1": "transitional B cells", "B2": "naive B cells", "B3": "naive CD4 T cells"}
     fl = [_nm[t_] for t_ in tt if not holds(E[t_]["XDSM"])]; ok = [_nm[t_] for t_ in tt if holds(E[t_]["XDSM"])]
-    M["OnekEfailXDSM"] = (" and ".join(fl) if fl else "none of the cell types"); M["OnekEholdXDSM"] = (" and ".join(ok) if ok else "none")
+    M["OnekEfailXDSM"] = (" and ".join(fl) if fl else "none of the cell types"); M["OnekEholdXDSM"] = ("all three cell types" if len(ok) == 3 else (" and ".join(ok) if ok else "none"))
 
 # REV3 A2 (tail calibration by expression stratum), if summarized
 _a2 = os.path.join(HERE, "..", "rev3", "results", "A2_SUMMARY.json")
@@ -147,7 +154,7 @@ if os.path.exists(_a3):
     MS3 = [("PB", "PB"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("XDSperm", "XDS (perm.)"), ("XDSM", "XDS-M"), ("KX", "KX")]
     subs = [s for s in ("P1", "P2", "P3") if s in A3]; Ds3 = ("25", "50", "100")
     L3 = ["\\begin{table}[h]\\centering\\small\\setlength{\\tabcolsep}{3pt}",
-          "\\caption{Run-level error at small cohort sizes on the donor-centred null (frozen plan REV3\\_PREREG, analysis A3): reassignments with at least one BH call, out of " + ", ".join(f"{s}: {A3[s]['n']}" for s in subs) + ", at nested subsets of 25, 50 and 100 pseudo-donors. XDS (perm.) uses donor-permutation $p$-values. Last block: P3 with the donor-centring factors clipped to $[0.5,2]$ instead of $[0.1,10]$ (analysis B3, " + (str(B3["n"]) if B3 else "--") + " reassignments). $^\\dagger$ fails the frozen rule.}\\label{tab:smallD}",
+          "\\caption{Run-level error at small cohort sizes on the donor-centred null (frozen plan REV3\\_PREREG, analysis A3): reassignments with at least one BH call, out of " + ", ".join(f"{s}: {A3[s]['n']}" for s in subs) + ", at nested subsets of 25, 50 and 100 pseudo-donors. XDS (perm.) uses donor-permutation $p$-values. Last block: P3 with the donor-centring factors clipped to $[0.5,2]$ instead of $[0.1,10]$ (analysis B3, " + (str(B3["n"]) if B3 else "--") + " reassignments); with the narrower clip single-split XDS fails less often than at $[0.1,10]$, so part of its failure depends on the clip. $^\\dagger$ fails the frozen rule.}\\label{tab:smallD}",
           "\\begin{tabular}{l" + "ccc" * len(subs) + ("|ccc" if B3 else "") + "}\\toprule",
           " & " + " & ".join(f"\\multicolumn{{3}}{{c}}{{{s}}}" for s in subs) + (" & \\multicolumn{3}{c}{P3, clip $[0.5,2]$}" if B3 else "") + "\\\\",
           "Method & " + " & ".join(D for _ in subs for D in Ds3) + (" & 200 & 400 & all" if B3 else "") + "\\\\\\midrule"]
@@ -181,7 +188,7 @@ try:
     o2 = (f"(A) cells within the run-level bound: XDS-M {hc['XDS-M']}" + (f" (fails {', '.join(fails)})" if fails else "") + f", KX {hc['KX']}, LCPd {hc['LCPd']}, single-split XDS {hc['XDS']}, pseudobulk and LCP {hc['PB']}; LCPd is therefore not co-recommended. ")
     if S.get("C"): o2 += "(B, C) no trend of the standardized mean square with cell number; real-donor XDS-M results in Section~\\ref{sec:real}. "
     if S.get("D1"): o2 += f"(D) pseudobulk differential co-expression confounded on the donor-centred null (\\DCdcPB{{}} false calls); group-centred XDS-M variants \\DCdcXDS{{}}. "
-    if S.get("E"): o2 += f"(E) XDS-M within the bound in \\OnekEholdXDSM{{}}, not in \\OnekEfailXDSM. "
+    if S.get("E"): o2 += f"(E) XDS-M within the bound over 33 runs in \\OnekEholdXDSM; PBlin made thousands of false calls, so the transformation is not the main cause. "
     if S.get("F"): o2 += "(F) reported in Section~\\ref{sec:null}."
     M["REVtwoOutcomes"] = o2
 except Exception as e:
@@ -195,6 +202,17 @@ try:
     M["REVthreeOutcomes"] = "; ".join(o3) + "." if o3 else "[pending]"
 except Exception as e:
     print("outcome3 failed", e)
+
+# XDS-M: settings with >= 100 donors that hold the frozen run-level bound (REV2 A cells, REV3 A3 at 100, OneK1K E over 33 runs)
+try:
+    _cells = [S["A"][s][D]["XDSM"] for s in ("P1", "P2", "P3") if s in S["A"] for D in ("200", "400", "all")]
+    if "A3" in dir() or os.path.exists(_a3):
+        _ab = json.load(open(_a3))["A3"]; _cells += [_ab[s]["100"]["XDSM"] for s in ("P1", "P2", "P3") if _ab.get(s)]
+    if S.get("E"): _cells += [S["E"][t_]["XDSM"] for t_ in ("B1", "B2", "B3") if t_ in S["E"]]
+    _w = {i: w for i, w in enumerate("zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen".split())}
+    M["XDSMholdsLarge"] = f"{_w.get(sum(holds(c) for c in _cells), sum(holds(c) for c in _cells))} of {_w.get(len(_cells), len(_cells))}"
+except Exception as e:
+    print("XDSMholdsLarge failed", e)
 M.setdefault("REVtwoOutcomes", S.get("outcomes2", "[pending]")); M.setdefault("REVthreeOutcomes", S.get("outcomes3", "[pending]"))
 open(os.path.join(HERE, "rev2nums.tex"), "w").write("".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in M.items()))
 json.dump(M, open(os.path.join(HERE, "rev2_macros.json"), "w"), indent=1); print(len(M), "macros")
