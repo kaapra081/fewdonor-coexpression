@@ -1,0 +1,574 @@
+{
+ "space": {
+  "id": "f14d0b39-bc65-4fbc-996f-11b222365984",
+  "name": "Pseudobulk co-expression audit: PsychAD microglia (RECOMB 2027)",
+  "url": "https://mantis.csail.mit.edu/space/f14d0b39-bc65-4fbc-996f-11b222365984",
+  "created_utc": "2026-11-01T20:46:42.475133Z",
+  "create_space_call": "public=False",
+  "visibility_reported_by_server": "unlisted",
+  "role": "owner",
+  "map_count_reported": 5,
+  "note": "Server reports visibility \"unlisted\" even though public=False was requested; check sharing in the web UI. The space ai_summary is auto-generated and describes only gene content; treat as unreliable."
+ },
+ "existing_spaces_touched": "none (owned-space count 74 -> 75; only the new space was written to)",
+ "maps": {
+  "A": {
+   "map_id": "d8972afc-34ba-465e-a705-620f0c986568",
+   "map_name": "Null pseudo-donors: pseudobulk profiles",
+   "source_file": "v05d4ee67_map_null_donors_pseudobulk.csv",
+   "rows": 1054,
+   "mantis_point_count": 1054,
+   "thread_id": "c754071e-4cc5-4e88-9dba-cf124d7d3f56",
+   "upload_utc": "2026-11-01T22:07:25.945880Z",
+   "upload_status": "processing",
+   "data_types": {
+    "title": [
+     "donor"
+    ],
+    "coordinate1": [
+     "x"
+    ],
+    "coordinate2": [
+     "y"
+    ],
+    "numeric": [
+     "cells",
+     "log10_cells",
+     "mean_depth_umi",
+     "profile_norm"
+    ]
+   },
+   "red_model": "umap_default",
+   "n_clusters_final": 273,
+   "bags_final": [
+    [
+     "Pseudo-donors with fewer than 10 cells",
+     213
+    ],
+    [
+     "Pseudo-donors with 100 or more cells",
+     162
+    ]
+   ]
+  },
+  "B": {
+   "map_id": "37384264-7c25-44ed-9fa9-ce6a216db0b5",
+   "map_name": "Null pseudo-donors: design-standardized profiles",
+   "source_file": "v5c4f00bd_map_null_donors_design_standardized.csv",
+   "rows": 1054,
+   "mantis_point_count": 1054,
+   "thread_id": "30100149-ff44-4bf6-a509-ca2a0b495892",
+   "upload_utc": "2026-11-01T22:07:29.780728Z",
+   "upload_status": "processing",
+   "data_types": {
+    "title": [
+     "donor"
+    ],
+    "coordinate1": [
+     "x"
+    ],
+    "coordinate2": [
+     "y"
+    ],
+    "numeric": [
+     "cells",
+     "log10_cells",
+     "mean_depth_umi",
+     "profile_norm"
+    ]
+   },
+   "red_model": "umap_default",
+   "n_clusters_final": 273,
+   "bags_final": []
+  },
+  "C": {
+   "map_id": "6407802b-ea85-40e8-b778-bd45c729a297",
+   "map_name": "Real donors: pseudobulk profiles",
+   "source_file": "v5d7878fe_map_real_donors_pseudobulk.csv",
+   "rows": 1054,
+   "mantis_point_count": 1054,
+   "thread_id": "9a6bc9a9-9cc0-4d3f-9975-a305773b44d3",
+   "upload_utc": "2026-11-01T22:07:32.951734Z",
+   "upload_status": "processing",
+   "data_types": {
+    "title": [
+     "donor"
+    ],
+    "coordinate1": [
+     "x"
+    ],
+    "coordinate2": [
+     "y"
+    ],
+    "numeric": [
+     "cells",
+     "log10_cells",
+     "mean_depth_umi",
+     "profile_norm"
+    ],
+    "categoric": [
+     "sex",
+     "brain_bank",
+     "AD"
+    ]
+   },
+   "red_model": "umap_default",
+   "n_clusters_final": 273,
+   "bags_final": []
+  },
+  "D": {
+   "map_id": "fcc8b6d3-d186-4e05-ad5b-71a3a21e5c42",
+   "map_name": "Real donors: design-standardized profiles",
+   "source_file": "vda07fc40_map_real_donors_design_standardized.csv",
+   "rows": 1054,
+   "mantis_point_count": 1054,
+   "thread_id": "01acd269-ed20-41bb-ab51-091cbb7f0942",
+   "upload_utc": "2026-11-01T22:07:34.348677Z",
+   "upload_status": "processing",
+   "data_types": {
+    "title": [
+     "donor"
+    ],
+    "coordinate1": [
+     "x"
+    ],
+    "coordinate2": [
+     "y"
+    ],
+    "numeric": [
+     "cells",
+     "log10_cells",
+     "mean_depth_umi",
+     "profile_norm"
+    ],
+    "categoric": [
+     "sex",
+     "brain_bank",
+     "AD"
+    ]
+   },
+   "red_model": "umap_default",
+   "n_clusters_final": 279,
+   "bags_final": []
+  },
+  "E": {
+   "map_id": "2824b51b-8cac-4cae-99b7-fe6c11e15ee8",
+   "map_name": "Genes by annotated function",
+   "source_file": "vb6c32334_map_genes_function.csv",
+   "rows": 424,
+   "mantis_point_count": 424,
+   "thread_id": "a70f179b-8594-4a00-9486-eb3767bb7bf3",
+   "upload_utc": "2026-11-01T22:07:37.451044Z",
+   "upload_status": "processing",
+   "data_types": {
+    "title": [
+     "gene"
+    ],
+    "semantic": [
+     "function_text"
+    ],
+    "categoric": [
+     "annotation_type"
+    ],
+    "delete": [
+     "annotation_source"
+    ],
+    "numeric": [
+     "null_false_degree",
+     "PB_degree",
+     "XDSM_degree",
+     "PB_only_degree",
+     "XDSM_only_degree",
+     "mean_umi_per_cell",
+     "detection_fraction",
+     "mean_abs_within_donor_r"
+    ]
+   },
+   "red_model": "umap_default",
+   "n_clusters_final": 97,
+   "bags_final": [
+    [
+     "Top 10% null false-edge degree",
+     44
+    ],
+    [
+     "Top 10% pseudobulk-only degree",
+     43
+    ]
+   ]
+  }
+ },
+ "bags": [
+  {
+   "map_key": "A",
+   "map_id": "d8972afc-34ba-465e-a705-620f0c986568",
+   "bag_name": "Pseudo-donors with fewer than 10 cells",
+   "bag_uri": "mantis://map/d8972afc-34ba-465e-a705-620f0c986568/bag/Pseudo-donors%20with%20fewer%20than%2010%20cells",
+   "rule": "cells < 10",
+   "mantis_count": 213,
+   "csv_expected_count": 213,
+   "count_match": true,
+   "members_match_csv": true,
+   "attempts": 1,
+   "n_members_read": 213
+  },
+  {
+   "map_key": "A",
+   "map_id": "d8972afc-34ba-465e-a705-620f0c986568",
+   "bag_name": "Pseudo-donors with 100 or more cells",
+   "bag_uri": "mantis://map/d8972afc-34ba-465e-a705-620f0c986568/bag/Pseudo-donors%20with%20100%20or%20more%20cells",
+   "rule": "cells >= 100",
+   "mantis_count": 162,
+   "csv_expected_count": 162,
+   "count_match": true,
+   "members_match_csv": true,
+   "attempts": 1,
+   "n_members_read": 162
+  },
+  {
+   "map_key": "E",
+   "map_id": "2824b51b-8cac-4cae-99b7-fe6c11e15ee8",
+   "bag_name": "Top 10% null false-edge degree",
+   "bag_uri": "mantis://map/2824b51b-8cac-4cae-99b7-fe6c11e15ee8/bag/Top%2010%25%20null%20false-edge%20degree",
+   "rule": "null_false_degree >= 82 (90th percentile = 82.0)",
+   "mantis_count": 44,
+   "csv_expected_count": 44,
+   "count_match": true,
+   "members_match_csv": true,
+   "attempts": 1,
+   "n_members_read": 44
+  },
+  {
+   "map_key": "E",
+   "map_id": "2824b51b-8cac-4cae-99b7-fe6c11e15ee8",
+   "bag_name": "Top 10% pseudobulk-only degree",
+   "bag_uri": "mantis://map/2824b51b-8cac-4cae-99b7-fe6c11e15ee8/bag/Top%2010%25%20pseudobulk-only%20degree",
+   "rule": "PB_only_degree >= 73 (90th percentile = 72.7; integer degrees)",
+   "mantis_count": 43,
+   "csv_expected_count": 43,
+   "count_match": true,
+   "members_match_csv": true,
+   "attempts": 1,
+   "n_members_read": 43
+  }
+ ],
+ "gene_map_readback": {
+  "mantis_xy_coordinates": "NOT OBTAINED: no MCP tool or inspect URI exposes the 2-D layout coordinates of a semantic (function_text) map; point records carry metadata, summary and cluster link only. mantis_x/mantis_y are left empty in gene_map_mantis.csv. Nothing was estimated or recomputed.",
+  "cluster_tree": {
+   "n_clusters": 97,
+   "max_depth": 10,
+   "clusters_per_depth": {
+    "0": 1,
+    "1": 2,
+    "2": 4,
+    "3": 6,
+    "4": 10,
+    "5": 14,
+    "6": 18,
+    "7": 14,
+    "8": 16,
+    "9": 10,
+    "10": 2
+   },
+   "leaf_clusters_holding_genes": 49,
+   "root": "Cell Signaling Regulatory Proteins"
+  },
+  "column_convention": "cluster_id/cluster_label = depth-1 cluster (the depth-0 root contains all 424 genes and is uninformative); L1..L10 = ancestors at each depth (blank when the gene sits in a shallower leaf); leaf_* = the deepest cluster that directly holds the gene.",
+  "method": "inventory() for the full cluster tree; filter_to_bag(scope=<leaf cluster URI>) per leaf cluster then inspect(bag) for members (49 temporary bags, all deleted afterwards); parent chain gives all ancestor levels. 424/424 genes assigned; per-leaf counts equal inventory point_count; 25 random genes cross-checked against their point records cluster link (25/25).",
+  "depth1_clusters": [
+   {
+    "id": "45fc3ab1-0f32-4c31-832f-d65da837c85d",
+    "label": "Long Non-Coding RNA Transcripts",
+    "n_genes": 33
+   },
+   {
+    "id": "dd83773e-4086-439f-86b8-2ba5175f19fa",
+    "label": "Receptor Adapter And Kinase Proteins",
+    "n_genes": 391
+   }
+  ],
+  "depth1_vs_annotation_type": "391 protein genes -> \"Receptor Adapter And Kinase Proteins\"; 28 non-coding + 5 unannotated -> \"Long Non-Coding RNA Transcripts\" (the top split recovers annotation_type exactly)."
+ },
+ "donor_map_cluster_note": {
+  "A": {
+   "n_clusters": 273,
+   "depth1": [
+    [
+     "Pseudo-Donors 0157\u20130773 Series",
+     612
+    ],
+    [
+     "Pseudo-Donors 0163\u20130942 Series",
+     442
+    ]
+   ]
+  },
+  "B": {
+   "n_clusters": 273,
+   "depth1": [
+    [
+     "Lower-Numbered Pseudo-Donors",
+     697
+    ],
+    [
+     "Higher-Numbered Pseudo-Donors",
+     357
+    ]
+   ]
+  },
+  "C": {
+   "n_clusters": 273,
+   "depth1": [
+    [
+     "High-Numbered Donor Specimens",
+     513
+    ],
+    [
+     "Mid-Range Donor Specimens",
+     541
+    ]
+   ]
+  },
+  "D": {
+   "n_clusters": 279,
+   "depth1": [
+    [
+     "Donor Batch Beta",
+     569
+    ],
+    [
+     "Donor Batch Alpha",
+     485
+    ]
+   ]
+  }
+ },
+ "donor_map_cluster_caveat": "Donor-map clusters are labelled by Mantis from donor-ID title strings only (no semantic column), so labels such as \"Lower-Numbered Pseudo-Donors\" carry no biology. Labels were blank at first poll and appeared within ~25 min; cluster ids and sizes did not change.",
+ "data_notes": {
+  "AD_missing": "AD is blank for 194 donors (all brain_bank H) in maps C and D; uploaded as-is (not imputed).",
+  "bag_rules": "<10 cells: cells<=9; >=100 cells: cells>=100; top-10% rules use >= the 90th-percentile value (null_false_degree>=82 -> 44 genes; PB_only_degree>=73 (90th pct 72.7, integer degrees) -> 43 genes). bag inspect returns at most 50 members and ignores offset; large donor bags were verified member-by-member by splitting into <=40-point temporary bags (deleted afterwards)."
+ },
+ "mcp": {
+  "endpoint": "https://kellis-h200-1.csail.mit.edu/mcp_integrated/",
+  "server": "MantisIntegratedMCP 1.28.1",
+  "n_tools": 215,
+  "tools": [
+   "get_server_instructions",
+   "set_plot_variables",
+   "legend_command",
+   "filter_to_bag",
+   "create_bag",
+   "add_to_bag",
+   "remove_from_bag",
+   "rename_bag",
+   "delete_bag",
+   "bag_history",
+   "create_map_from_url",
+   "modify_map_from_url",
+   "create_space",
+   "get_space_context",
+   "search_spaces",
+   "list_maps",
+   "open_space",
+   "configure_dynamic_embedding_minimap",
+   "semantic_corridor",
+   "get_circuit_evidence",
+   "prepare_circuit_view",
+   "get_circuit_neighbors",
+   "get_circuit_overview",
+   "submit_panel_action",
+   "read_panel_state",
+   "alphagenome_predict",
+   "alphagenome_predictions",
+   "open_mpanel",
+   "list_projects",
+   "create_project",
+   "build_status",
+   "handoff_to_project",
+   "rep_si_add_source",
+   "rep_si_inspect",
+   "rep_si_plan",
+   "rep_si_read_plan",
+   "rep_si_revise_plan",
+   "rep_si_build",
+   "rep_si_build_status",
+   "rep_si_events",
+   "rep_si_cancel",
+   "rep_si_retry",
+   "create_page",
+   "journeys_list",
+   "journeys_sync",
+   "journeys_open",
+   "journeys_goto_page",
+   "journeys_play",
+   "journeys_pause",
+   "journeys_stop",
+   "select",
+   "clear_selection",
+   "ui_command",
+   "ui_status",
+   "focus",
+   "open_panel",
+   "close_panel",
+   "get_layout",
+   "open_file",
+   "update_panel",
+   "get_workspace_tabs",
+   "control_workspace_tab",
+   "show_workspace_guide",
+   "inventory",
+   "inspect",
+   "kg_resolve",
+   "kg_subgraph",
+   "kg_query",
+   "relation_compass_relations",
+   "relation_compass_query",
+   "relation_compass_audit",
+   "point_refs",
+   "traverse_point",
+   "space_graph",
+   "ask_space_graph",
+   "space_graph_path",
+   "search",
+   "list_semantic_lenses",
+   "apply_semantic_lens",
+   "get_native_knowledge",
+   "get_executable_answers",
+   "inspect_executable_answer",
+   "search_native_knowledge",
+   "persist_answer_graph",
+   "get_contextual_embeddings",
+   "apply_contextual_embedding",
+   "discover_relationship_gaps",
+   "get_semantic_objects",
+   "resolve_semantic_object",
+   "use_semantic_object",
+   "get_semantic_formulas",
+   "apply_semantic_formula",
+   "get_claim_bounty",
+   "advance_claim_bounty",
+   "draft_claim_bounty_packet",
+   "read_claim_bounty_page",
+   "get_knowledge_investigation",
+   "submit_knowledge_proposal",
+   "inspect_knowledge_history",
+   "get_knowledge_chronology",
+   "inspect_knowledge_commit",
+   "inspect_knowledge_impact",
+   "inspect_knowledge_atlas",
+   "inspect_native_experiments",
+   "propose_native_experiment_plan",
+   "start_native_experiment_autopilot",
+   "inspect_native_experiment_autopilot",
+   "propose_native_teaching_version",
+   "propose_native_instrument",
+   "inspect_native_instrument",
+   "run_native_instrument",
+   "get_semantic_research",
+   "advance_semantic_research",
+   "report_research_progress",
+   "inspect_research_repair",
+   "propose_research_repair",
+   "remember_research_failure",
+   "recall_research_failures",
+   "cartographer_whoami",
+   "cartographer_update_look",
+   "cartographer_remember",
+   "cartographer_report_activity",
+   "cartographer_handoff",
+   "cartographer_propose_routine",
+   "cartographer_request_space_visibility",
+   "cartographer_select",
+   "cartographer_clear_selection",
+   "remember",
+   "update_memory",
+   "forget",
+   "save_skill",
+   "use_skill",
+   "search_history",
+   "retrieve",
+   "intersect",
+   "diff",
+   "union",
+   "compare",
+   "summarize",
+   "inspect_hospital_flow_simulation",
+   "infer_hospital_arrival_posterior",
+   "evaluate_hospital_resource_schedule",
+   "optimize_hospital_resource_schedule",
+   "propose_hospital_resource_schedule",
+   "apply_hospital_recommendation",
+   "apply_hospital_resource_schedule",
+   "control_hospital_simulation_playback",
+   "analysis_capabilities",
+   "analysis_submit",
+   "analysis_status",
+   "retrieve_knowledge_graph_evidence",
+   "lookup_ontology_candidates",
+   "web_collection_start",
+   "web_collection_advance",
+   "web_collection_status",
+   "local_browser_command",
+   "local_browser_status",
+   "local_browser_close",
+   "web_expedition_start",
+   "web_expedition_read",
+   "web_expedition_link_evidence",
+   "web_collection_create_map",
+   "web_dataset_start",
+   "web_dataset_save_rows",
+   "web_dataset_report",
+   "web_dataset_record_sources",
+   "web_collection_results",
+   "web_collection_read_page",
+   "web_collection_save_records",
+   "web_collection_add_sites",
+   "web_collection_retry_failures",
+   "web_collection_run",
+   "web_collection_cancel",
+   "web_collection_resume",
+   "web_collection_export",
+   "web_workflow_save",
+   "web_workflow_run",
+   "web_workflow_report",
+   "web_workflow_stop",
+   "web_workflow_copy",
+   "web_investigation_start",
+   "web_investigation_add_evidence",
+   "web_investigation_report",
+   "web_paper_expand",
+   "web_paper_link",
+   "web_paper_report",
+   "web_visual_read",
+   "web_visual_transcribe",
+   "web_visual_save_observations",
+   "web_visual_report",
+   "web_entity_save",
+   "web_relationship_save",
+   "web_entity_report",
+   "web_entity_resolve",
+   "web_entity_publish_graph",
+   "web_experiment_configure",
+   "web_experiment_run",
+   "web_experiment_report",
+   "web_experiment_stop",
+   "web_reproduction_plan",
+   "web_reproduction_report",
+   "web_reproduction_acquire",
+   "web_reproduction_bind",
+   "web_atlas_start",
+   "web_atlas_report",
+   "web_atlas_annotate",
+   "web_atlas_extend_branch",
+   "browser_apprentice_report",
+   "browser_apprentice_pause",
+   "browser_apprentice_resume",
+   "browser_apprentice_stop",
+   "web_visual_fieldworker_draft",
+   "web_visual_fieldworker_report",
+   "run_scenario",
+   "render"
+  ]
+ },
+ "manifest_written_utc": "2026-11-01T22:45:15.549277Z"
+}

@@ -1,0 +1,52 @@
+{
+ "n_leaves": 49,
+ "n_clusters_total": 97,
+ "n_levels": 10,
+ "kw": {
+  "PB_only_degree": {
+   "H": 54.59127680698074,
+   "p": 0.23837340429537848
+  },
+  "XDSM_degree": {
+   "H": 86.580835017233,
+   "p": 0.000540438694519361
+  },
+  "null_false_degree": {
+   "H": 74.19688127749043,
+   "p": 0.008994262842641338
+  },
+  "PB_degree": {
+   "H": 73.98064020363704,
+   "p": 0.009405303088062394
+  }
+ },
+ "top_PBonly_cluster": {
+  "label": "Heat Shock Chaperones And Protein Folding",
+  "n": 11,
+  "median": 89.0,
+  "xdsm_median": 185.0
+ },
+ "top_null_cluster": {
+  "label": "Heat Shock Chaperones And Protein Folding",
+  "n": 11,
+  "median": 100.0
+ },
+ "gene_medians": {
+  "null_false_degree": 54.0,
+  "PB_only_degree": 44.0,
+  "XDSM_degree": 271.5
+ },
+ "hs_cluster_genes": [
+  "DNAJA1",
+  "DNAJB1",
+  "HSP90AA1",
+  "HSP90AB1",
+  "HSPA1A",
+  "HSPA1B",
+  "HSPA8",
+  "HSPB1",
+  "HSPD1",
+  "HSPE1",
+  "HSPH1"
+ ]
+}

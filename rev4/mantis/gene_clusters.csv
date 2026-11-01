@@ -1,0 +1,98 @@
+cluster_id,label,n_genes,depth,parent_id,parent_label,n_genes_directly_assigned
+954bc49b-b37c-45e2-9dad-12269246d6af,Cell Signaling Regulatory Proteins,424,0,,,0
+dd83773e-4086-439f-86b8-2ba5175f19fa,Receptor Adapter And Kinase Proteins,391,1,954bc49b-b37c-45e2-9dad-12269246d6af,Cell Signaling Regulatory Proteins,0
+45fc3ab1-0f32-4c31-832f-d65da837c85d,Long Non-Coding RNA Transcripts,33,1,954bc49b-b37c-45e2-9dad-12269246d6af,Cell Signaling Regulatory Proteins,0
+4bd132ea-b256-4150-b116-08fe561ab9ad,Membrane Signaling And Trafficking Adaptors,298,2,dd83773e-4086-439f-86b8-2ba5175f19fa,Receptor Adapter And Kinase Proteins,0
+8a36407e-e001-4727-a086-65863396aa19,Chromatin Remodeling And Transcription Coactivators,93,2,dd83773e-4086-439f-86b8-2ba5175f19fa,Receptor Adapter And Kinase Proteins,0
+1277c8d8-99e9-4900-a21b-fb8133e40f1c,LINC Numbered And Antisense Unannotated Transcripts,25,2,45fc3ab1-0f32-4c31-832f-d65da837c85d,Long Non-Coding RNA Transcripts,0
+22d33ca8-cb16-4f9d-8a91-1793547b152e,X-Inactivation And Paraspeckle lncRNAs,8,2,45fc3ab1-0f32-4c31-832f-d65da837c85d,Long Non-Coding RNA Transcripts,8
+5d1a0f26-6531-450d-91d5-d96ac4f5c5a7,Innate Immune Phagocytic Receptor Signaling,165,3,4bd132ea-b256-4150-b116-08fe561ab9ad,Membrane Signaling And Trafficking Adaptors,0
+3cbb6d0f-90d3-4f1d-822b-5384586bdb1a,Rho GTPase Actin Cytoskeleton Regulators,133,3,4bd132ea-b256-4150-b116-08fe561ab9ad,Membrane Signaling And Trafficking Adaptors,0
+afe9c293-727d-4cfe-b4ac-193463e4c9ac,Chromatin Remodelers And RNA Helicases,52,3,8a36407e-e001-4727-a086-65863396aa19,Chromatin Remodeling And Transcription Coactivators,0
+2881d637-3d2b-4b1d-bc2b-cbe635260bef,Sequence-Specific DNA-Binding Transcription Factors,41,3,8a36407e-e001-4727-a086-65863396aa19,Chromatin Remodeling And Transcription Coactivators,0
+55b9ec19-9b8d-428f-a79e-4bcd5877a5a0,Antisense And Independently Transcribed RNAs,14,3,1277c8d8-99e9-4900-a21b-fb8133e40f1c,LINC Numbered And Antisense Unannotated Transcripts,0
+1abcf641-a82e-4201-9cf1-76bbf830bef8,Uncharacterized Host And Function-Lacking Transcripts,11,3,1277c8d8-99e9-4900-a21b-fb8133e40f1c,LINC Numbered And Antisense Unannotated Transcripts,11
+9d777ef5-934d-4250-a9f0-267c2c22ad19,Cytokine And Receptor Tyrosine Kinase Signaling,108,4,5d1a0f26-6531-450d-91d5-d96ac4f5c5a7,Innate Immune Phagocytic Receptor Signaling,0
+88b94f18-ef36-46bb-92db-86e027d3ecc0,Rho GEFs Activating Rac1 And Cdc42,106,4,3cbb6d0f-90d3-4f1d-822b-5384586bdb1a,Rho GTPase Actin Cytoskeleton Regulators,0
+5a490540-a0b6-4cae-9d0f-a26952e79a14,Membrane Transporters And Lipid Biosynthesis Enzymes,57,4,5d1a0f26-6531-450d-91d5-d96ac4f5c5a7,Innate Immune Phagocytic Receptor Signaling,0
+585ea27b-c237-489a-9863-cf98f20c6c1d,Histone Modifiers And DNA Repair Complexes,28,4,afe9c293-727d-4cfe-b4ac-193463e4c9ac,Chromatin Remodelers And RNA Helicases,0
+3b0aa327-acbe-49e1-909b-c7841822d9e2,Zinc Finger Enhancer-Binding Repressors,28,4,2881d637-3d2b-4b1d-bc2b-cbe635260bef,Sequence-Specific DNA-Binding Transcription Factors,0
+73e05e87-d9f6-475e-8091-12ef858ced29,Leukemia-Associated And Ras-Like Signaling Proteins,27,4,3cbb6d0f-90d3-4f1d-822b-5384586bdb1a,Rho GTPase Actin Cytoskeleton Regulators,0
+1542feeb-1dba-4c04-8ac7-846b521e7938,Pre-mRNA Splicing Regulators,24,4,afe9c293-727d-4cfe-b4ac-193463e4c9ac,Chromatin Remodelers And RNA Helicases,0
+8345787e-4924-48cf-9757-3eb0c73bf0f5,Nuclear Receptor Coactivators And Chromatin Regulators,13,4,2881d637-3d2b-4b1d-bc2b-cbe635260bef,Sequence-Specific DNA-Binding Transcription Factors,13
+a1bda934-10a2-4025-807f-bcd6252b3953,Long Intergenic Non-Coding RNAs (Linc),7,4,55b9ec19-9b8d-428f-a79e-4bcd5877a5a0,Antisense And Independently Transcribed RNAs,7
+a7228e79-f08b-4cc8-be43-775045d7fa8b,Protein-Coding Gene Antisense Transcripts,7,4,55b9ec19-9b8d-428f-a79e-4bcd5877a5a0,Antisense And Independently Transcribed RNAs,7
+a1eb8b85-cd95-4016-b1a9-3896f56226a7,Adapter Proteins In Kinase Signal Transduction,72,5,9d777ef5-934d-4250-a9f0-267c2c22ad19,Cytokine And Receptor Tyrosine Kinase Signaling,0
+1ba891c5-9a51-456a-87ce-0bb50ee6b0d7,Actin Cytoskeleton Regulators,55,5,88b94f18-ef36-46bb-92db-86e027d3ecc0,Rho GEFs Activating Rac1 And Cdc42,0
+c97f4286-6592-480a-865e-7581f77f3293,Guanine Nucleotide Exchange Factors,51,5,88b94f18-ef36-46bb-92db-86e027d3ecc0,Rho GEFs Activating Rac1 And Cdc42,0
+b54492c2-4010-4c55-8202-3ba6925b669a,Lipid And Nucleotide Biosynthesis Enzymes,37,5,5a490540-a0b6-4cae-9d0f-a26952e79a14,Membrane Transporters And Lipid Biosynthesis Enzymes,0
+a5ce828a-c0ed-43f2-b474-d25b8b8d876d,Ubiquitin Ligases And Protein Degradation,36,5,9d777ef5-934d-4250-a9f0-267c2c22ad19,Cytokine And Receptor Tyrosine Kinase Signaling,0
+abfd132a-e173-4771-8ae5-ecf4172398bc,E-Box and Enhancer-Binding Transcription Regulators,21,5,3b0aa327-acbe-49e1-909b-c7841822d9e2,Zinc Finger Enhancer-Binding Repressors,0
+4a94fbb6-31cd-42e0-acb7-88406c426452,Calcium Ion Channels And Signaling,20,5,5a490540-a0b6-4cae-9d0f-a26952e79a14,Membrane Transporters And Lipid Biosynthesis Enzymes,0
+f0bc12f8-9045-450a-936a-1bd74f54009f,Ras-Like Domain-Containing Signaling Proteins,20,5,73e05e87-d9f6-475e-8091-12ef858ced29,Leukemia-Associated And Ras-Like Signaling Proteins,20
+34814f5c-ad6e-49de-b98a-1ccb47a93017,Histone Methylation And Demethylation Enzymes,17,5,585ea27b-c237-489a-9863-cf98f20c6c1d,Histone Modifiers And DNA Repair Complexes,0
+770b0858-c7cf-4806-addb-138927da9b09,Alternative Exon Splicing Regulators,16,5,1542feeb-1dba-4c04-8ac7-846b521e7938,Pre-mRNA Splicing Regulators,0
+06d82221-ca79-4e0a-96c7-0494d5de8b01,Homologous Recombination And Double-Strand Break Repair,11,5,585ea27b-c237-489a-9863-cf98f20c6c1d,Histone Modifiers And DNA Repair Complexes,11
+00bad0d6-c972-4783-8740-f049d4f2b277,Cytoplasmic mRNA Deadenylation Factors,8,5,1542feeb-1dba-4c04-8ac7-846b521e7938,Pre-mRNA Splicing Regulators,8
+2f98ee62-c6c7-419e-927c-37c28ba107dc,Tumor Suppressor And Proteinase Inhibitor Proteins,7,5,73e05e87-d9f6-475e-8091-12ef858ced29,Leukemia-Associated And Ras-Like Signaling Proteins,7
+61b3f930-2211-43bd-86a7-aefb1b6a15dd,Zinc Finger DNA-Binding Repressors,7,5,3b0aa327-acbe-49e1-909b-c7841822d9e2,Zinc Finger Enhancer-Binding Repressors,7
+5fcaad99-c304-41cd-a7c8-b906378585de,Receptor Tyrosine Kinase And Phosphatase Adapters,55,6,a1eb8b85-cd95-4016-b1a9-3896f56226a7,Adapter Proteins In Kinase Signal Transduction,0
+3c72e833-bee1-4d2a-ad08-2e25f296b978,Actin Filament and Microtubule Reorganization,34,6,1ba891c5-9a51-456a-87ce-0bb50ee6b0d7,Actin Cytoskeleton Regulators,0
+15789f23-21fd-4a39-b630-96aca38f386a,Rab GEFs Activating GTPases,34,6,c97f4286-6592-480a-865e-7581f77f3293,Guanine Nucleotide Exchange Factors,0
+b8de9248-b3bd-4c78-ac65-3bf41138026f,E3 Ligases And Ubiquitin Conjugation,25,6,a5ce828a-c0ed-43f2-b474-d25b8b8d876d,Ubiquitin Ligases And Protein Degradation,0
+7065941e-d675-48d3-9a51-798124f54af2,Lipid Metabolism And Inflammatory Response Proteins,23,6,b54492c2-4010-4c55-8202-3ba6925b669a,Lipid And Nucleotide Biosynthesis Enzymes,0
+a07bb950-b836-4d81-a4b4-816d36711382,Neuronal Synapse and Axon Guidance,21,6,1ba891c5-9a51-456a-87ce-0bb50ee6b0d7,Actin Cytoskeleton Regulators,0
+77a748c0-e14b-4b7c-a884-fe0ce3582cea,Rho GTPase-Activating Proteins,17,6,c97f4286-6592-480a-865e-7581f77f3293,Guanine Nucleotide Exchange Factors,17
+da5aab3f-ae57-4b7d-9797-21aeb88f2578,Serine/Threonine Kinase Signaling In Cytokine And,17,6,a1eb8b85-cd95-4016-b1a9-3896f56226a7,Adapter Proteins In Kinase Signal Transduction,17
+b40824d1-b77d-485e-9d87-a2074f5c1993,Glycosyltransferases And Sulfotransferases,14,6,b54492c2-4010-4c55-8202-3ba6925b669a,Lipid And Nucleotide Biosynthesis Enzymes,14
+6d526419-5065-4183-a5aa-53c369c0ca10,Enhancer-Binding Differentiation Factors,12,6,abfd132a-e173-4771-8ae5-ecf4172398bc,E-Box and Enhancer-Binding Transcription Regulators,12
+44c81ba9-15b0-44f1-a1f7-28ab3aee87ee,Voltage-Gated Calcium And Potassium Channels,12,6,4a94fbb6-31cd-42e0-acb7-88406c426452,Calcium Ion Channels And Signaling,0
+576fc2a7-cb1c-43b4-8b3a-8c4125bee037,Heat Shock Chaperones And Protein Folding,11,6,a5ce828a-c0ed-43f2-b474-d25b8b8d876d,Ubiquitin Ligases And Protein Degradation,11
+599bed0a-8460-4b94-bd6a-60c8d5fc9d10,H3 Lysine Demethylases And Methyltransferases,9,6,34814f5c-ad6e-49de-b98a-1ccb47a93017,Histone Methylation And Demethylation Enzymes,9
+72298418-a3b1-4593-b281-1edc0557b1ac,RNA-Binding Splicing Factors,9,6,770b0858-c7cf-4806-addb-138927da9b09,Alternative Exon Splicing Regulators,9
+1a113b9b-1e08-4534-bc97-87831dc11738,Zinc Finger Transcriptional Repressors,9,6,abfd132a-e173-4771-8ae5-ecf4172398bc,E-Box and Enhancer-Binding Transcription Regulators,9
+600d8278-5bfc-496b-926e-5b7c37e17ae1,ATP-Dependent Chromatin Remodeling Complexes,8,6,34814f5c-ad6e-49de-b98a-1ccb47a93017,Histone Methylation And Demethylation Enzymes,8
+cc7aabff-84bd-46dd-b769-010aef4f41c1,Cyclic Nucleotide And Solute Transporters,8,6,4a94fbb6-31cd-42e0-acb7-88406c426452,Calcium Ion Channels And Signaling,8
+b1e4156a-bbf2-431c-bfd6-a02cbd0cd181,ATP-Dependent RNA Helicases,7,6,770b0858-c7cf-4806-addb-138927da9b09,Alternative Exon Splicing Regulators,7
+90ab1042-3b52-483e-881c-2daf303c6e1c,Immune Cell Receptor Tyrosine Kinases,34,7,5fcaad99-c304-41cd-a7c8-b906378585de,Receptor Tyrosine Kinase And Phosphatase Adapters,0
+003847bc-fc62-49df-b7d9-163c5bcd6896,Actin Polymerization and Cell Migration Regulators,26,7,3c72e833-bee1-4d2a-ad08-2e25f296b978,Actin Filament and Microtubule Reorganization,0
+023f756d-dadf-4cf6-bed0-671dd3c1ba41,PI3K And Phosphoinositide Signaling Components,21,7,5fcaad99-c304-41cd-a7c8-b906378585de,Receptor Tyrosine Kinase And Phosphatase Adapters,0
+38ceae7e-feed-4f6d-ab63-1829eeef8c06,Rho And Ras Nucleotide Exchange Factors,21,7,15789f23-21fd-4a39-b630-96aca38f386a,Rab GEFs Activating GTPases,0
+645c6348-4df6-4807-b154-b99cb254cab5,Ubiquitin Ligases And Deubiquitinases,20,7,b8de9248-b3bd-4c78-ac65-3bf41138026f,E3 Ligases And Ubiquitin Conjugation,0
+7b68ed68-79fd-4a1c-a372-8638978a5e85,Dendritic Synaptogenesis and Glutamate Receptor Signaling,14,7,a07bb950-b836-4d81-a4b4-816d36711382,Neuronal Synapse and Axon Guidance,0
+f4b6639a-4a47-433c-bf8a-0699ea2e7b2a,Endosome-To-Golgi Rab Trafficking,13,7,15789f23-21fd-4a39-b630-96aca38f386a,Rab GEFs Activating GTPases,0
+321dd842-2bf6-4ac7-abfa-9e43785aeb03,Phospholipid Trafficking And Vesicle Transport Regulators,13,7,7065941e-d675-48d3-9a51-798124f54af2,Lipid Metabolism And Inflammatory Response Proteins,0
+fcc89950-1433-41bc-a973-f776362c3e6a,Purine Nucleotide-Processing And Coagulation-Linked Enzymes,10,7,7065941e-d675-48d3-9a51-798124f54af2,Lipid Metabolism And Inflammatory Response Proteins,10
+47fe34c6-dda3-46c1-9f9c-0cae1fccbf9a,Centrosome and Ciliary Microtubule Proteins,8,7,3c72e833-bee1-4d2a-ad08-2e25f296b978,Actin Filament and Microtubule Reorganization,8
+68204944-19a2-4193-9467-7568755f624d,Cardiac Calcium Release And Excitation-Contraction Coupling,7,7,44c81ba9-15b0-44f1-a1f7-28ab3aee87ee,Voltage-Gated Calcium And Potassium Channels,7
+7df5c705-2587-4265-8f44-e8e8e65f2699,Cytoskeleton Dynamics and Navigator Homologs,7,7,a07bb950-b836-4d81-a4b4-816d36711382,Neuronal Synapse and Axon Guidance,7
+9a8e44ad-bc88-4a4e-9205-421454b67e3e,Kv4 A-Type Potassium Channel Subunits,5,7,44c81ba9-15b0-44f1-a1f7-28ab3aee87ee,Voltage-Gated Calcium And Potassium Channels,5
+10134832-fa62-47fb-98e2-734fce0fc30e,Selective Autophagy Receptors And Adapters,5,7,b8de9248-b3bd-4c78-ac65-3bf41138026f,E3 Ligases And Ubiquitin Conjugation,5
+45609ce2-8fc5-48e5-94d5-e65fdf1292a7,Cell-Surface Tyrosine Kinases Of Macrophages,20,8,90ab1042-3b52-483e-881c-2daf303c6e1c,Immune Cell Receptor Tyrosine Kinases,0
+510b7be3-7c45-4943-ad83-9822202e01b0,Actin Cytoskeleton Dynamics and Polarity,17,8,003847bc-fc62-49df-b7d9-163c5bcd6896,Actin Polymerization and Cell Migration Regulators,0
+0a5b064f-21a0-4386-876c-f04d0e03a012,PI3K Catalytic And Regulatory Kinase Subunits,16,8,023f756d-dadf-4cf6-bed0-671dd3c1ba41,PI3K And Phosphoinositide Signaling Components,0
+845ba972-0f82-477b-8c00-1487adf9bc3b,Ubiquitin-Conjugating and Hydrolase Enzymes,15,8,645c6348-4df6-4807-b154-b99cb254cab5,Ubiquitin Ligases And Deubiquitinases,0
+e39e2530-46a7-4ac9-b658-11f261ec82ce,Adapter Proteins In Signaling Cascades,14,8,90ab1042-3b52-483e-881c-2daf303c6e1c,Immune Cell Receptor Tyrosine Kinases,14
+44a2ff3d-4d3b-409f-bdb0-e81eab430e82,"Ras, Rac and Rab Guanine Exchange",13,8,38ceae7e-feed-4f6d-ab63-1829eeef8c06,Rho And Ras Nucleotide Exchange Factors,0
+9f6b9d40-f5d7-43ea-b504-595b1d9a9e9e,Proteolytic Shedding and Adhesion Regulators,9,8,003847bc-fc62-49df-b7d9-163c5bcd6896,Actin Polymerization and Cell Migration Regulators,9
+a9e5f0cf-cac0-442b-aed0-3893f7959e3c,Synaptic Adhesion Molecules and Lamina-Specific Connectivity,9,8,7b68ed68-79fd-4a1c-a372-8638978a5e85,Dendritic Synaptogenesis and Glutamate Receptor Signaling,9
+96d5362e-3c5d-415a-ba44-1b46a8ab458a,Dedicator of Cytokinesis Cdc42 Activators,8,8,38ceae7e-feed-4f6d-ab63-1829eeef8c06,Rho And Ras Nucleotide Exchange Factors,8
+adb5902e-62ef-4009-aa9c-b6a433f4b76b,Rab GTPase-Activating TBC Regulators,8,8,f4b6639a-4a47-433c-bf8a-0699ea2e7b2a,Endosome-To-Golgi Rab Trafficking,8
+90e4ce94-4cd4-43bc-81e2-1ab48b58e2e4,ATP-Dependent Phospholipid Flippases And Lipid Transfer,7,8,321dd842-2bf6-4ac7-abfa-9e43785aeb03,Phospholipid Trafficking And Vesicle Transport Regulators,7
+7b8ee91e-b71c-49f5-a4a5-359123561642,LPS-Responsive Endosomal Trafficking In Immune Cells,6,8,321dd842-2bf6-4ac7-abfa-9e43785aeb03,Phospholipid Trafficking And Vesicle Transport Regulators,6
+3397359c-c2b9-4bf2-8e96-f6a3f3ee3e9f,Amyloid-Beta Processing Regulators,5,8,023f756d-dadf-4cf6-bed0-671dd3c1ba41,PI3K And Phosphoinositide Signaling Components,5
+db802e84-2282-4ee2-9332-0410b391769b,Endosomal SNARE-Mediated Vesicle Fusion,5,8,f4b6639a-4a47-433c-bf8a-0699ea2e7b2a,Endosome-To-Golgi Rab Trafficking,5
+eec1eadb-d33c-43b9-8f11-9a89957139b7,Neurite Outgrowth and RAC1-Mediated Axon Extension,5,8,7b68ed68-79fd-4a1c-a372-8638978a5e85,Dendritic Synaptogenesis and Glutamate Receptor Signaling,5
+28ea7421-c99d-4fa3-b4ad-1fc1b052d14a,SCF-Like Substrate Recognition Complexes,5,8,645c6348-4df6-4807-b154-b99cb254cab5,Ubiquitin Ligases And Deubiquitinases,5
+48af581e-91d8-495f-a749-0c7b3d3c0906,Macrophage Surface Receptor Signaling Kinases,14,9,45609ce2-8fc5-48e5-94d5-e65fdf1292a7,Cell-Surface Tyrosine Kinases Of Macrophages,14
+d3307342-6395-4bf5-a377-c5a91761081b,Actin Filament Polymerization and Cytoskeleton Reorganizers,12,9,510b7be3-7c45-4943-ad83-9822202e01b0,Actin Cytoskeleton Dynamics and Polarity,12
+f0dba487-966b-44fb-8522-08ac340f5958,Phosphatidylinositol Phosphate Kinase And PI3K Subunits,11,9,0a5b064f-21a0-4386-876c-f04d0e03a012,PI3K Catalytic And Regulatory Kinase Subunits,0
+fc9372c8-41fb-4d9d-a5fd-2bb6acfa2882,E3 Ubiquitin Ligases,10,9,845ba972-0f82-477b-8c00-1487adf9bc3b,Ubiquitin-Conjugating and Hydrolase Enzymes,10
+ea766ad5-fd31-4126-8548-bd185d901181,Rab Exchange Activators,7,9,44a2ff3d-4d3b-409f-bdb0-e81eab430e82,"Ras, Rac and Rab Guanine Exchange",7
+e0394894-78aa-4285-8e44-47fe3deb9b66,Ras and Rho Signaling Exchangers,6,9,44a2ff3d-4d3b-409f-bdb0-e81eab430e82,"Ras, Rac and Rab Guanine Exchange",6
+fcecf643-0cce-4dca-b7cd-97c7228db755,Receptor-Type Tyrosine Phosphatase Regulators,6,9,45609ce2-8fc5-48e5-94d5-e65fdf1292a7,Cell-Surface Tyrosine Kinases Of Macrophages,6
+a4e82afc-2d60-48e6-bd42-cd418d096fd8,Deubiquitinating Hydrolases,5,9,845ba972-0f82-477b-8c00-1487adf9bc3b,Ubiquitin-Conjugating and Hydrolase Enzymes,5
+3045c355-2472-41c3-8857-6d5d7966406a,Epithelial Polarity Regulators and mRNA Cap,5,9,510b7be3-7c45-4943-ad83-9822202e01b0,Actin Cytoskeleton Dynamics and Polarity,5
+1510fd82-e20b-4e3f-9367-0d1472ab0eb1,G Protein-Coupled Receptor Alpha Subunit Signaling,5,9,0a5b064f-21a0-4386-876c-f04d0e03a012,PI3K Catalytic And Regulatory Kinase Subunits,5
+33807791-6a3b-4ffa-8b7f-c482ee88cfb8,PI3K Catalytic And Regulatory Subunits,6,10,f0dba487-966b-44fb-8522-08ac340f5958,Phosphatidylinositol Phosphate Kinase And PI3K Subunits,6
+3ef49e71-1398-43b9-bf91-96a6e88f7c9c,Clathrin-Mediated Endocytosis Adaptors,5,10,f0dba487-966b-44fb-8522-08ac340f5958,Phosphatidylinositol Phosphate Kinase And PI3K Subunits,5

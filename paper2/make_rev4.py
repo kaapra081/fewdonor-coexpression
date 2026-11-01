@@ -83,6 +83,17 @@ def pooled(block, D, m):
     sv = [s for s in SUBS if block[s].get("n", 0)]
     k = sum(block[s][D][m]["any"] for s in sv); n = sum(block[s][D][m]["n"] for s in sv); h = sum(holds(block[s][D][m]["any"], block[s][D][m]["n"]) for s in sv); return k, n, h
 mac("RfRoneN", rng([S["R1"][s]["n"] for s in SUBS]))
+mc = json.load(open(P("rev4/out/R6/R6_mantis_clusters.json"))); S.setdefault("R6", {})["mantis_clusters"] = mc
+fp = lambda x: f"{x:.2g}" if x >= 0.001 else f"{x:.1g}"
+mac("McLeaves", str(mc["n_leaves"])); mac("McTotal", str(mc["n_clusters_total"])); mac("McLevels", str(mc["n_levels"])); mac("McTopLabel", mc["top_PBonly_cluster"]["label"])
+mac("McTopN", str(mc["top_PBonly_cluster"]["n"])); mac("McTopPBonly", f"{mc['top_PBonly_cluster']['median']:.0f}"); mac("McTopNull", f"{mc['top_null_cluster']['median']:.0f}"); mac("McTopXDSM", f"{mc['top_PBonly_cluster']['xdsm_median']:.0f}")
+mac("McMedPBonly", f"{mc['gene_medians']['PB_only_degree']:.0f}"); mac("McMedNull", f"{mc['gene_medians']['null_false_degree']:.0f}"); mac("McMedXDSM", f"{mc['gene_medians']['XDSM_degree']:.0f}")
+mac("McKWPBonly", fp(mc["kw"]["PB_only_degree"]["p"])); mac("McKWXDSM", fp(mc["kw"]["XDSM_degree"]["p"])); mac("McKWNull", fp(mc["kw"]["null_false_degree"]["p"]))
+mac("McSameTop", "yes" if mc["top_PBonly_cluster"]["label"] == mc["top_null_cluster"]["label"] else "no")
+hs = json.load(open(P("rev4/out/R6/R6_hs.json"))); S.setdefault("R6", {})["heatshock_posthoc"] = hs
+mac("RsixHSn", str(hs["n_hs_genes"])); mac("RsixHSpairs", str(hs["hs_pairs"])); mac("RsixHScalled", str(hs["hs_pairs_called"])); mac("RsixHSpct", f"{100 * hs['hs_pairs_called'] / hs['hs_pairs']:.0f}\\%")
+mac("RsixAllpct", f"{100 * hs['frac_all_called']:.1f}\\%"); mac("RsixHSrw", f"{hs['median_rw_hs_pairs']:.3f}"); mac("RsixAllrw", f"{hs['median_rw_all']:.3f}"); mac("RsixYcalled", f"{hs['y_pairs_called']} of {hs['y_pairs']}")
+sea = json.load(open(P("paper2/seanull_summary.json"))); mac("SeaXDSMTop", f"{min(sea['XDSM']):.3f}--{max(sea['XDSM']):.3f}"); mac("SeaKXTop", f"{min(sea['KX']):.3f}--{max(sea['KX']):.3f}")
 mac("RfKXpoolThree", str(json.load(open(P("paper2/r1_summary.json")))["P3"]["KX"]["runs_any"]))
 if any(S["R1"][s]["n"] for s in SUBS):
     for D, w in (("25", "TwentyFive"), ("50", "Fifty"), ("100", "Hundred")):
