@@ -1,0 +1,92 @@
+{
+ "D": 1054,
+ "n_pairs": 89676,
+ "calls": {
+  "PB": 53263,
+  "XDSM": 56075
+ },
+ "donors_rw": 841,
+ "classes": {
+  "PBonly": {
+   "n": 9914,
+   "med_rw": 0.0032139746115136883,
+   "med_rPB": 0.09076973516839432,
+   "med_rho": 0.06358926696845155,
+   "med_rPB_minus_rho": 0.025841870172964215,
+   "sign_agree": 0.863526326407101
+  },
+  "XDSMonly": {
+   "n": 12726,
+   "med_rw": 0.00022098097419610306,
+   "med_rPB": 0.004637256811154344,
+   "med_rho": -0.09698407644550519,
+   "med_rPB_minus_rho": 0.07898839698898455,
+   "sign_agree": 0.8108596573943109
+  },
+  "shared": {
+   "n": 43349,
+   "med_rw": 0.005922443816019512,
+   "med_rPB": 0.11753848545437824,
+   "med_rho": 0.22398603426815986,
+   "med_rPB_minus_rho": -0.07398915921849752,
+   "sign_agree": 0.9893884518674018
+  },
+  "neither": {
+   "n": 23687,
+   "med_rw": 0.0012043849933356787,
+   "med_rPB": 0.012492748677210366,
+   "med_rho": -0.01717282420123834,
+   "med_rPB_minus_rho": 0.024372436832171544,
+   "sign_agree": 0.6669903322497572
+  }
+ },
+ "spearman_delta_rw": -0.371704392341474,
+ "n_finite": 89676,
+ "spearman_rPB_rho": 0.883593307078555,
+ "hub_overlap_top20": 14,
+ "hubs_PB": [
+  "ANKRD44",
+  "ARHGAP26",
+  "CHST11",
+  "CPED1",
+  "CX3CR1",
+  "DENND3",
+  "DOCK4",
+  "ENSG00000249738",
+  "FKBP5",
+  "FRMD4A",
+  "ITPR2",
+  "MAP4K4",
+  "NAV2",
+  "NEAT1",
+  "P2RY12",
+  "RYR1",
+  "SFMBT2",
+  "SLC1A3",
+  "SORL1",
+  "SSH2"
+ ],
+ "hubs_XDSM": [
+  "ADAM7-AS1",
+  "ANKRD44",
+  "ARHGAP26",
+  "CHST11",
+  "CX3CR1",
+  "DENND3",
+  "ENSG00000249738",
+  "FKBP5",
+  "FMNL3",
+  "FRMD4A",
+  "LINC02712",
+  "MAF",
+  "MAP4K4",
+  "MED12L",
+  "NAV2",
+  "P2RY12",
+  "SFMBT2",
+  "SORL1",
+  "SSH2",
+  "TBC1D4"
+ ],
+ "top5000_pair_overlap": 3042
+}

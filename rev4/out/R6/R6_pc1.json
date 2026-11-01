@@ -1,0 +1,22 @@
+{
+ "null_L": {
+  "frac_same_sign_PC1": 0.9834905660377359,
+  "corr_PC1_rowmean": 0.9186921112028046,
+  "corr_rowmean_logn": 0.7827713570253841
+ },
+ "null_R": {
+  "frac_same_sign_PC1": 0.7759433962264151,
+  "corr_PC1_rowmean": 0.7593020558604386,
+  "corr_rowmean_logn": -0.002214515126460211
+ },
+ "real_L": {
+  "frac_same_sign_PC1": 0.6273584905660378,
+  "corr_PC1_rowmean": 0.37613010454105067,
+  "corr_rowmean_logn": 0.6476173641754275
+ },
+ "real_R": {
+  "frac_same_sign_PC1": 0.6768867924528302,
+  "corr_PC1_rowmean": 0.7046611090321419,
+  "corr_rowmean_logn": 0.14182966311486578
+ }
+}

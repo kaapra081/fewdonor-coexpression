@@ -46,7 +46,6 @@ for s in SUBS:
 # ---------- R6 ----------
 r6 = P("rev4/out/R6/R6_summary.json")
 if os.path.exists(r6): S["R6"] = json.load(open(r6))
-os.makedirs(P("rev4/results"), exist_ok=True); json.dump(S, open(P("rev4/results/REV4_SUMMARY.json"), "w"), indent=1)
 
 # ---------- macros ----------
 def mac(name, val): M[name] = val
@@ -72,15 +71,23 @@ if "R6" in S:
     mac("RsixPConeVar", f"{100 * r6['null_L']['varfrac_PC1to5'][0]:.1f}\\%"); mac("RsixPConeR", f"{r6['null_L']['r2_logn_PC1to5'][0]:.2f}")
     mac("RsixPConeRR", f"{max(r6['null_R']['r2_logn_PC1to5']):.3f}"); mac("RsixRealPCtwoR", f"{r6['real_L']['r2_logn_PC1to5'][1]:.2f}")
     mac("RsixRealNormPB", f2(r6["real_L"]["spearman_norm_ncells"])); mac("RsixRealNormR", f2(r6["real_R"]["spearman_norm_ncells"]))
+    pc1 = json.load(open(P("rev4/out/R6/R6_pc1.json")))
+    mac("RsixPConeSign", f"{100 * pc1['null_L']['frac_same_sign_PC1']:.0f}\\%"); mac("RsixRowMeanLogn", f"{pc1['null_L']['corr_rowmean_logn']:.2f}"); mac("RsixRowMeanLognR", f2(pc1['null_R']['corr_rowmean_logn']))
+    import pandas as pd; from sklearn.cluster import KMeans
+    dr = pd.read_csv(P("rev4/out/R6/donors_real.csv")); km = KMeans(2, n_init=10, random_state=0).fit_predict(dr[["x_L", "y_L"]].values)
+    ok = dr.sex.isin(["male", "female"]).values; tab = pd.crosstab(km[ok], dr.sex.values[ok]).values; conc = max(tab[0, 0] + tab[1, 1], tab[0, 1] + tab[1, 0])
+    mac("RsixSexConc", f"{fmt(conc)} of {fmt(ok.sum())}"); S["R6"]["sex_cluster_concordance"] = [int(conc), int(ok.sum())]
     mac("RsixPairNull", f2(r6["pairs"]["spearman_nullPB_rw"])); mac("RsixPairRealPB", f2(r6["pairs"]["spearman_realPB_rw"])); mac("RsixPairRealX", f2(r6["pairs"]["spearman_realXDSMz_rw"]))
 # R1 / R2 pooled + holds
 def pooled(block, D, m):
-    k = sum(block[s][D][m]["any"] for s in SUBS); n = sum(block[s][D][m]["n"] for s in SUBS); h = sum(holds(block[s][D][m]["any"], block[s][D][m]["n"]) for s in SUBS if block[s][D][m]["n"]); return k, n, h
-if all(S["R1"][s]["n"] for s in SUBS):
+    sv = [s for s in SUBS if block[s].get("n", 0)]
+    k = sum(block[s][D][m]["any"] for s in sv); n = sum(block[s][D][m]["n"] for s in sv); h = sum(holds(block[s][D][m]["any"], block[s][D][m]["n"]) for s in sv); return k, n, h
+mac("RfRoneN", rng([S["R1"][s]["n"] for s in SUBS]))
+mac("RfKXpoolThree", str(json.load(open(P("paper2/r1_summary.json")))["P3"]["KX"]["runs_any"]))
+if any(S["R1"][s]["n"] for s in SUBS):
     for D, w in (("25", "TwentyFive"), ("50", "Fifty"), ("100", "Hundred")):
         for m, mn in (("LCP", "LCP"), ("LCPd", "LCPd"), ("XDSperm", "XDSperm"), ("XDSM", "XDSM"), ("KX", "KX")):
             k, n, h = pooled(S["R1"], D, m); mac(f"Rf{mn}{w}", f"{k}/{n}"); mac(f"Rf{mn}{w}Holds", str(h))
-    mac("RfRoneN", rng([S["R1"][s]["n"] for s in SUBS]))
 if all(S["R2"][s]["PB"]["n"] for s in SUBS):
     for m in ("PB", "LCP", "LCPd", "XDS", "XDSM", "KX"):
         mac(f"RfBank{m}", ", ".join(f"{S['R2'][s][m]['any']}/{S['R2'][s][m]['n']}" for s in SUBS)); mac(f"RfBank{m}Holds", str(sum(holds(S['R2'][s][m]['any'], S['R2'][s][m]['n']) for s in SUBS)))
@@ -119,4 +126,48 @@ if all(S["R2"][s]["PB"]["n"] for s in SUBS):
     for m, lab in (("PB", "PB"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("XDS", "XDS (one split)"), ("XDSM", "XDS-M"), ("KX", "KX")):
         L.append(lab + " & " + " & ".join(f"{cell(S['R2'][s][m]['any'], S['R2'][s][m]['n'])} ({fmt(S['R2'][s][m]['meanV']) if S['R2'][s][m]['meanV'] >= 1 else round(S['R2'][s][m]['meanV'], 2)})" for s in SUBS) + "\\\\")
     L += ["\\bottomrule\\end{tabular}\\end{table}"]; open(P("paper2/table_R2.tex"), "w").write("\n".join(L) + "\n")
+
+# ---------- Table 2: run-level calibration, pooled over the three PsychAD subtypes ----------
+import re
+A3 = json.load(open(P("rev3/results/A3B3_SUMMARY.json")))["A3"]; RA = json.load(open(P("rev2/interim/REV2_SUMMARY_latest.json")))["A"]
+r2n = open(P("paper2/rev2nums.tex")).read()
+def macro(name): return re.search(r"\\newcommand\{\\" + name + r"\}\{([^}]*)\}", r2n).group(1)
+oneK = {"PB": macro("OnekEanyPB"), "LCP": macro("OnekEanyLCP"), "XDSM": macro("OnekEanyXDSM")}
+R2c = load("rev4/out/R2c_P*_k*.json"); S["R2c"] = {}
+for s_ in SUBS:
+    runs = [v for k, v in R2c.items() if k.startswith(f"R2c_{s_}_")]
+    S["R2c"][s_] = {m: dict(any=sum(r[m]["V"] > 0 for r in runs), n=len(runs), meanV=float(np.mean([r[m]["V"] for r in runs])) if runs else None) for m in ("PB", "PBb", "XDSM", "XDSMb")}
+    if runs: S["R2c"][s_]["bank_shift_median"] = {b: float(np.median([r["bank_shift_median"][b] for r in runs])) for b in runs[0]["bank_shift_median"]}
+def pool(cells):   # cells: list of (any, n) per subtype -> "k/n" with dagger if any cell is outside its bound
+    k = sum(a for a, n in cells); n = sum(n for a, n in cells)
+    if n == 0: return "--"
+    return f"{k}/{n}" + ("" if all(holds(a, n_) for a, n_ in cells if n_) else "$^\dagger$")
+rows = [("PB", "Pseudobulk"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("XDS", "XDS, one split"), ("XDSM", "XDS-M"), ("KX", "KX")]
+perm = {"LCP", "LCPd", "XDS"}
+L = ["\\begin{table}[t]\\centering\\small\\setlength{\\tabcolsep}{3.2pt}",
+     "\\caption{Run-level error on real-cell nulls: reassignments with at least one BH call, pooled over the three PsychAD subtypes (under a complete null this fraction is the FDR). $^\\dagger$: outside the frozen bound ($0.05+2$\\,SE) in at least one subtype or cell type. Donor-centred null: 25--100 pseudo-donors from REV3 (100 runs per subtype) for pseudobulk, XDS-M and KX, and from REV4 with $2\\times10^6$ donor permutations (" + str(S["R1"]["P1"]["n"]) + "--" + str(max(S["R1"][x]["n"] for x in SUBS)) + " runs per subtype) for LCP, LCPd and XDS, which use permutation $p$-values at $D\\le100$; 200 to full size from REV2 (100 runs per subtype, normal references). Bank: brain-bank-stratified null at full size (REV4, 40 runs per subtype); the bank-centred row is post hoc (Section~\\ref{sec:calib}). OneK1K: pooled null at full size, three cell types (REV2; 30--33 runs each).}\\label{tab:calib}",
+     "\\begin{tabular}{lcccccc|c|c}\\toprule & \\multicolumn{6}{c|}{Donor-centred null, pseudo-donors} & Bank & OneK1K\\\\",
+     "Method & 25 & 50 & 100 & 200 & 400 & full & full & full\\\\\\midrule"]
+for m, lab in rows:
+    row = [lab]
+    for D in ("25", "50", "100"):
+        if m in perm: mm = "XDSperm" if m == "XDS" else m; row.append(pool([(S["R1"][x][D][mm]["any"], S["R1"][x][D][mm]["n"]) for x in SUBS]))
+        else: row.append(pool([(A3[x][D][m]["any"], A3[x][D][m]["n"]) for x in SUBS]))
+    for D in ("200", "400", "all"): row.append(pool([(RA[x][D][m]["any"], RA[x][D][m]["n"]) for x in SUBS]))
+    row.append(pool([(S["R2"][x][m]["any"], S["R2"][x][m]["n"]) for x in SUBS]) if all(S["R2"][x][m]["n"] for x in SUBS) else "--")
+    if m in oneK: row.append(pool([tuple(int(v) for v in c.strip().split("/")) for c in oneK[m].split(",")]))
+    else: row.append("--")
+    L.append(" & ".join(row) + "\\\\")
+if all(S["R2c"][x]["XDSMb"]["n"] for x in SUBS):
+    L.append("XDS-M, bank-centred & & & & & & & " + pool([(S["R2c"][x]["XDSMb"]["any"], S["R2c"][x]["XDSMb"]["n"]) for x in SUBS]) + " & \\\\")
+L += ["\\bottomrule\\end{tabular}\\end{table}"]
+open(P("paper2/table_calib.tex"), "w").write("\n".join(L) + "\n")
+if all(S["R2c"][x]["XDSMb"]["n"] for x in SUBS):
+    mac("RfBankXDSMb", ", ".join(f"{S['R2c'][x]['XDSMb']['any']}/{S['R2c'][x]['XDSMb']['n']}" for x in SUBS)); mac("RfBankXDSMbHolds", str(sum(holds(S['R2c'][x]['XDSMb']['any'], S['R2c'][x]['XDSMb']['n']) for x in SUBS)))
+    mac("RfBankXDSMc", ", ".join(f"{S['R2c'][x]['XDSM']['any']}/{S['R2c'][x]['XDSM']['n']}" for x in SUBS)); mac("RfBankPBb", rng([S["R2c"][x]["PBb"]["meanV"] for x in SUBS]))
+    sh = [v for x in SUBS for v in S["R2c"][x]["bank_shift_median"].values()]; mac("RfBankShift", f"{min(sh):.2f}--{max(sh):.2f}")
+with open(P("paper2/rev4nums.tex"), "w") as fh:
+    fh.write("% generated by make_rev4.py from rev4/results/REV4_SUMMARY.json\n")
+    for k, v in M.items(): fh.write(f"\\newcommand{{\\{k}}}{{{v}}}\n")
+os.makedirs(P("rev4/results"), exist_ok=True); json.dump(S, open(P("rev4/results/REV4_SUMMARY.json"), "w"), indent=1)
 print(len(M), "macros;", {k: S["R1"][k]["n"] for k in SUBS}, {k: S["R2"][k]["PB"]["n"] for k in SUBS})

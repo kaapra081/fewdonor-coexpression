@@ -10,7 +10,7 @@ def J(p):
         if os.path.exists(c): return json.load(open(c))
     raise FileNotFoundError(p)
 pop = J("pop/pop_results.json"); info = {s: J(f"pop/pop_{s}_info.json") for s in ("P1", "P2", "P3")}
-S2 = J("rev2/interim/REV2_SUMMARY_latest.json"); A3 = J("rev3/results/A3B3_SUMMARY.json")["A3"]
+S2 = J("rev2/interim/REV2_SUMMARY_latest.json"); A3 = J("rev3/results/A3B3_SUMMARY.json")["A3"]; R1 = J("rev4/results/REV4_SUMMARY.json")["R1"]
 apply_figure_style(sizes=(8, 7, 6))
 COL = {"PB": "#7f7f7f", "LCP": "#c98b2b", "LCPd": "#8c5fb3", "XDS": "#4f8fd1", "XDSM": "#0b2e5a"}
 LAB = {"PB": "Pseudobulk", "LCP": "Leak-corrected (LCP)", "LCPd": "LCPd", "XDS": "XDS, one split", "XDSM": "XDS-M"}
@@ -21,8 +21,9 @@ inner = outer[0].subgridspec(1, 3, wspace=0.07); axs = [fig.add_subplot(inner[0,
 for i, s in enumerate(("P1", "P2", "P3")):
     ax = axs[i]; A = pop["A"][s]; Ds = sorted([int(k) for k in A if k != "all"]) + [info[s]["donors"]]
     keys = [str(d) for d in Ds[:-1]] + ["all"]
-    for m in ("PB", "LCP", "XDS"):
-        ax.plot(Ds, [A[k][KEY[m]]["mean_calls"] for k in keys], "-o", color=COL[m], ms=3.2, lw=1.1, zorder=2, clip_on=False)
+    for m in ("PB", "LCP", "XDS"):   # LCP and XDS used 1e5 permutations at D <= 100 there (too few for a BH call): plotted from 200 up only
+        sel = [i_ for i_, d_ in enumerate(Ds) if m == "PB" or d_ >= 200]
+        ax.plot([Ds[i_] for i_ in sel], [A[keys[i_]][KEY[m]]["mean_calls"] for i_ in sel], "-o", color=COL[m], ms=3.2, lw=1.1, zorder=2, clip_on=False)
     ax.set_xscale("log"); ax.set_yscale("symlog", linthresh=1); ax.set_ylim(-0.25, 6e4)
     ax.xaxis.set_minor_locator(NullLocator()); ax.yaxis.set_minor_locator(NullLocator())
     ax.set_xticks([25, 100, 400, 1000]); ax.set_xticklabels(["25", "100", "400", "1k"])
@@ -34,9 +35,12 @@ fig.text(0.085, 0.865, "Pseudobulk's false calls grow with the cohort", fontsize
 ax = fig.add_subplot(outer[1]); subs = ("P1", "P2", "P3"); xs = [25, 50, 100, 200, 400, 1000]
 def pooled(m):
     k, n = [], []
-    for D in ("25", "50", "100"):
-        mm = "XDSperm" if m == "XDS" else m
-        k.append(sum(A3[s][D][mm]["any"] for s in subs)); n.append(sum(A3[s][D][mm]["n"] for s in subs))
+    for D in ("25", "50", "100"):   # permutation-based tests from REV4 R1 (2e6 permutations); normal-reference tests from REV3 A3
+        if m in ("LCP", "LCPd", "XDS"):
+            mm = "XDSperm" if m == "XDS" else m; sv = [s for s in subs if R1[s]["n"]]
+            k.append(sum(R1[s][D][mm]["any"] for s in sv)); n.append(sum(R1[s][D][mm]["n"] for s in sv))
+        else:
+            k.append(sum(A3[s][D][m]["any"] for s in subs)); n.append(sum(A3[s][D][m]["n"] for s in subs))
     for D in ("200", "400", "all"):
         k.append(sum(S2["A"][s][D][m]["any"] for s in subs)); n.append(sum(S2["A"][s][D][m]["n"] for s in subs))
     k, n = np.array(k), np.array(n); p = k / n
@@ -53,7 +57,7 @@ ax.set_xscale("log"); ax.set_yscale("symlog", linthresh=1); ax.xaxis.set_minor_l
 ax.set_xticks(xs); ax.set_xticklabels(["25", "50", "100", "200", "400", "full"]); ax.set_xlim(20, 1300); ax.set_ylim(-0.1, 130)
 ax.set_yticks([0, 1, 5, 10, 50, 100]); ax.set_yticklabels(["0", "1", "5", "10", "50", "100"])
 ax.set_xlabel("Pseudo-donors (donor-centred null)"); ax.set_ylabel("Runs with any false call (%)", labelpad=2)
-fig.text(0.70, 0.865, "XDS-M rarely errs from 100 donors up", fontsize=8, ha="left")
+fig.text(0.70, 0.865, "XDS-M: 3\u20138% of runs from 100 donors up", fontsize=8, ha="left")
 hs = [mpl.lines.Line2D([], [], color=COL[m], marker="o", ms=3.2, lw=1.9 if m == "XDSM" else 1.0) for m in ("PB", "LCP", "LCPd", "XDS", "XDSM")]
 fig.legend(hs, [LAB[m] for m in ("PB", "LCP", "LCPd", "XDS", "XDSM")], loc="upper left", bbox_to_anchor=(0.085, 1.0), ncol=5, frameon=False, fontsize=7,
            handlelength=1.6, columnspacing=1.4, handletextpad=0.5)

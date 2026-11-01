@@ -285,23 +285,17 @@ M["DCtext"] = (
     f"Cell numbers differ between AD cases and controls in all three PsychAD subtypes (medians {_a('Homeo_CECR2')} nuclei in Homeo\\_CECR2, "
     f"{_a('PVM_CD163')} in PVM\\_CD163 and {_a('ADAM_GPNMB')} in ADAM\\_GPNMB; Mann--Whitney $p\\le{DCPs}$). " "By Propositions~\\ref{prop:leak} and~\\ref{prop:transform}, "
     "groups with different cell numbers have different biases, so comparing co-expression between groups should produce false "
-    "differences. We tested this in the real-cell null, with each pseudo-donor carrying the AD label of the real donor whose cell number it has "
-    "(three reassignments per subtype; frozen plan DC\\_PREREG). Pseudobulk differential co-expression (difference of Fisher-transformed correlations) made "
-    f"{rng([v for s in S for v in dc[s]['PB']['null_calls']])} false calls per reassignment (per-pair type-I {rng([v for s in S for v in dc[s]['PB']['null_typeI']], f2)}), "
-    f"so the pre-registered decision that pseudobulk differential co-expression is confounded by cell number is {'YES' if dcyes else 'NO'}. "
-    f"XDS differential co-expression (Welch test of the per-donor cross-split products between groups) made {rng([v for s in S for v in dc[s]['XDS']['null_calls']])} "
-    f"(type-I {rng([v for s in S for v in dc[s]['XDS']['null_typeI']], f3)}; decision {'YES' if xdsok else 'NO'}), and the leak-corrected version "
-    f"made {rng([v for s in S for v in dc[s]['LCP']['null_calls']])} (type-I {rng([v for s in S for v in dc[s]['LCP']['null_typeI']], f3)}). "
-    f"On real donors pseudobulk reported {c(dc['P1']['PB']['real_calls'])}, {c(dc['P2']['PB']['real_calls'])} and {c(dc['P3']['PB']['real_calls'])} AD-associated "
-    f"co-expression changes in Homeo\\_CECR2, PVM\\_CD163 and ADAM\\_GPNMB. With only cell-number differences it makes {c(pbm['P1'])}, {c(pbm['P2'])} and {c(pbm['P3'])} on average, "
-    f"that is {100 * pbm['P1'] / dc['P1']['PB']['real_calls']:.0f}\\%, {100 * pbm['P2'] / dc['P2']['PB']['real_calls']:.0f}\\% and {100 * pbm['P3'] / dc['P3']['PB']['real_calls']:.0f}\\% of those numbers, "
-    f"comparable in size to the real-donor counts, although a comparison of counts cannot show which real calls are artifacts. XDS with pooled centring reported {c(dc['P1']['XDS']['real_calls'])}, {c(dc['P2']['XDS']['real_calls'])} and {c(dc['P3']['XDS']['real_calls'])}, mostly mean-shift artifacts (below). "
-    "The caveat of Section~\\ref{sec:null} applies: the pooled null has somewhat stronger within-donor structure than real donors.") if dc else None
+    "differences. On the pooled null with each pseudo-donor carrying the AD label of the real donor whose cell number it has (three reassignments per subtype; frozen plan DC\\_PREREG), "
+    f"pseudobulk differential co-expression (difference of Fisher-transformed correlations) made {rng([v for s in S for v in dc[s]['PB']['null_calls']])} false calls per reassignment "
+    f"(per-pair type-I {rng([v for s in S for v in dc[s]['PB']['null_typeI']], f2)}), on average {100 * pbm['P1'] / dc['P1']['PB']['real_calls']:.0f}\\%, {100 * pbm['P2'] / dc['P2']['PB']['real_calls']:.0f}\\% and {100 * pbm['P3'] / dc['P3']['PB']['real_calls']:.0f}\\% "
+    f"of the {c(dc['P1']['PB']['real_calls'])}, {c(dc['P2']['PB']['real_calls'])} and {c(dc['P3']['PB']['real_calls'])} AD-associated changes it reports on real donors, "
+    f"whereas a Welch test of per-donor cross-split products between groups made {rng([v for s in S for v in dc[s]['XDS']['null_calls']])} (type-I {rng([v for s in S for v in dc[s]['XDS']['null_typeI']], f3)}). "
+    ) if dc else None
 M["SplitText"] = ("XDS uses one random split per donor. On real PsychAD donors we repeated XDS with three split seeds (post hoc). The numbers of BH calls were "
     + "; ".join(f"{SUBN[s]} {', '.join(c(v) for v in sp[s]['n_calls'])}" for s in S)
     + ", and the Jaccard index between call sets from different seeds was "
     + "; ".join(f"{rng(sp[s]['jaccard'], f2)} ({SUBN[s]})" for s in S)
-    + ". Call counts are stable, but a fifth to a third of individual calls depend on the seed; aggregating several splits (for example by a Cauchy combination of $p$-values) is a natural extension that we have not evaluated.")
+    + ". Call counts are stable, but a fifth to a third of individual calls depend on the seed; XDS-M addresses this by averaging the per-donor products over five splits, which raised the Jaccard index between seeds to \\RealXDSMjac{} (Section~\\ref{sec:calib}).")
 
 M.block = "?"
 with open(os.path.join(OUT, "nums.tex"), "w") as fh:
