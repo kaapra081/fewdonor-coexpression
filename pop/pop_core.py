@@ -34,6 +34,7 @@ def std_R(m, psi):
 
 def perm_counts(L, Rr, a, b, obs, stud_obs=None, B=100_000, seed=0, batch=200):
     """Two-sided donor-permutation p-values for sum_d L[pi(d),a] Rr[d,b] (and its studentized version)."""
+    batch = int(os.environ.get("PERM_BATCH", batch))   # REV4: larger GPU batches; default unchanged
     dv = torch.device(os.environ.get("PERM_DEVICE", "cpu") if torch.cuda.is_available() or os.environ.get("PERM_DEVICE", "cpu") == "cpu" else "cpu")   # optional GPU; permutations still drawn on the CPU generator
     D = L.shape[0]; Lt = torch.tensor(L, dtype=torch.float32, device=dv); Rt = torch.tensor(Rr, dtype=torch.float32, device=dv)
     ai = torch.tensor(a, device=dv); bi = torch.tensor(b, device=dv); o = torch.tensor(np.abs(obs) - 1e-5, dtype=torch.float32, device=dv)
@@ -62,7 +63,7 @@ def normal_perm_p(L, Rr, a, b, obs):
     return norm.sf((np.abs(obs) - mu) / sd) + norm.cdf((-np.abs(obs) - mu) / sd)
 
 
-def run_methods(d, iu, B=100_000, seed=0, chunk=20000):
+def run_methods(d, iu, B=100_000, seed=0, chunk=20000, skip_x=False):
     a, b = iu; D = len(d["donors"]); out = {}
     out["PB"] = pearson_fisher(np.log1p(1e6 * d["m"]), iu)["p"]
     R = std_R(d["m"], d["psi"]); tau2, mu, _ = paule_mandel(d["m"], d["psi"]); v = tau2[None, :] + d["psi"]
@@ -80,7 +81,8 @@ def run_methods(d, iu, B=100_000, seed=0, chunk=20000):
     T = q.sum(0); t = q.mean(0) / np.maximum(q.std(0, ddof=1), 1e-300) * np.sqrt(D)
     if D <= 100:
         out["LCP"] = perm_counts(R, R, a, b, obs, B=B, seed=seed)
-        out["LCPX"], out["LCPXS"] = perm_counts(RA, RB, a, b, T, stud_obs=t, B=B, seed=seed + 1)
+        if skip_x: out["LCPX"] = out["LCPXS"] = None   # REV4 R1: LCPX not reported; skipped to save permutations
+        else: out["LCPX"], out["LCPXS"] = perm_counts(RA, RB, a, b, T, stud_obs=t, B=B, seed=seed + 1)
     else:
         out["LCP"] = normal_perm_p(R, R, a, b, obs)
         out["LCPX"] = normal_perm_p(RA, RB, a, b, T)
