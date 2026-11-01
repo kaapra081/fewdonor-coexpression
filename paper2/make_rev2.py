@@ -136,6 +136,17 @@ if os.path.exists(_a2):
         a_, b_ = _dec(hi_keys, m, ("0", "1", "2")); M[f"AtwoHiDec{lab}"] = f"{a_} of {b_}"
         a_, b_ = _dec(lo_keys, m, ("3",)); M[f"AtwoLoDec{lab}"] = f"{a_} of {b_}"
     if "P3_n0" in A2 or "P3_n1" in A2: M["AtwoHasPthree"] = "yes"
+    pk = [k for k in A2 if k.startswith("P3_")]
+    if pk:
+        def _dec_all(keys, m):
+            c = [A2[k][D][m][s]["calibrated"] for k in keys for D in ("200", "all") for s in A2[k][D][m] if s.isdigit()]
+            return sum(x is True for x in c), sum(x is not None for x in c)
+        a_, b_ = _dec_all(pk, "XDSM5"); M["AtwoPthreeDecM"] = f"{a_} of {b_}"
+        a_, b_ = _dec_all(pk, "XDS"); M["AtwoPthreeDecS"] = f"{a_} of {b_}"
+        a_, b_ = _dec_all(pk, "PB"); M["AtwoPthreeDecPB"] = f"{a_} of {b_}"
+        pv = [A2[k][D]["PB"]["Vtotal_mean"] for k in pk for D in ("200", "all")]
+        M["AtwoPthreePBcalls"] = f"{min(pv) / 1e3:,.0f},000--{max(pv) / 1e3:,.0f},000"
+        M["AtwoPthreeRuns"] = str(min(A2[k]["runs"] for k in pk))
     M["AtwoRunsAll"] = "; ".join(f"{k.replace('_n0', ' pooled').replace('_n1', ' donor-centred')}: {A2[k]['runs']}" for k in sorted(A2))
 
 # REV2 F (A5 overdispersion stress), if summarized
@@ -196,6 +207,7 @@ except Exception as e:
 try:
     o3 = []
     if "AtwoHiDecM" in M: o3.append(f"(A2) XDS-M (S = 5) met the calibration rule in {M['AtwoHiDecM']} combinations for genes above 0.1 UMI per cell and in {M['AtwoLoDecM']} for 0.03--0.1 UMI per cell; pseudobulk in none")
+    if "AtwoPthreeDecM" in M: o3.append(f"(A2-P3, ADAM\\_GPNMB, 2{{,}}000 genes all above 0.3 UMI per cell) XDS-M met the rule in {M['AtwoPthreeDecM']}, single-split XDS in {M['AtwoPthreeDecS']}, pseudobulk in {M['AtwoPthreeDecPB']}")
     if "AthreeHoldsXDSMHundred" in M: o3.append(f"(A3) XDS with permutation $p$-values held at every size; XDS-M held at 100 donors in {M['AthreeHoldsXDSMHundred']} subtypes, at 50 in {M['AthreeHoldsXDSMFifty']}, at 25 in {M['AthreeHoldsXDSMTwentyFive']}; LCP held at 25 and 50 and failed at 100")
     if "BtwoPBw" in M: o3.append("(B2) the frozen criterion that covariate adjustment does not fix pseudobulk was not met, because precision weighting left fewer than 100 mean false calls in two subtypes, although it made at least one false call in every run")
     if "BthreeXDSM" in M: o3.append(f"(B3) descriptive: XDS-M {M['BthreeXDSM']}, LCPd {M['BthreeLCPd']} runs with a false call")

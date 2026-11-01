@@ -181,7 +181,13 @@
  "AtwoLoFivePB": "917--23,700",
  "AtwoHiDecPB": "0 of 24",
  "AtwoLoDecPB": "0 of 4",
- "AtwoRunsAll": "B1 pooled: 20; B1 donor-centred: 20; B1x pooled: 10; B1x donor-centred: 10; B2 pooled: 20; B2 donor-centred: 20",
+ "AtwoHasPthree": "yes",
+ "AtwoPthreeDecM": "8 of 8",
+ "AtwoPthreeDecS": "0 of 8",
+ "AtwoPthreeDecPB": "0 of 8",
+ "AtwoPthreePBcalls": "154,000--420,000",
+ "AtwoPthreeRuns": "20",
+ "AtwoRunsAll": "B1 pooled: 20; B1 donor-centred: 20; B1x pooled: 10; B1x donor-centred: 10; B2 pooled: 20; B2 donor-centred: 20; P3 pooled: 20; P3 donor-centred: 20",
  "FtwoFDRPB": "0.540",
  "FtwosePB": "0.018",
  "FtwoPowPB": "0.84",
@@ -252,6 +258,6 @@
  "BthreeXDS": "6/40, 4/40, 8/40",
  "BthreeR": "40",
  "REVtwoOutcomes": "(A) cells within the run-level bound: XDS-M 8 of 9 (fails P3 at 400), KX 9 of 9, LCPd 3 of 9, single-split XDS 0 of 9, pseudobulk and LCP 0 of 9; LCPd is therefore not co-recommended. (B, C) no trend of the standardized mean square with cell number; real-donor XDS-M results in Section~\\ref{sec:real}. (D) pseudobulk differential co-expression confounded on the donor-centred null (\\DCdcPB{} false calls); group-centred XDS-M variants \\DCdcXDS{}. (E) XDS-M within the bound over 33 runs in \\OnekEholdXDSM; PBlin made thousands of false calls, so the transformation is not the main cause. (F) reported in Section~\\ref{sec:null}.",
- "REVthreeOutcomes": "(A2) XDS-M (S = 5) met the calibration rule in 23 of 24 combinations for genes above 0.1 UMI per cell and in 1 of 4 for 0.03--0.1 UMI per cell; pseudobulk in none; (A3) XDS with permutation $p$-values held at every size; XDS-M held at 100 donors in three of three subtypes, at 50 in one of three, at 25 in none of three; LCP held at 25 and 50 and failed at 100; (B2) the frozen criterion that covariate adjustment does not fix pseudobulk was not met, because precision weighting left fewer than 100 mean false calls in two subtypes, although it made at least one false call in every run; (B3) descriptive: XDS-M 1/40, 2/40, 1/40, LCPd 7/40, 36/40, 40/40 runs with a false call.",
+ "REVthreeOutcomes": "(A2) XDS-M (S = 5) met the calibration rule in 23 of 24 combinations for genes above 0.1 UMI per cell and in 1 of 4 for 0.03--0.1 UMI per cell; pseudobulk in none; (A2-P3, ADAM\\_GPNMB, 2{,}000 genes all above 0.3 UMI per cell) XDS-M met the rule in 8 of 8, single-split XDS in 0 of 8, pseudobulk in 0 of 8; (A3) XDS with permutation $p$-values held at every size; XDS-M held at 100 donors in three of three subtypes, at 50 in one of three, at 25 in none of three; LCP held at 25 and 50 and failed at 100; (B2) the frozen criterion that covariate adjustment does not fix pseudobulk was not met, because precision weighting left fewer than 100 mean false calls in two subtypes, although it made at least one false call in every run; (B3) descriptive: XDS-M 1/40, 2/40, 1/40, LCPd 7/40, 36/40, 40/40 runs with a false call.",
  "XDSMholdsLarge": "fourteen of fifteen"
 }
