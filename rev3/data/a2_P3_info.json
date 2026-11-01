@@ -1,0 +1,13 @@
+{
+ "subtype": "ADAM_GPNMB",
+ "cells": 16289,
+ "donors": 744,
+ "G": 2000,
+ "strata": [
+  1083,
+  917,
+  0,
+  0,
+  0
+ ]
+}

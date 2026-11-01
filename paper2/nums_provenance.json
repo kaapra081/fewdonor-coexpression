@@ -73,9 +73,9 @@
   "FalseRmed": "committed results/rev (pooling, rev_dc_r5, rev_sim_results, real_P*)",
   "FalseRgtOne": "committed results/rev (pooling, rev_dc_r5, rev_sim_results, real_P*)",
   "FalseRgtTwo": "committed results/rev (pooling, rev_dc_r5, rev_sim_results, real_P*)",
-  "DCgNull": "STALE: kept from committed nums.tex, block 'DCg (rev/out/DCg_*.npz or paper2/dcg_summary.json)' skipped",
-  "DCgTI": "STALE: kept from committed nums.tex, block 'DCg (rev/out/DCg_*.npz or paper2/dcg_summary.json)' skipped",
-  "DCgReal": "STALE: kept from committed nums.tex, block 'DCg (rev/out/DCg_*.npz or paper2/dcg_summary.json)' skipped",
+  "DCgNull": "DCg (rev/out/DCg_*.npz or paper2/dcg_summary.json)",
+  "DCgTI": "DCg (rev/out/DCg_*.npz or paper2/dcg_summary.json)",
+  "DCgReal": "DCg (rev/out/DCg_*.npz or paper2/dcg_summary.json)",
   "DCovP": "committed results/rev (rev_dc_r5, real_P*, rev_sim_results)",
   "DCgHubs": "committed results/rev (rev_dc_r5, real_P*, rev_sim_results)",
   "PosXYn": "committed results/rev (rev_dc_r5, real_P*, rev_sim_results)",
@@ -101,22 +101,15 @@
   "nums.tex": "regenerated",
   "table_sim.tex": "regenerated",
   "table_null.tex": "regenerated",
-  "table_ablate.tex": "SKIPPED: needs R1 and SEA-AD null summaries"
+  "table_ablate.tex": "regenerated"
  },
  "hand_typed": [
   "NnucPsy"
  ],
- "stale": [
-  "DCgNull",
-  "DCgTI",
-  "DCgReal"
- ],
+ "stale": [],
  "notes": [
   "OneK1K: onek/out/ON_*.npz (gitignored) not found; using the committed compact summary paper2/onek_summary.json",
   "DC: dc/out/DC_*.npz (gitignored) not found; using the committed compact summary paper2/dc_summary.json"
  ],
- "warnings": [
-  "DCg: rev/out/DCg_P*_k*.npz and DCg_P*_real.npz (gitignored *.npz) not found and paper2/dcg_summary.json is absent: macros DCgNull, DCgTI, DCgReal are STALE (kept from committed nums.tex). Run make_nums.py once where the .npz exist and commit paper2/dcg_summary.json",
-  "table_ablate: rev/out/seanull_S1_k*.npz, seanull_S2_k*.npz (gitignored *.npz) not found and paper2/seanull_summary.json is absent: the SEA-AD column for XDS-M and KX cannot be computed, so table_ablate.tex is NOT rewritten (the committed file stays). Run make_nums.py once where the .npz exist and commit paper2/seanull_summary.json"
- ]
+ "warnings": []
 }
