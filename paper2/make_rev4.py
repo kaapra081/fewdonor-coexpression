@@ -88,7 +88,7 @@ from scipy.stats import beta as _beta
 _up = lambda k, n: 100 * _beta.ppf(0.975, k + 1, n - k)
 _k400 = sum(RA_[x]["400"]["XDSM"]["any"] for x in SUBS) if (RA_ := json.load(open(P("rev2/interim/REV2_SUMMARY_latest.json")))["A"]) else 0
 mac("RfUpperPooled", f"{_up(_k400, 300):.0f}\\%"); mac("RfUpperThree", f"{_up(RA_['P3']['400']['XDSM']['any'], 100):.0f}\\%")
-_secs = [v["sec"] for k, v in R1.items() if "sec" in v]; mac("RfRoneMin", f"{np.median(_secs) / 60:.0f}" if _secs else "?")
+_secs = [v["sec"] for k, v in R1.items() if "sec" in v]; mac("RfRoneMin", f"{np.median(_secs) / 60:.0f}" if _secs else "?"); mac("RfRoneMinRange", f"{min(_secs) / 60:.0f}--{max(_secs) / 60:.0f}" if _secs else "?")
 for _D, _w in (("25", "TwentyFive"), ("50", "Fifty"), ("100", "Hundred")):
     _sv = [x for x in SUBS if S["R1"][x]["n"]]
     if _sv:
@@ -136,7 +136,7 @@ open(P("paper2/table_pbfix.tex"), "w").write("\n".join(L) + "\n")
 # Appendix: R1 per subtype, R2 per subtype
 if all(S["R1"][s]["n"] for s in SUBS):
     L = ["\\begin{table}[h]\\centering\\small\\setlength{\\tabcolsep}{3pt}",
-         f"\\caption{{Small cohorts with $2\\times10^6$ donor permutations (REV4 R1): reassignments with at least one BH call, of {S['R1']['P1']['n']}, {S['R1']['P2']['n']} and {S['R1']['P3']['n']} per subtype, donor-centred null (clip $[0.1,10]$). $^\\dagger$: outside the frozen bound. LCP, LCPd and XDS (perm.) use donor-permutation $p$-values (smallest attainable $p=5\\times10^{{-7}}$, below the BH first-call threshold); XDS (normal), XDS-M and KX use normal references.}}\\label{tab:R1}",
+         f"\\caption{{Small cohorts with $2\\times10^6$ donor permutations (REV4 R1): reassignments with at least one BH call, of {S['R1']['P1']['n']}, {S['R1']['P2']['n']} and {S['R1']['P3']['n']} per subtype, donor-centred null (clip $[0.1,10]$). $^\\dagger$: outside the frozen bound. LCP, LCPd and XDS (perm.) use donor-permutation $p$-values (smallest attainable $p=5\\times10^{{-7}}$, below the BH first-call threshold); XDS (normal), XDS-M and KX use normal references.}}\\label{{tab:R1}}",
          "\\begin{tabular}{lccccccccc}\\toprule & \\multicolumn{3}{c}{Homeo\\_CECR2} & \\multicolumn{3}{c}{PVM\\_CD163} & \\multicolumn{3}{c}{ADAM\\_GPNMB}\\\\",
          "Method & 25 & 50 & 100 & 25 & 50 & 100 & 25 & 50 & 100\\\\\\midrule"]
     for m, lab in (("PB", "PB"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("XDSperm", "XDS (perm.)"), ("XDS", "XDS (normal)"), ("XDSM", "XDS-M"), ("KX", "KX")):
@@ -165,10 +165,10 @@ def pool(cells):   # cells: list of (any, n) per subtype -> "k/n" with dagger if
     k = sum(a for a, n in cells); n = sum(n for a, n in cells)
     if n == 0: return "--"
     return f"{k}/{n}" + ("" if all(holds(a, n_) for a, n_ in cells if n_) else "$^\dagger$")
-rows = [("PB", "Pseudobulk"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("XDS", "XDS, one split"), ("XDSM", "XDS-M"), ("KX", "KX")]
+rows = [("PB", "Pseudobulk"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("XDS", "XDS, one split$^\\ddagger$"), ("XDSM", "XDS-M"), ("KX", "KX")]
 perm = {"LCP", "LCPd", "XDS"}
 L = ["\\begin{table}[t]\\centering\\small\\setlength{\\tabcolsep}{3.2pt}",
-     "\\caption{Run-level error on real-cell nulls: reassignments with at least one BH call, pooled over the three PsychAD subtypes (under a complete null this fraction is the FDR). $^\\dagger$: outside the frozen bound ($0.05+2$\\,SE) in at least one subtype or cell type. Donor-centred null: 25--100 pseudo-donors from REV3 (100 runs per subtype) for pseudobulk, XDS-M and KX, and from REV4 with $2\\times10^6$ donor permutations (" + str(S["R1"]["P1"]["n"]) + "--" + str(max(S["R1"][x]["n"] for x in SUBS)) + " runs per subtype) for LCP, LCPd and XDS, which use permutation $p$-values at $D\\le100$; 200 to full size from REV2 (100 runs per subtype, normal references). Bank: brain-bank-stratified null at full size (REV4, 40 runs per subtype); the bank-centred row is post hoc (Section~\\ref{sec:calib}). OneK1K: pooled null at full size, three cell types (REV2; 30--33 runs each).}\\label{tab:calib}",
+     "\\caption{Run-level error on real-cell nulls: reassignments with at least one BH call, pooled over the three PsychAD subtypes (under a complete null this fraction is the FDR). $^\\dagger$: outside the frozen bound ($0.05+2$\\,SE) in at least one subtype or cell type. $^\\ddagger$: permutation $p$-values at 25--100, normal-moment reference from 200. Donor-centred null: 25--100 pseudo-donors from REV3 (100 runs per subtype) for pseudobulk, XDS-M and KX, and from REV4 with $2\\times10^6$ donor permutations (" + str(S["R1"]["P1"]["n"]) + "--" + str(max(S["R1"][x]["n"] for x in SUBS)) + " runs per subtype) for LCP, LCPd and XDS, which use permutation $p$-values at $D\\le100$; 200 to full size from REV2 (100 runs per subtype, normal references). Bank: brain-bank-stratified null at full size (REV4, 40 runs per subtype); the bank-centred row is post hoc (Section~\\ref{sec:calib}). OneK1K: pooled null at full size, three cell types (REV2; 30--33 runs each).}\\label{tab:calib}",
      "\\begin{tabular}{lcccccc|c|c}\\toprule & \\multicolumn{6}{c|}{Donor-centred null, pseudo-donors} & Bank & OneK1K\\\\",
      "Method & 25 & 50 & 100 & 200 & 400 & full & full & full\\\\\\midrule"]
 for m, lab in rows:
@@ -213,6 +213,7 @@ if c1r:
 c2 = S["C"]["C2"]
 if c2:
     mac("BmX", anyn(c2, "XDSM")); mac("BmXHolds", hold3(c2, "XDSM")); mac("BmXb", anyn(c2, "XDSMb")); mac("BmXbHolds", hold3(c2, "XDSMb")); mac("BmPB", rng([c2[x]["PB"]["meanV"] for x in c2]))
+    mac("BmDepth", "; ".join(SN[x] + " " + ", ".join(f"{b} {np.exp(c2[x]['bank_stats'][b]['mean_log_depth']):,.0f}".replace(",", "{,}") for b in ("M", "H", "R")) for x in SUBS if x in c2))
 c3 = S["C"]["C3"]
 if c3:
     for key, nm in (("XDSM_seed_vs_seed", "Seed"), ("PB_vs_XDSM", "PBX"), ("XDSM_half_vs_half", "HalfX"), ("PB_half_vs_half", "HalfPB")):
@@ -267,6 +268,32 @@ if os.path.exists(a4f):
     if d4:
         mac("McResidEtaNull", f"{d4['null_false_degree']['eta2_resid']:.2f}"); mac("McResidEtaNullP", f"{d4['null_false_degree']['p']:.3f}")
         mac("McResidEtaXP", f"{d4['XDSM_degree']['p']:.3f}"); mac("McResidEtaPBonlyP", f"{d4['PB_only_degree']['p']:.2f}"); mac("McResidRtwo", f"{d4['null_false_degree']['r2_expression']:.2f}")
+# REV4 Amendment 5 (post hoc): stratified modularity, 20 reassignments, equal-size sets, GO check, sex positive control, ORs
+a5f = P("rev4/out/A4/A5_summary.json")
+if os.path.exists(a5f):
+    A5 = json.load(open(a5f)); S["A5"] = A5; zf = lambda v: f"{v:.1f}".replace("-", "$-$")
+    def zl5(es, part="leaf"): return ", ".join(zf(A5[x][part][es]["Q_z"]) for x in SUBS)
+    mac("AfNullZ", zl5("null_PB")); mac("AfNullPmax", f"{max(A5[x]['leaf']['null_PB']['p_Q'] for x in SUBS):.4f}")
+    mac("AfTopNullZ", zl5("top5000_null_PB")); mac("AfTopPBZ", zl5("top5000_real_PB")); mac("AfTopXZ", zl5("top5000_real_XDSM"))
+    mac("AfPBonlyZ", zl5("PB_only")); mac("AfXonlyZ", zl5("XDSM_only"))
+    mac("AfTwentyZ", ", ".join(f"{A5[x]['null20']['z_mean']:.1f}" for x in SUBS)); mac("AfTwentySD", ", ".join(f"{A5[x]['null20']['z_sd']:.1f}" for x in SUBS))
+    mac("AfTwentyN", ", ".join(str(A5[x]["null20"]["n_p_lt_001"]) for x in SUBS))
+    rr = lambda v, d=2: f"{min(v):.{d}f}--{max(v):.{d}f}"
+    mac("AfGONull", rr([A5[x]["GO"]["sets"]["null_PB"]["ratio"] for x in SUBS])); mac("AfGONullP", f"{min(A5[x]['GO']['sets']['null_PB']['p'] for x in SUBS):.2f}")
+    mac("AfGOReal", rr([A5[x]["GO"]["sets"][e]["ratio"] for x in SUBS for e in ("real_PB", "real_XDSM")]))
+    mac("AfGORealP", rr([A5[x]["GO"]["sets"][e]["p"] for x in SUBS for e in ("real_PB", "real_XDSM")], 3))
+    mac("AfGOTop", rr([A5[x]["GO"]["sets"][e]["ratio"] for x in SUBS for e in ("top5000_null_PB", "top5000_real_PB", "top5000_real_XDSM")]))
+    mac("AfLeafGOin", rr([100 * A5[x]["leaf_GO_check"]["within_leaf_shared"] for x in SUBS], 0) + "\\%"); mac("AfLeafGOall", rr([100 * A5[x]["leaf_GO_check"]["all_pairs_shared"] for x in SUBS], 0) + "\\%")
+    mac("AfGOterms", ", ".join(str(A5[x]["GO"]["n_terms"]) for x in SUBS)); mac("AfRule", f"{A5['rule']['a']}, {A5['rule']['b']} and {A5['rule']['d']}")
+    mac("OvORall", ", ".join(f"{A5[x]['PBonly_null_OR']['OR']:.2f}" for x in SUBS))
+    sx = {x: json.load(open(P(f"rev4/out/A5sex_{x}.json"))) for x in SUBS if os.path.exists(P(f"rev4/out/A5sex_{x}.json"))}
+    if len(sx) == 3:
+        mac("SexXYc", ", ".join(str(sx[x]["XIST_Y"]["called_XDSMc"]) for x in SUBS)); mac("SexYYc", ", ".join(str(sx[x]["Y_Y"]["called_XDSMc"]) for x in SUBS))
+        def sci_(v): e = int(np.floor(np.log10(v))); return f"10^{{{e}}}" if v > 0 else "0"
+        mac("SexPc", rr([sx[x][k]["median_p_XDSMc"] for x in SUBS for k in ("XIST_Y", "Y_Y")], 4))
+        mac("SexPraw", "10^{-300}" if min(sx[x][k]["median_p_XDSM"] for x in SUBS for k in ("XIST_Y",)) == 0 else "")
+        mac("SexPrawMax", sci_(max(sx[x][k]["median_p_XDSM"] for x in SUBS for k in ("XIST_Y", "Y_Y"))))
+rsim = json.load(open(P("results/rev/rev_sim_results.json"))); mac("KXpowTwo", f"{rsim['L200']['KX']['power']:.2f}"); mac("XDSMpowTwo", f"{rsim['L200']['XDSM']['power']:.2f}")
 with open(P("paper2/rev4nums.tex"), "w") as fh:
     fh.write("% generated by make_rev4.py from rev4/results/REV4_SUMMARY.json\n")
     for k, v in M.items(): fh.write(f"\\newcommand{{\\{k}}}{{{v}}}\n")

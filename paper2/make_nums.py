@@ -331,7 +331,7 @@ if have_r1:
             f"{c(a[m]['mean_calls'])} & {a[m]['typeI']:.3f} & {a[m]['typeI_top1']:.3f}" for m in ("PB", "LCP", "LCPXd")) +
             f" & {c(np.mean(rp['PB']['replicated_false']))} & {r1[s]['XDS']['runs_any']}/{r1[s]['XDS']['n']} & {r1[s]['XDSM']['runs_any']}/{r1[s]['XDSM']['n']} \\\\")
     open(os.path.join(OUT, "table_null.tex"), "w").write(
-        "\\begin{table}[t]\\centering\\small\\setlength{\\tabcolsep}{3.5pt}\\caption{PsychAD real-cell null at full cohort size (pseudo-donors; median nuclei), mean over three reassignments. "
+        "\\begin{table}[t]\\centering\\small\\setlength{\\tabcolsep}{3.5pt}\\caption{PsychAD pooled null at full cohort size (pseudo-donors; median nuclei), mean over three reassignments. "
         "Calls: BH false discoveries among $\\sim$89{,}000 pairs. TI: per-pair type-I error at 0.05, over all pairs and over the 1\\% most within-correlated pairs. Rep.: PB false calls replicated (same sign, $p<0.05$) in an independent half of the pseudo-donors. Runs: reassignments with at least one false call (equal to the FDR under this complete null) among further reassignments, for XDS and XDS-M.}\\label{tab:null}\n"
         "\\resizebox{\\linewidth}{!}{\\begin{tabular}{lcccccccccccc}\\toprule & \\multicolumn{3}{c}{PB} & \\multicolumn{3}{c}{LCP} & \\multicolumn{3}{c}{XDS} & Rep. & \\multicolumn{2}{c}{Runs $V\\ge1$}\\\\"
         "\\cmidrule(lr){2-4}\\cmidrule(lr){5-7}\\cmidrule(lr){8-10}\\cmidrule(lr){12-13}\n Subtype & Calls & TI & top 1\\% & Calls & TI & top 1\\% & Calls & TI & top 1\\% & PB & XDS & XDS-M\\\\\\midrule\n"
@@ -379,7 +379,7 @@ if have_r1 and sea_top1:
         elif key in ("XDSM", "KX"): sea = rng(sea_top1[key], f3)
         rows.append(f"{nm} & {stdz} & {leak} & {left} & {calls} & {ti} & {sea} \\\\")
     open(os.path.join(OUT, "table_ablate.tex"), "w").write(
-        "\\begin{table}[t]\\centering\\small\\setlength{\\tabcolsep}{3pt}\\caption{Each correction and the bias it leaves. Calls and TI: PsychAD real-cell null at full size, mean calls per reassignment and per-pair type-I (range over subtypes; XU, XDS-M and KX on further reassignments). "
+        "\\begin{table}[t]\\centering\\small\\setlength{\\tabcolsep}{3pt}\\caption{Each correction and the bias it leaves. Calls and TI: PsychAD pooled null at full size, mean calls per reassignment and per-pair type-I (range over subtypes; XU, XDS-M and KX on further reassignments). "
         "SEA-AD: type-I for the 1\\% most within-correlated pairs in the SEA-AD real-cell null (79 and 83 pseudo-donors). LCP2 (not shown) had SEA-AD top-1\\% type-I "
         + rng([fx["null"][s]["LCP2"]["typeI_top1"] for s in ("S1", "S2")], f3) + ".}\\label{tab:ablate}\n"
         "\\resizebox{\\linewidth}{!}{\\begin{tabular}{lllllll}\\toprule Method & Standardization & Leak handling & Bias left & Calls & TI & SEA-AD\\\\\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\\end{tabular}}\\end{table}\n")

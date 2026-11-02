@@ -1,0 +1,25 @@
+{
+ "XIST_Y": {
+  "n": 7,
+  "called_XDSM": 7,
+  "called_XDSMc": 0,
+  "called_sexonly": 0,
+  "median_p_XDSM": 7.066360569821365e-229,
+  "median_p_XDSMc": 0.18104810874268817,
+  "median_p_sexonly": 0.11562955549848121
+ },
+ "Y_Y": {
+  "n": 21,
+  "called_XDSM": 21,
+  "called_XDSMc": 10,
+  "called_sexonly": 11,
+  "median_p_XDSM": 5.5449093985115524e-70,
+  "median_p_XDSMc": 0.03446694698833988,
+  "median_p_sexonly": 0.019799606919872488
+ },
+ "calls_total": {
+  "XDSM": 60272,
+  "XDSMc": 57568,
+  "sexonly": 59331
+ }
+}

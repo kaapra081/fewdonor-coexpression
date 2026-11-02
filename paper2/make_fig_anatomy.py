@@ -46,17 +46,20 @@ axe.set_ylabel("Null false-edge degree", labelpad=1); axe.set_ylim(-5, g.null_fa
 axe.annotate(HS.replace("Chaperones And ", "Chaperones\nAnd "), xy=(pos[HS] + 0.3, lt[HS]), xytext=(5.0, g.null_false_degree.max() * 1.0), fontsize=6, color=HSC, ha="left", va="center",
              arrowprops=dict(arrowstyle="-", color=HSC, lw=0.6))
 axe.set_title("Homeo_CECR2 null: false-edge degree\nby function cluster", loc="left", fontsize=7)
-# (f) modularity of the Mantis function partition on each edge set (REV4 Amendment 4)
-A4 = json.load(open("rev4/out/A4/A4_summary.json")); ES = [("null_PB", "Null pseudo-\nbulk (false)"), ("real_PB", "Real\npseudobulk"), ("real_XDSM", "Real\nXDS-M"), ("PB_only", "Pseudobulk\nonly"), ("XDSM_only", "XDS-M\nonly")]
-MK = {"P1": ("o", "Homeo_CECR2"), "P2": ("s", "PVM_CD163"), "P3": ("^", "ADAM_GPNMB")}; ECOL = {"null_PB": PBC, "real_PB": PBC, "real_XDSM": XC, "PB_only": PBC, "XDSM_only": XC}
-for j, (es, lab_) in enumerate(ES):
+# (f) modularity of the Mantis function partition on each edge set (REV4 Amendments 4-5; expression-stratified relabelling)
+A5 = json.load(open("rev4/out/A4/A5_summary.json")); ES = [("null20", "Null pseudobulk\n(20 runs)"), ("top5000_null_PB", "Null pseudobulk\ntop 5,000"), ("top5000_real_PB", "Real pseudo-\nbulk top 5,000"), ("top5000_real_XDSM", "Real XDS-M\ntop 5,000"), ("PB_only", "Pseudobulk\nonly"), ("XDSM_only", "XDS-M\nonly")]
+MK = {"P1": ("o", "Homeo_CECR2"), "P2": ("s", "PVM_CD163"), "P3": ("^", "ADAM_GPNMB")}; ECOL = {"null20": PBC, "top5000_null_PB": PBC, "top5000_real_PB": PBC, "top5000_real_XDSM": XC, "PB_only": PBC, "XDSM_only": XC}
+for j_, (es, lab_) in enumerate(ES):
     for k_, (sx, (mk, nm)) in enumerate(MK.items()):
-        z = A4[sx]["leaf"]["sets"][es]["Q_z"]; filled = es == "null_PB"
-        axf.scatter(z, j + (k_ - 1) * 0.2, marker=mk, s=11, color=ECOL[es] if filled else "white", edgecolor=ECOL[es], lw=0.8, zorder=3, label=nm if j == 1 else None)
-axf.axvline(0, color="0.5", lw=0.6); axf.axvline(2.33, color="0.5", lw=0.6, ls=":"); axf.text(2.43, -0.42, "p = 0.01", fontsize=6, color="0.4", va="center")
-axf.set_yticks(range(len(ES))); axf.set_yticklabels([l for _, l in ES], fontsize=6); axf.invert_yaxis(); axf.set_xlim(-3, 6.2); axf.set_ylim(4.6, -0.6)
+        yy = j_ + (k_ - 1) * 0.2; filled = es in ("null20", "top5000_null_PB")
+        if es == "null20":
+            z = A5[sx]["null20"]["z_mean"]; sd = A5[sx]["null20"]["z_sd"]; axf.plot([z - sd, z + sd], [yy, yy], color=ECOL[es], lw=0.8, zorder=2)
+        else: z = A5[sx]["leaf"][es]["Q_z"]
+        axf.scatter(z, yy, marker=mk, s=11, color=ECOL[es] if filled else "white", edgecolor=ECOL[es], lw=0.8, zorder=3)
+axf.axvline(0, color="0.5", lw=0.6); axf.axvline(2.33, color="0.5", lw=0.6, ls=":")
+axf.set_yticks(range(len(ES))); axf.set_yticklabels([l for _, l in ES], fontsize=6); axf.set_xlim(-3, 6.6); axf.set_ylim(len(ES) - 0.4, -0.6)
 axf.set_xlabel("Function modularity (z)", labelpad=3)
-axf.set_title("Edges within function clusters:\nfalse edges most coherent", loc="left", fontsize=7)
+axf.set_title("Edges within function clusters:\nfalse edges as coherent as real", loc="left", fontsize=7)
 hh = [mpl.lines.Line2D([], [], marker=m_, ls="", mfc="white", mec="0.3", ms=3.5, mew=0.8) for m_, _ in MK.values()]
 axf.legend(hh, [nm for _, nm in MK.values()], frameon=False, fontsize=6, loc="lower right", handletextpad=0.2, borderaxespad=0.1, ncol=1)
 for a_, l_ in zip(axs + [axd, axe, axf], "abcdef"): panel_letter(a_, l_)
