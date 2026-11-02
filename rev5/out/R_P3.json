@@ -1,0 +1,161 @@
+{
+ "D": 744,
+ "calls": {
+  "PB": 37325,
+  "XDSM": 37866,
+  "KX": 28030,
+  "PBw": 38395
+ },
+ "R2": {
+  "spearman_delta_rw": -0.3530957158137551,
+  "spearman_rPB_XDSr": 0.8054597538021574,
+  "median_delta_top_rw": -0.0962252643461668,
+  "median_delta_bottom_rw": 0.08002453623591052,
+  "median_rPB": 0.038854990273850365,
+  "median_XDSr": 0.034174342233293215,
+  "undefined": 0
+ },
+ "R3": {
+  "XDSMd": 36224,
+  "XDSMd_keep": 0.9202978925685311,
+  "XDSMlib": 27518,
+  "D_lib": 616,
+  "XDSt1_libdonors": 28618,
+  "XDSMlib_keep_of_XDSM": 0.6713674536523531,
+  "XDSMlib_keep_of_t1": 0.7625969669438815
+ },
+ "R4": {
+  "mismatch": 4,
+  "mismatch_male_meta": 4,
+  "mismatch_female_meta": 0,
+  "all_XDSMc": {
+   "XIST_Y": {
+    "called": 6,
+    "n": 7,
+    "median_p": 0.00020165828558926696,
+    "mean_q_sign": -1.0
+   },
+   "Y_Y": {
+    "called": 17,
+    "n": 21,
+    "median_p": 0.0014308654247930962
+   },
+   "calls_total": 37361
+  },
+  "all_sexonly": {
+   "XIST_Y": {
+    "called": 7,
+    "n": 7,
+    "median_p": 0.0002232792590198515
+   },
+   "Y_Y": {
+    "called": 16,
+    "n": 21,
+    "median_p": 0.0015413704173619922
+   },
+   "calls_total": 37387
+  },
+  "nomismatch_XDSMc": {
+   "XIST_Y": {
+    "called": 5,
+    "n": 7,
+    "median_p": 0.0006591100886448016,
+    "mean_q_sign": -1.0
+   },
+   "Y_Y": {
+    "called": 15,
+    "n": 21,
+    "median_p": 0.008632413867850155
+   },
+   "calls_total": 37462
+  },
+  "nomismatch_sexonly": {
+   "XIST_Y": {
+    "called": 5,
+    "n": 7,
+    "median_p": 0.0003097338339637477
+   },
+   "Y_Y": {
+    "called": 15,
+    "n": 21,
+    "median_p": 0.007919357233796038
+   },
+   "calls_total": 37415
+  },
+  "clean_XDSMc": {
+   "XIST_Y": {
+    "called": 6,
+    "n": 7,
+    "median_p": 0.0011130325749644174,
+    "mean_q_sign": -1.0
+   },
+   "Y_Y": {
+    "called": 15,
+    "n": 21,
+    "median_p": 0.002757367702840169
+   },
+   "calls_total": 37431
+  },
+  "clean_sexonly": {
+   "XIST_Y": {
+    "called": 6,
+    "n": 7,
+    "median_p": 0.00046854077604852425
+   },
+   "Y_Y": {
+    "called": 16,
+    "n": 21,
+    "median_p": 0.0020503668410569976
+   },
+   "calls_total": 37431
+  },
+  "nuclei_removed": 26,
+  "within_male": {
+   "XIST_Y": {
+    "called": 0,
+    "n": 7,
+    "median_p": 0.3614123683949767,
+    "mean_q_sign": -1.0
+   },
+   "Y_Y": {
+    "called": 6,
+    "n": 21,
+    "median_p": 0.04379172267282217
+   },
+   "calls_total": 17942,
+   "D": 303
+  },
+  "within_female": {
+   "XIST_Y": {
+    "called": 0,
+    "n": 7,
+    "median_p": 0.4078507593389771,
+    "mean_q_sign": 1.0
+   },
+   "Y_Y": {
+    "called": 4,
+    "n": 21,
+    "median_p": 0.18028695014926988
+   },
+   "calls_total": 26695,
+   "D": 437
+  },
+  "lib": {
+   "XIST_Y": {
+    "called": 7,
+    "n": 7,
+    "median_p": 1.397819293766766e-66,
+    "mean_q_sign": -1.0
+   },
+   "Y_Y": {
+    "called": 21,
+    "n": 21,
+    "median_p": 2.508033984662221e-28
+   },
+   "calls_total": 27518
+  },
+  "LOY_spearman_age_Yscore_males": -0.06355868169023347,
+  "LOY_n": 303
+ },
+ "sec": 31
+}
