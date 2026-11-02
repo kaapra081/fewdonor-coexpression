@@ -6,11 +6,11 @@ gmap = pd.read_csv("rev4/mantis/gene_map_mantis.csv"); gn = pd.read_csv(f"{R6}/g
 mc = json.load(open(f"{R6}/R6_mantis_clusters.json")); HS = mc["top_null_cluster"]["label"]
 apply_figure_style(sizes=(8, 7, 6))
 PBC, XC, HSC = "#7f7f7f", "#0b2e5a", "#d95f02"
-fig = plt.figure(figsize=(7.0, 4.15))
+fig = plt.figure(figsize=(7.0, 3.85))
 top = fig.add_gridspec(1, 3, wspace=0.06, left=0.03, right=0.86, bottom=0.55, top=0.9)
 axs = [fig.add_subplot(top[0, i]) for i in range(3)]
-bot = fig.add_gridspec(1, 2, width_ratios=[1, 2.25], wspace=0.22, left=0.075, right=0.99, bottom=0.075, top=0.43)
-axd = fig.add_subplot(bot[0, 0]); axe = fig.add_subplot(bot[0, 1])
+bot = fig.add_gridspec(1, 3, width_ratios=[1, 1.5, 0.95], wspace=0.40, left=0.075, right=0.99, bottom=0.085, top=0.425)
+axd = fig.add_subplot(bot[0, 0]); axe = fig.add_subplot(bot[0, 1]); axf = fig.add_subplot(bot[0, 2])
 norm = mpl.colors.Normalize(vmin=0.6, vmax=2.6); cmap = mpl.cm.viridis
 def emb(ax, df, x, y, title):
     o = np.argsort(-df.log10_cells.values)   # few-cell donors drawn last
@@ -30,7 +30,7 @@ lx = np.log10(dn.cells.values); q = np.quantile(lx, np.linspace(0, 1, 11)); b = 
 for col, lab, zz in (("pc1_L", "pseudobulk", PBC), ("pc1_R", "design-standardized", XC)):
     y = dn[col].values / dn[col].std(); axd.scatter(lx, y, s=1.0, lw=0, color=zz, alpha=0.16, rasterized=True)
     axd.plot([np.median(lx[b == i]) for i in range(10)], [np.median(y[b == i]) for i in range(10)], "-o", color=zz, ms=2.4, lw=1.2, label=lab, zorder=3)
-axd.set_xlabel("Cells per pseudo-donor", labelpad=3); axd.set_xticks([1, 2]); axd.set_xticklabels(["10", "100"]); axd.set_ylim(-2.5, 4.6)
+axd.set_xlabel("Cells per pseudo-donor", labelpad=4); axd.set_xticks([1, 2]); axd.set_xticklabels(["10", "100"]); axd.set_ylim(-2.5, 4.6)
 axd.set_ylabel("First PC score (SD)", labelpad=1); axd.set_title("Null: first PC tracks cell count\nfor pseudobulk only", loc="left", fontsize=7)
 axd.legend(frameon=False, fontsize=6, loc="upper right", handlelength=1.3, handletextpad=0.4, borderaxespad=0.0)
 # (e) null false-edge degree by Mantis leaf cluster
@@ -40,11 +40,24 @@ for c_ in order:
     v = g[g.leaf_cluster_label == c_].null_false_degree.values; x0 = pos[c_]; hl = c_ == HS
     axe.scatter(x0 + rng_.uniform(-0.25, 0.25, len(v)), v, s=4 if hl else 2.2, lw=0, color=HSC if hl else "0.55", alpha=0.9 if hl else 0.6, zorder=3 if hl else 2)
     axe.plot([x0 - 0.38, x0 + 0.38], [np.median(v)] * 2, color=HSC if hl else "0.15", lw=1.3 if hl else 0.8, zorder=4)
-axe.axhline(g.null_false_degree.median(), color="0.5", lw=0.6, ls=":"); axe.text(len(order) - 0.5, g.null_false_degree.median() - 4, "median, all genes", fontsize=6, ha="right", va="top", color="0.4", zorder=5, bbox=dict(fc="white", ec="none", pad=0.5))
-axe.set_xlim(-0.8, len(order) - 0.2); axe.set_xticks([]); axe.set_xlabel(f"{len(order)} Mantis gene clusters (from function text only)", labelpad=3)
+axe.axhline(g.null_false_degree.median(), color="0.5", lw=0.6, ls=":"); axe.text(len(order) - 0.5, g.null_false_degree.median() - 4, "all genes", fontsize=6, ha="right", va="top", color="0.4", zorder=5, bbox=dict(fc="white", ec="none", pad=0.5))
+axe.set_xlim(-0.8, len(order) - 0.2); axe.set_xticks([]); axe.set_xlabel(f"{len(order)} Mantis gene clusters (function text only)", labelpad=3)
 axe.set_ylabel("Null false-edge degree", labelpad=1); axe.set_ylim(-5, g.null_false_degree.max() * 1.12)
-axe.annotate(HS.replace(" And ", " and "), xy=(pos[HS] + 0.3, lt[HS]), xytext=(7.0, g.null_false_degree.max() * 1.03), fontsize=6, color=HSC, ha="left", va="center",
+axe.annotate(HS.replace("Chaperones And ", "Chaperones\nAnd "), xy=(pos[HS] + 0.3, lt[HS]), xytext=(5.0, g.null_false_degree.max() * 1.0), fontsize=6, color=HSC, ha="left", va="center",
              arrowprops=dict(arrowstyle="-", color=HSC, lw=0.6))
-axe.set_title("Null false edges by gene function: highest in the heat-shock cluster", loc="left", fontsize=7)
-for a_, l_ in zip(axs + [axd, axe], "abcde"): panel_letter(a_, l_)
+axe.set_title("Homeo_CECR2 null: false-edge degree\nby function cluster", loc="left", fontsize=7)
+# (f) modularity of the Mantis function partition on each edge set (REV4 Amendment 4)
+A4 = json.load(open("rev4/out/A4/A4_summary.json")); ES = [("null_PB", "Null pseudo-\nbulk (false)"), ("real_PB", "Real\npseudobulk"), ("real_XDSM", "Real\nXDS-M"), ("PB_only", "Pseudobulk\nonly"), ("XDSM_only", "XDS-M\nonly")]
+MK = {"P1": ("o", "Homeo_CECR2"), "P2": ("s", "PVM_CD163"), "P3": ("^", "ADAM_GPNMB")}; ECOL = {"null_PB": PBC, "real_PB": PBC, "real_XDSM": XC, "PB_only": PBC, "XDSM_only": XC}
+for j, (es, lab_) in enumerate(ES):
+    for k_, (sx, (mk, nm)) in enumerate(MK.items()):
+        z = A4[sx]["leaf"]["sets"][es]["Q_z"]; filled = es == "null_PB"
+        axf.scatter(z, j + (k_ - 1) * 0.2, marker=mk, s=11, color=ECOL[es] if filled else "white", edgecolor=ECOL[es], lw=0.8, zorder=3, label=nm if j == 1 else None)
+axf.axvline(0, color="0.5", lw=0.6); axf.axvline(2.33, color="0.5", lw=0.6, ls=":"); axf.text(2.43, -0.42, "p = 0.01", fontsize=6, color="0.4", va="center")
+axf.set_yticks(range(len(ES))); axf.set_yticklabels([l for _, l in ES], fontsize=6); axf.invert_yaxis(); axf.set_xlim(-3, 6.2); axf.set_ylim(4.6, -0.6)
+axf.set_xlabel("Function modularity (z)", labelpad=3)
+axf.set_title("Edges within function clusters:\nfalse edges most coherent", loc="left", fontsize=7)
+hh = [mpl.lines.Line2D([], [], marker=m_, ls="", mfc="white", mec="0.3", ms=3.5, mew=0.8) for m_, _ in MK.values()]
+axf.legend(hh, [nm for _, nm in MK.values()], frameon=False, fontsize=6, loc="lower right", handletextpad=0.2, borderaxespad=0.1, ncol=1)
+for a_, l_ in zip(axs + [axd, axe, axf], "abcdef"): panel_letter(a_, l_)
 os.makedirs("paper2/figures", exist_ok=True); fig.savefig("paper2/figures/fig_anatomy.pdf"); fig.savefig("paper2/figures/fig_anatomy.png", dpi=300)

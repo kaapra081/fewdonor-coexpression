@@ -1,0 +1,21 @@
+{
+ "ties": {
+  "XDSM_p_zero": 3
+ },
+ "XDSM_seed_vs_seed": {
+  "top5000": 4798,
+  "hubs20": 18
+ },
+ "PB_vs_XDSM": {
+  "top5000": 3521,
+  "hubs20": 11
+ },
+ "XDSM_half_vs_half": {
+  "top5000": 3855,
+  "hubs20": 17
+ },
+ "PB_half_vs_half": {
+  "top5000": 3531,
+  "hubs20": 13
+ }
+}

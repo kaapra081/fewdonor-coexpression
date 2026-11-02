@@ -1,0 +1,217 @@
+% criteria_table.tex -- generated; every number is read from the files in criteria_inputs.tgz (see CRITERIA.md for file/key sources).
+% Requires: \usepackage{booktabs,array}. Uses no paper macros. Each table is sized to fit one page at \linewidth ~ 347 pt (single-column LNCS).
+% Not compiled in the build sandbox (no TeX installation); checked by a static lint only (balanced braces, 4 cells per row, ASCII only, whitelisted commands).
+
+\begin{table}[p]
+\centering\scriptsize
+\setlength{\tabcolsep}{2.5pt}\renewcommand{\arraystretch}{1.1}
+\caption{Every frozen decision criterion and its outcome. PASS/FAIL: the frozen rule was met/not met; for rules evaluated per subtype, cohort size or method cell, PASS means every cell met it and MIXED means some did (counts in Evidence). DESCR.: reported without a frozen threshold. n/d: not determinable from the supplied files. NOT EVAL.: planned, no results available. $^{*}$: based on partial runs (REV4 R1: 13 of 20 runs in P1, 12 in P2, none in P3; REV4 R2c: 36 of 40 runs in P1); FAIL$^{*}$ cannot change with more runs, PASS$^{*}$ and MIXED$^{*}$ are provisional. Run-level bound: fraction of runs with a BH call $\le 0.05+2\,\mathrm{SE}$, SE binomial at $p=0.05$ (at most 9 of 100, 4 of 40, 2 of 20 runs). Numbers are taken from the result files; sources are listed in CRITERIA.md.}\label{tab:criteria}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.100\linewidth}>{\raggedright\arraybackslash}p{0.285\linewidth}>{\raggedright\arraybackslash}p{0.085\linewidth}>{\raggedright\arraybackslash}p{0.450\linewidth}@{}}
+\toprule
+Plan & Criterion & Outcome & Evidence \\
+\midrule
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{FIX\_PREREG (real-cell null in SEA-AD; LCP2)}} \\
+\cmidrule(lr){1-4}
+FIX-1a & Leak produces spurious pseudobulk discoveries in real cells: PB mean calls $\ge$50 and $\ge$10$\times$ LCP's (LCP counted as $\ge$1). & PASS & PB mean false calls 3,713.8 (S1), 2,713.8 (S2); LCP 0.0, 0.0. Decision YES in both. \\
+FIX-1b & LCP holds the real-cell null: all-pair type-I $\le$0.055 and top-1\% within-correlated type-I $\le$0.05+3 SE. & FAIL & All-pair type-I 0.081 / 0.061 (S1/S2; not met); top-1\% 0.092 / 0.099 vs bound 0.0599 (SE 0.0033): not met. 0 BH calls in all 5 reassignments. \\
+FIX-1c & LCP2 holds the real-cell null: all-pair type-I $\le$0.055 and top-1\% within-correlated type-I $\le$0.05+3 SE. & FAIL & All-pair type-I 0.046 / 0.050 (S1/S2; met); top-1\% 0.068 / 0.085 vs bound 0.0599 (SE 0.0033): not met. 0 BH calls in all 5 reassignments. \\
+FIX-2 & Adopt LCP2 if (a) FDR $\le$0.05+2 MCSE in F\_D24, F\_D40, F\_S2, F\_D16\_n100; (b) also in F\_D16 or F\_S1; (c) power $\ge$0.9$\times$ LCP (F\_D24, F\_D40). & FAIL & (a) met: LCP2 FDR 0.033, 0.041, 0.042, 0.039. (b) met (F\_D16 0.052, F\_S1 0.025). (c) not met: power ratio 0.87 at F\_D24, 0.96 at F\_D40. Not adopted. \\
+\addlinespace[3pt]
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{XS\_PREREG (LCPX), with Amendment 1}} \\
+\cmidrule(lr){1-4}
+XS-1 & Adopt LCPX if (a) FDR $\le$0.05+2 MCSE in all six designs; (b) holds SEA-AD null in S1, S2; (c) power $\ge$0.8$\times$ LCP in F\_D24, F\_D40. & FAIL & (a) not met: LCPX FDR 0.191 in F\_S1 (bound 0.078) and 0.067 in F\_S2 (0.055). (b) not met: type-I 0.110/0.066, top-1\% 0.153/0.074. (c) not met: power ratio 0.16 (F\_D24), 0.38 (F\_D40). \\
+XS-2 & Claim LCPX-S tests $\Sigma_{B}$=0 only if weak-null type-I and FDR $\le$0.05+2 MCSE in F\_D24, F\_D40, F\_S1, F\_S2 (weak null = QQ\_cross). & FAIL & LCPX-S F\_S1: FDR 0.106 (bound 0.081), weak-null 0.070 (0.062); F\_S2 FDR 0.0557 (bound 0.0556). F\_D24, F\_D40 within bounds. Claim not made. \\
+\addlinespace[3pt]
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{POP\_PREREG (PsychAD population scale)}} \\
+\cmidrule(lr){1-4}
+POP-1 & PB false discoveries grow with cohort size: PB mean calls at D=all $\ge$3$\times$ those at D=100 and $\ge$100 (per subtype). & PASS & YES in P1, P2, P3. Calls at D=all 19,158/31,617/24,544; ratio to D=100 4.9/5.0/6.2 (same reassignment; with K=3 means 4.9/5.0/6.1). D=100 point has K=1. \\
+POP-2 & LCPX holds the real-cell null at population scale: at every D, all-pair type-I $\le$0.055, top-1\% $\le$0.05+3 SE, mean calls $\le$1. & FAIL & NO in all three subtypes; criterion fails at every D. LCPX mean false calls at D=all 25,901/32,801/15,538; all-pair type-I 0.416/0.497/0.354; already 0.064/0.076/0.073 at D=25. The stated prediction (LCPX near 0 at every D) was not borne out. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[p]
+\centering\scriptsize
+\setlength{\tabcolsep}{2.5pt}\renewcommand{\arraystretch}{1.1}
+\caption{Every frozen decision criterion and its outcome (continued; part 2 of 8).}\label{tab:criteria2}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.100\linewidth}>{\raggedright\arraybackslash}p{0.285\linewidth}>{\raggedright\arraybackslash}p{0.085\linewidth}>{\raggedright\arraybackslash}p{0.450\linewidth}@{}}
+\toprule
+Plan & Criterion & Outcome & Evidence \\
+\midrule
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{POP\_PREREG (PsychAD population scale)} (continued)} \\
+\cmidrule(lr){1-4}
+POP-3 & Replication does not protect pseudobulk: PB replicated false calls $\ge$50 in the Part A null at D=half (per subtype). & PASS & YES in all three. Mean replicated false calls PB 3,876/12,515/7,876 (minimum single run 3,798); LCP 594/2,130/1,212; XDS 0 in all 9. \\
+POP-4 & Part B, real donors at full D: calls, overlaps, replication in donor halves. ``Results are reported whatever they are'' (no threshold). & DESCR. & PB calls 53,263/57,280/37,325; XDS 49,852/55,021/32,790; PB-only 13,307/10,086/14,643. Half-to-half replication XDS 79/82/68\%, PB 73/80/62\%. \\
+\addlinespace[3pt]
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{DSTD\_PREREG (LCPd, LCPXd = XDS)}} \\
+\cmidrule(lr){1-4}
+DSTD-1 & Adopt LCPd over LCP if (a) FDR bound in four designs; (b) holds SEA-AD null; (c) power $\ge$0.9$\times$ LCP; (d) holds PsychAD null at D=all. & FAIL & (a) met (FDR 0.037--0.062). (b) not met: top-1\% type-I 0.197/0.141. (c) not met: power ratio 0.81 (D24), 0.88 (D40). (d) not met: PsychAD mean false calls 57.7/38.3/1,218; type-I 0.058/0.059/0.118. \\
+DSTD-2 & Same adoption rule (a)--(d) for LCPXd (= XDS) as secondary method. & FAIL & (a) met (FDR 0.025--0.049, all six designs). (b) met: SEA-AD type-I 0.050/0.050, 0 calls. (c) not met: power ratio 0.14 (D24), 0.31 (D40). (d) met: mean calls 0.0/0.67/0.0, type-I 0.050/0.050/0.048. XDS does not replace LCP by the frozen rule. \\
+DSTD-3 & Claim ``design-induced bias is a distinct artifact'' if LCP all-pair type-I $>$0.055 in $\ge$2 subtypes at D=all while LCPd's does not. & FAIL & LCP type-I 0.201/0.301/0.265 ($>$0.055 in 3 of 3) but LCPd 0.058/0.059/0.118 also $>$0.055 in 3 of 3. Claim not supported as frozen. \\
+\addlinespace[3pt]
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{XU\_PREREG (XU)}} \\
+\cmidrule(lr){1-4}
+XU-1 & XU holds the real-cell null at population scale: at every D$\ge$200, every subtype, mean calls $\le$1, all-pair type-I $\le$0.055, top-1\% $\le$0.05+3 SE. & FAIL & Fails in all 9 subtype$\times$D cells. XU mean false calls at D=200: 235.7/73.3/391.0; at D=all 19,934/14,258/12,073. All-pair type-I at D=200 0.125/0.106/0.127. \\
+XU-2 & XU is the recommended large-cohort test: XU-1 AND E3 FDR $\le$0.05+2 MCSE in L200, L500, L1000 AND power $\ge$1.5$\times$ XDS in L500, L1000. & FAIL & XU-1 not met. E3 FDR within bound (0.042/0.045/0.048). Power ratio XU/XDS 1.01 (L500), 1.00 (L1000), below 1.5 (XDS power 0.99, 1.00). XDS remains the large-cohort test, as the plan prescribes. \\
+XU-3 & Weak-null validity: XU weak-null type-I $\le$0.05+2 MCSE in L200, L500, L1000. & PASS & XU weak-null type-I 0.052/0.045/0.029 vs bounds 0.072/0.067/0.060. \\
+XU-4 & E2 (SEA-AD null, XU with $t_{D-1}$) and E4 (six small designs): ``reported, no decision.'' & DESCR. & E2 XU mean false calls 0.2 (S1), 61.4 (S2); all-pair type-I 0.079/0.109; top-1\% 0.102/0.119. E4 results are in the bundle (E4.$<$design$>$.XU), not tabulated here. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[p]
+\centering\scriptsize
+\setlength{\tabcolsep}{2.5pt}\renewcommand{\arraystretch}{1.1}
+\caption{Every frozen decision criterion and its outcome (continued; part 3 of 8).}\label{tab:criteria3}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.100\linewidth}>{\raggedright\arraybackslash}p{0.285\linewidth}>{\raggedright\arraybackslash}p{0.085\linewidth}>{\raggedright\arraybackslash}p{0.450\linewidth}@{}}
+\toprule
+Plan & Criterion & Outcome & Evidence \\
+\midrule
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{COUPLE\_PREREG (depth-state coupling)}} \\
+\cmidrule(lr){1-4}
+COUPLE-1 & No adoption decision. Prediction: PB and LCP FDR far above 0.05; XDS FDR inflated less than LCP and XU. & DESCR. & Prediction consistent with results. FDR at LS200/LS500/LS1000: PB 0.524/0.605/0.718; LCP 0.104/0.143/0.191; XU 0.060/0.104/0.223; XDS 0.059/0.047/0.056 (below LCP in all three, below XU at LS500, LS1000, equal at LS200: 0.0594 vs 0.0596). \\
+\addlinespace[3pt]
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{DC\_PREREG (AD differential co-expression)}} \\
+\cmidrule(lr){1-4}
+DC-1 & Pseudobulk DC is confounded by cell number: PB-DC mean false calls $\ge$100 in at least two subtypes. & PASS & YES in 3 of 3: mean false calls 5,188/3,134/1,002 (range 718--5,634); per-pair type-I 0.13--0.21. \\
+DC-2 & XDS-DC holds: in every subtype mean false calls $\le$1 and all-pair type-I $\le$0.055. & PASS & YES. XDS-DC false calls 0 in all 9 runs; type-I 0.048--0.052 (max 0.0518). LCP-DC (not decided): 0--6 calls, type-I 0.048--0.056. \\
+DC-3 & Real-donor results reported descriptively (number of DC calls per method, overlap). & DESCR. & Real-donor DC calls P1/P2/P3: PB 5,806/2,441/2,561; LCP 2,319/485/1; XDS 816/19/0. Overlap between methods not tabulated in the bundle. \\
+\addlinespace[3pt]
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{REV\_PREREG (internal review 1; R1--R5, amendment R6)}} \\
+\cmidrule(lr){1-4}
+REV-R1a & XDS controls FDR at population scale (per subtype): fraction of 100 runs with $\ge$1 BH call $\le$0.05+2 SE (0.0936; $\le$9 runs). & FAIL & Fails in 3 of 3: runs with a call 11, 20, 11 of 100 (P1, P2, P3). Context: PB 100, 100, 100 of 100 (mean calls 18,703/32,128/23,407). \\
+REV-R1b & Same decision for XDS-M ($\le$9 of 100 runs with a call, per subtype). & PASS & Holds in 3 of 3: runs with a call 4, 5, 2 of 100 (P1, P2, P3). \\
+REV-R1c & Same decision for KX ($\le$9 of 100 runs with a call, per subtype). & MIXED & Holds in P1, P2 (4, 8 of 100); fails in P3 (36 of 100; max 25 calls in one run). \\
+REV-R1d & Per run, counts of p$<$1e-3, 1e-4, 1e-5 recorded (expected 89, 8.9, 0.89 for \textasciitilde{}89,000 pairs); no threshold. & DESCR. & XDS-M mean counts per run: p$<$1e-3 85.0--88.8, p$<$1e-4 8.3--9.1, p$<$1e-5 0.79--0.89 (range over subtypes; pairs = 89,676). XDS: 89.0--89.5, 8.9--9.8, 0.86--1.31. \\
+REV-R2 & R2 defines XDS-M (S=5) and KX; evaluated in L/LS and six small designs and the SEA-AD null (k=10..14). No decision rule. & DESCR. & XDS-M FDR 0.043--0.054 in the six large designs; 0.135--0.265 in F\_D16, F\_D24, F\_D16\_n100. KX FDR 0.268--0.897 in F\_D16, F\_D24, F\_D40, F\_D16\_n100. SEA-AD top-1\% type-I (S1/S2): XDS-M 0.070/0.043, KX 0.055/0.061. \\
+REV-R3 & XDS-DCg holds ``as in DC\_PREREG'': per subtype mean false calls $\le$1 and all-pair type-I $\le$0.055. & PASS & YES. False calls in the 3 runs per subtype: P1 0, 0, 0; P2 0, 0, 1; P3 0, 0, 0; type-I 0.048--0.052. Real donors: 117/0/0 calls; overlap with pooled-centre XDS-DC calls not determinable from bundle. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[p]
+\centering\scriptsize
+\setlength{\tabcolsep}{2.5pt}\renewcommand{\arraystretch}{1.1}
+\caption{Every frozen decision criterion and its outcome (continued; part 4 of 8).}\label{tab:criteria4}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.100\linewidth}>{\raggedright\arraybackslash}p{0.285\linewidth}>{\raggedright\arraybackslash}p{0.085\linewidth}>{\raggedright\arraybackslash}p{0.450\linewidth}@{}}
+\toprule
+Plan & Criterion & Outcome & Evidence \\
+\midrule
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{REV\_PREREG (internal review 1; R1--R5, amendment R6)} (continued)} \\
+\cmidrule(lr){1-4}
+REV-R4 & Positive control (descriptive): XDS on real donors, XIST--Y-linked pairs; ``Expected: negative between-donor association (sex), detected by XDS.'' & DESCR. & Expectation met: 21 of 21 XIST--Y pairs negative with p $\le$ 5e-40 (3 subtypes $\times$ 7 pairs). Y--Y pairs (reported in the paper, not in this plan): 63 of 63 positive, max p 3e-08. \\
+REV-R5 & Size of pseudobulk false edges (descriptive): absolute r of PB false calls in the POP null at full D; median and counts above 0.1, 0.2. & DESCR. & Median absolute r 0.10--0.13; share $>$0.1: 55--84\%; share $>$0.2: 4--14\% (P1/P2/P3, n = 57,475/94,852/73,631 false calls). \\
+REV-R6 & Amendment R6: donor-centred null to bound pooling inflation (K=3, full D); BH calls, type-I, median within-donor r vs real. Descriptive; no decision. & DESCR. & PB mean calls 8,708--22,872 per subtype; XDS 0--3 per run (type-I 0.049--0.052). Pooling raised the median absolute within-pseudo-donor r by 37--46\% over real donors. \\
+\addlinespace[3pt]
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{ONEK\_PREREG (OneK1K), with Amendment 1}} \\
+\cmidrule(lr){1-4}
+ONEK-1 & PB false discoveries grow with cohort size (per cell type): PB mean calls at D=all $\ge$2$\times$ those at D=200 and $\ge$100. & MIXED & YES in 2 of 3. Ratio all/200: 2.25 (transitional B; 24,641 calls at D=all), 1.68 (naive B; not met), 8.51 (naive CD4 T). Median cells per donor 20/56/244. \\
+ONEK-2 & XDS holds (per cell type) at both D: mean calls $\le$1, all-pair type-I $\le$0.055, top-1\% type-I $\le$0.05+3 SE. & PASS & Holds in 3 of 3. XDS mean calls $\le$1.0; all-pair type-I 0.049--0.050; top-1\% $\le$0.052 (bound 0.063). \\
+ONEK-3 & Amendment 1: XDS-M holds (per cell type), same rule at both D. & MIXED & Holds in 2 of 3 (naive B, naive CD4 T). Fails in transitional B at D=200: top-1\% type-I 0.079 $>$ 0.063 (all-pair 0.053, 0 calls). Run-level frequencies over K=3 (too few for a decision): 0 of 18 XDS-M runs had a call across all cells. \\
+ONEK-4 & Real donors: XDS and PB calls, PB-only count (descriptive). & n/d & No OneK1K real-donor results (XDS/PB calls or PB-only counts) are in the bundle. \\
+\addlinespace[3pt]
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{REV2\_PREREG (internal review 2), with Amendment 1}} \\
+\cmidrule(lr){1-4}
+REV2-A1 & Part A, per method/subtype/D (200, 400, all): ``holds'' if fraction of 100 runs with V$\ge$1 $\le$0.05+2 SE ($\le$9 runs). XDS-M. & MIXED & Holds in 8 of 9 cells; fails P3 at D=400 (10 of 100 runs). Runs with a call across cells: 0--10 of 100. \\
+REV2-A2 & Same rule, KX. & PASS & Holds in 9 of 9 cells; runs with a call 0--9 of 100. \\
+REV2-A3 & Same rule, XDS (single split, normal-moment reference). & FAIL & Holds in 0 of 9 cells; runs with a call 11--42 of 100. \\
+REV2-A4 & Same rule, PB and LCP. & FAIL & PB and LCP hold in 0 of 9 cells (100 of 100 runs with a call in every cell). Mean BH calls PB 2,513--23,779; LCP 114--8,346. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[p]
+\centering\scriptsize
+\setlength{\tabcolsep}{2.5pt}\renewcommand{\arraystretch}{1.1}
+\caption{Every frozen decision criterion and its outcome (continued; part 5 of 8).}\label{tab:criteria5}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.100\linewidth}>{\raggedright\arraybackslash}p{0.285\linewidth}>{\raggedright\arraybackslash}p{0.085\linewidth}>{\raggedright\arraybackslash}p{0.450\linewidth}@{}}
+\toprule
+Plan & Criterion & Outcome & Evidence \\
+\midrule
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{REV2\_PREREG (internal review 2), with Amendment 1} (continued)} \\
+\cmidrule(lr){1-4}
+REV2-A5 & Primary question: does LCPd hold where XDS-M holds? If LCPd holds at every D and subtype it is reported as co-recommended. & FAIL & LCPd holds in 3 of 9 cells (all in P1: 8, 8, 6 of 100 runs); fails P2 (21, 21, 42) and P3 (17, 13, 20). Of XDS-M's 8 holding cells LCPd holds in 3. Not co-recommended. \\
+REV2-B & Part B, descriptive: mean over genes of squared design-standardized half-donor values ($R^{A}$) by decile of $n_d$ (A5 diagnostic). & DESCR. & Mean $(R^{A})^{2}$ by decile 0.89--1.00 across subtypes (P1 0.916--0.951, P2 0.895--0.996, P3 0.896--0.959). \\
+REV2-C & Part C, descriptive: real donors with XDS-M (calls, split-half replication, three split seeds with Jaccard, XIST--Y and Y--Y pairs). & DESCR. & XDS-M calls 56,075/60,272/37,866 (63/68/43\% of pairs); Jaccard between split seeds 0.86--0.95; half-to-half replication 74--85\%. Sex pairs: XDS-M XIST--Y 21 of 21, Y--Y 63 of 63 significant with the expected sign. \\
+REV2-D1 & Part D1, donor-centred DC null (k=10--12): PB-DC, XDS-DCg, XDS-Mg, plus XDS-Mgu (Amendment 1: ``same decision rules as XDS-Mg''). No threshold stated. & DESCR. & PB-DC false calls 995--5,753 per run (9 runs). XDS-DCg 0 calls in all 9 runs; XDS-Mg 1 call in total (max 1); XDS-Mgu 0 in all 9; type-I 0.048--0.053. Real donors (P1/P2/P3): PB 5,806/2,441/2,561; XDS-DCg 117/0/0; XDS-Mg 465/0/0; XDS-Mgu 351/341/0. \\
+REV2-D2 & Part D2, true-DC simulation (R=50; 101 true-DC pairs of 3,160): FDR and power of PB-DC, XDS-DCg, XDS-Mg (+XDS-Mgu). Reported; no threshold. & DESCR. & FDR/power: PB-DC 0.485/0.962; XDS-DCg 0.077/0.094; XDS-Mg 0.071/0.264; XDS-Mgu 0.031/0.280 (n\_alt 101, n\_pairs 3,160, R = 50). \\
+REV2-D3 & Part D3, descriptive: split-half replication of real-donor XDS-DCg, XDS-Mg and XDS-Mgu calls (P1). & DESCR. & Replicated / calls in half 1 (P1): PB-DC 438/3,663; XDS-DCg 0/0; XDS-Mg 2/4; XDS-Mgu 37/50. \\
+REV2-E & Part E: 30 further OneK1K reassignments per cell type; run-level fraction for XDS-M over all 33 runs; PBlin vs PB (descriptive). No threshold stated. & DESCR. & XDS-M runs with a call: 4/33, 1/33, 1/33 (transitional B, naive B, naive CD4 T); all within the Part-A rule for n=33 ($\le$4 of 33) --- the paper's ``within the bound''. PB 30/30 in all; PBlin mean calls 19,700/13,894/16,827 vs PB 22,889/22,948/20,035. \\
+REV2-F & Part F: A5 overdispersion stress simulation (L200, L500; R=50): FDR and power. ``No decision.'' & DESCR. & FDR at L200/L500: XDS-M 0.043/0.047; KX 0.038/0.038; LCPd 0.067/0.071; XDS 0.088/0.084; LCP 0.117/0.220; PB 0.540/0.640. Power XDS-M 0.83/0.99, KX 0.17/0.67. \\
+REV2-G & Part G: oracle (matched-FDP) power from existing simulation p-values, per replicate (descriptive). & n/d & No matched-FDP / oracle-power result is in the bundle (the ``oracle'' hits in results/dev and results/heldout refer to the DEV/HELDOUT ORACLE test, not this analysis). \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[p]
+\centering\scriptsize
+\setlength{\tabcolsep}{2.5pt}\renewcommand{\arraystretch}{1.1}
+\caption{Every frozen decision criterion and its outcome (continued; part 6 of 8).}\label{tab:criteria6}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.100\linewidth}>{\raggedright\arraybackslash}p{0.285\linewidth}>{\raggedright\arraybackslash}p{0.085\linewidth}>{\raggedright\arraybackslash}p{0.450\linewidth}@{}}
+\toprule
+Plan & Criterion & Outcome & Evidence \\
+\midrule
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{REV3\_PREREG (internal review 3), with Amendment 1}} \\
+\cmidrule(lr){1-4}
+REV3-A2v & A2 validity: a run is invalid if the largest GPU--CPU difference in log10 p exceeds 0.05 for p$>$1e-8 (2,000 random pairs). & PASS & 0 invalid runs in all 8 data set$\times$null blocks (140 runs); largest check discrepancy 4.7e-05. \\
+REV3-A2a & A2 tail calibration rule (obs/exp $\le$1.5 at p$\le$1e-4 and 1e-5; run-level $\le$0.147), PB. & FAIL & PB tail-calibrated in 0 of 36 combinations (B1/B2 genes $>$0.1 UMI/cell 0/24; B2 0.03--0.1 UMI/cell (50 genes; 1e-5 not assessable) 0/4; P3 0/8). \\
+REV3-A2b & Same rule, XDS (single split 0, Hoeffding-moment normal reference). & MIXED & B1/B2 genes $>$0.1 UMI/cell 16/24; B2 0.03--0.1 UMI/cell (50 genes; 1e-5 not assessable) 3/4; P3 0/8. \\
+REV3-A2c & Same rule, XDS-M with S=5 splits (the validated-range method). & MIXED & B1/B2 genes $>$0.1 UMI/cell 23/24; B2 0.03--0.1 UMI/cell (50 genes; 1e-5 not assessable) 4/4; P3 8/8. One failure: B1 donor-centred null, D=200, $>$1 UMI/cell (3 of 20 runs with a call; bound 2). \\
+REV3-A2d & Same rule, XDS-M with S=1 and S=10 splits. & MIXED & S=1: B1/B2 genes $>$0.1 UMI/cell 23/24; B2 0.03--0.1 UMI/cell (50 genes; 1e-5 not assessable) 3/4; P3 8/8. S=10: B1/B2 genes $>$0.1 UMI/cell 22/24; B2 0.03--0.1 UMI/cell (50 genes; 1e-5 not assessable) 4/4; P3 8/8. \\
+REV3-A2r & Validated gene range for XDS-M (S=5): strata tail-calibrated in every data set, null and D. & DESCR. & Derived here from the flags (UMI/cell): calibrated in every combination at 0.3--1 (12/12) and 0.1--0.3 (12/12); not at $>$1 (11/12) or 0.03--0.1 (5/8). Strict range: 0.1--1 UMI/cell; the appendix gives counts, not the range. \\
+REV3-A2x & Amendment 1: same decision rule on OneK1K B1 genes ranked 2,001--3,000, n=10 runs (bound 0.188, $\le$1 of 10 runs). & MIXED & Genes 0.1--0.3 UMI/cell (640 genes): XDS-M S=5 4/4, S=1 4/4, S=10 4/4, XDS 0/4, PB 0/4. Genes 0.03--0.1 UMI/cell (360 genes): XDS-M S=5 1/4, S=1 4/4, S=10 3/4, XDS 0/4, PB 0/4. (Combinations = null $\times$ D.) \\
+REV3-A3a & A3 run-level rule ($\le$9 of 100 runs with a call; D=25, 50, 100; per subtype), PB. & FAIL & Holds in 0 of 9 cells; 100 of 100 runs with a call in every cell. \\
+REV3-A3b & Same rule, LCP. & MIXED & Holds in 6 of 9 cells (D=25, 50 all subtypes); fails at D=100 in all three. Runs with a call (P1, P2, P3): D=25: 2, 2, 2; D=50: 0, 0, 0; D=100: 38, 10, 46. \\
+REV3-A3c & Same rule, LCPd. & MIXED & Holds in 7 of 9 cells; fails at D=25 in P2, P3. Runs with a call: D=25: 2, 24, 12; D=50: 0, 0, 0; D=100: 0, 0, 0. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[p]
+\centering\scriptsize
+\setlength{\tabcolsep}{2.5pt}\renewcommand{\arraystretch}{1.1}
+\caption{Every frozen decision criterion and its outcome (continued; part 7 of 8).}\label{tab:criteria7}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.100\linewidth}>{\raggedright\arraybackslash}p{0.285\linewidth}>{\raggedright\arraybackslash}p{0.085\linewidth}>{\raggedright\arraybackslash}p{0.450\linewidth}@{}}
+\toprule
+Plan & Criterion & Outcome & Evidence \\
+\midrule
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{REV3\_PREREG (internal review 3), with Amendment 1} (continued)} \\
+\cmidrule(lr){1-4}
+REV3-A3d & Same rule, XDS with permutation p-values (LCPXd, as in DSTD; B=1e5). & PASS & Holds in 9 of 9 cells; 0 of 900 runs with a call (D=25: 0, 0, 0; D=50: 0, 0, 0; D=100: 0, 0, 0). Caveat (REV4 plan): with B=1e5 the smallest p (\textasciitilde{}1e-5) cannot reach the BH threshold for \textasciitilde{}88,000 pairs. Single-split XDS with normal reference (also in file) holds in 4 of 9. \\
+REV3-A3e & Same rule, XDS-M (S=5). & MIXED & Holds in 4 of 9 cells: D=25 none of 3, D=50 one of 3 (P1), D=100 three of 3. Runs with a call: D=25: 49, 49, 49; D=50: 9, 17, 13; D=100: 3, 6, 6. \\
+REV3-A3f & Same rule, KX. & FAIL & Holds in 0 of 9 cells. Runs with a call: D=25: 100, 100, 100; D=50: 88, 78, 71; D=100: 25, 23, 19. \\
+REV3-B2 & B2: ``covariate adjustment does not fix pseudobulk'' if mean calls $\ge$100 for both PBres and PBw in all subtypes (20 runs, D=all). & FAIL & Criterion not met (claim not supported). PBres mean calls 8,576/20,722/6,483 ($\ge$100 in all); PBw 11.5/4,820/11.2 ($<$100 in P1, P3). Both made $\ge$1 call in 20 of 20 runs in every subtype; PBw all-pair type-I 0.019/0.143/0.020. \\
+REV3-B3 & B3: donor-centring sensitivity (clip [0.5, 2]; P3; 40 reassignments; D=200, 400, all). Descriptive comparison; no decision. & DESCR. & Runs with a call (of 40) at D=200/400/all: XDS-M 1/2/1; LCPd 7/36/40; XDS 6/4/8; KX 3/2/6; PB and LCP 40/40/40. \\
+\addlinespace[3pt]
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{REV4\_PREREG (external review), with Amendments 1 and 2}} \\
+\cmidrule(lr){1-4}
+REV4-R1a & R1 (all R1 rows): ``holds'' if $\le$2 of 20 runs have a BH call, per subtype and D=25, 50, 100. PB and LCP. & FAIL$^{*}$ & PB: holds in 0 of 6 cells (25 of 25, 25 of 25, 25 of 25 runs with a call at D=25, 50, 100). LCP: 0 of 6; D=25: 19/25; D=50: 11/25; D=100: 25/25. Failures cannot reverse with more runs. \\
+REV4-R1b & R1, LCPd. & MIXED$^{*}$ & Holds in 3 of 6 evaluated cells (P1, P2 $\times$ D=25, 50, 100); runs with a call (pooled P1+P2, 25 runs): D=25: 20/25; D=50: 5/25; D=100: 3/25. Fails at D=25 (both) and at D=50 in P2 (3 of 12); holds at D=100 (1 of 13, 2 of 12). \\
+REV4-R1c & R1, XDS with permutation p-values (B=2,000,000 in the plan). & PASS$^{*}$ & Holds in 6 of 6 evaluated cells (P1, P2 $\times$ D=25, 50, 100); runs with a call (pooled P1+P2, 25 runs): D=25: 1/25; D=50: 1/25; D=100: 2/25. Provisional: P3 not run; B actually used is not recorded in the summary. \\
+REV4-R1d & R1, XDS (single split, normal-moment reference, recomputed on the same runs). & MIXED$^{*}$ & Holds in 5 of 6 evaluated cells (P1, P2 $\times$ D=25, 50, 100); runs with a call (pooled P1+P2, 25 runs): D=25: 0/25; D=50: 1/25; D=100: 5/25. Fails at D=100 in P2 (4 of 12). \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[p]
+\centering\scriptsize
+\setlength{\tabcolsep}{2.5pt}\renewcommand{\arraystretch}{1.1}
+\caption{Every frozen decision criterion and its outcome (continued; part 8 of 8).}\label{tab:criteria8}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.100\linewidth}>{\raggedright\arraybackslash}p{0.285\linewidth}>{\raggedright\arraybackslash}p{0.085\linewidth}>{\raggedright\arraybackslash}p{0.450\linewidth}@{}}
+\toprule
+Plan & Criterion & Outcome & Evidence \\
+\midrule
+\multicolumn{4}{@{}>{\raggedright\arraybackslash}p{0.90\linewidth}}{\textbf{REV4\_PREREG (external review), with Amendments 1 and 2} (continued)} \\
+\cmidrule(lr){1-4}
+REV4-R1e & R1, XDS-M (S=5). & MIXED$^{*}$ & Holds in 4 of 6 evaluated cells (P1, P2 $\times$ D=25, 50, 100); runs with a call (pooled P1+P2, 25 runs): D=25: 13/25; D=50: 2/25; D=100: 0/25. Fails at D=25 (6 of 13, 7 of 12); holds at D=50, 100. \\
+REV4-R1f & R1, KX. & MIXED$^{*}$ & Holds in 2 of 6 evaluated cells (P1, P2 $\times$ D=25, 50, 100); runs with a call (pooled P1+P2, 25 runs): D=25: 25/25; D=50: 20/25; D=100: 3/25. Fails at D=25 and D=50; holds at D=100 (2 of 13, 1 of 12). \\
+REV4-R1g & R1 in P3 (ADAM\_GPNMB): 20 runs planned at D=25, 50, 100. & NOT EVAL. & 0 of 20 runs in the bundle (R1.P3.n = 0). P1: 13 of 20 runs, P2: 12 of 20 (partial). Plan: ``report the runs completed (stated as such)'' if compute does not allow 20. \\
+REV4-R2 & R2 decision: XDS-M holds by the run-level rule (n=40: $\le$4 of 40 runs with a call) in each subtype (brain-bank-stratified null). & MIXED & Holds in 1 of 3 (P3: 2/40); fails P1 15/40 and P2 8/40. Other methods (P1, P2, P3; same rule, not a named decision): PB 40/40, 40/40, 40/40; LCP 40/40, 40/40, 40/40; LCPd 36/40, 29/40, 11/40; XDS 8/40, 12/40, 7/40; KX 23/40, 2/40, 0/40. \\
+REV4-R2c & Amendment 2 (post hoc; rule fixed before R2c): if XDS-Mb fails $\le$ the bound's runs where XDS-M fails, attribute R2 failures to residual bank structure. & PASS$^{*}$ & Rule met. XDS-M fails in P1 (14/36 runs) and P2 (8/40); XDS-Mb 4/36 (P1; exactly at the 4-run bound), 1/40 (P2), 2/40 (P3). Provisional: P1 has 36 of 40 runs. PB and bank-centred PB (PBb): 40/40 runs with a call in P2, P3 and 36/36 in P1. \\
+REV4-R3 & R3: PC-adjusted (k=5, 10) and weighted pseudobulk baselines, PsychAD (20 runs) and OneK1K (10 runs). Descriptive; no decision. & DESCR. & Every variant made $\ge$1 call in every run (PsychAD 20/20; OneK1K 10/10). Mean calls PsychAD: PBres 6,483--20,722; PBw 11--4,820; PC5/PC10 4,226--9,222. OneK1K: PB 18,989--23,114; PBw 1,096--2,590; PC 4,084--17,974. \\
+REV4-R4 & R4: real-donor consequences on PsychAD: PB vs XDS-M calls and overlap, $r_w$ and ($r_{\mathrm{PB}}$ $-$ rho) by class, hub overlap. Descriptive; no decision. & DESCR. & Calls PB 53,263/57,280/37,325; XDS-M 56,075/60,272/37,866. PB-only 9,914/7,100/11,357; XDS-M-only 12,726/10,092/11,898; shared 43,349/50,180/25,968. Top-20 hub overlap 11--14; top-5,000-pair overlap 53--70\%; Spearman($r_{\mathrm{PB}}$$-$rho, $r_w$) $-$0.47 to $-$0.30. \\
+REV4-R5 & R5 decision: XDS-Mgu holds by the run-level rule (n=20: $\le$2 of 20 runs with a call) in each subtype (DC donor-centred null). & PASS & Holds in 3 of 3: XDS-Mgu 0/20, 0/20, 0/20 runs with a call. Same rule on others (not named decisions): XDS-Mg 1, 4, 2 of 20 (holds in 2 of 3; fails P2); XDS-g 0, 1, 0; PB 20, 20, 20 (mean calls 4,893/3,598/1,075). \\
+REV4-R6 & Amendment 1 (R6a--c, Mantis maps): donor maps, pair-level and gene-level Spearman statistics. ``Descriptive only; no pass/fail decision.'' & DESCR. & P1 profile norm vs $n_d$ (Spearman): null PB $-$0.98, design-standardized $-$0.03; real PB $-$0.81, standardized $-$0.26. Pairs vs $r_w$: null PB 0.26, real PB 0.50, real XDS-M 0.51. Genes: null false degree vs PB-only degree 0.10. Mantis-cluster Kruskal--Wallis tests: not determinable from bundle. \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -63,6 +63,7 @@ mac("RfRealPB", ", ".join(fmt(r4[s]["calls"]["PB"]) for s in SUBS)); mac("RfReal
 mac("RfRealPBonly", ", ".join(fmt(r4[s]["classes"]["PBonly"]["n"]) for s in SUBS))
 mac("RfRealPBonlyPct", rng([100 * r4[s]["classes"]["PBonly"]["n"] / r4[s]["calls"]["PB"] for s in SUBS]) + "\\%")
 mac("RfRealXonly", ", ".join(fmt(r4[s]["classes"]["XDSMonly"]["n"]) for s in SUBS)); mac("RfRealShared", ", ".join(fmt(r4[s]["classes"]["shared"]["n"]) for s in SUBS))
+_nf = sum(r4[x]["calls"]["PB"] < r4[x]["calls"]["XDSM"] for x in SUBS); mac("RfPBfewer", {3: "all three subtypes", 2: "two subtypes", 1: "one subtype", 0: "no subtype"}[_nf])
 mac("RfHubOverlap", rng([r4[s]["hub_overlap_top20"] for s in SUBS])); mac("RfTopOverlap", rng([100 * r4[s]["top5000_pair_overlap"] / 5000 for s in SUBS]) + "\\%")
 if "R6" in S:
     r6 = S["R6"]; f2 = lambda x: f"{x:.2f}".replace("-", "$-$")
@@ -88,6 +89,12 @@ _up = lambda k, n: 100 * _beta.ppf(0.975, k + 1, n - k)
 _k400 = sum(RA_[x]["400"]["XDSM"]["any"] for x in SUBS) if (RA_ := json.load(open(P("rev2/interim/REV2_SUMMARY_latest.json")))["A"]) else 0
 mac("RfUpperPooled", f"{_up(_k400, 300):.0f}\\%"); mac("RfUpperThree", f"{_up(RA_['P3']['400']['XDSM']['any'], 100):.0f}\\%")
 _secs = [v["sec"] for k, v in R1.items() if "sec" in v]; mac("RfRoneMin", f"{np.median(_secs) / 60:.0f}" if _secs else "?")
+for _D, _w in (("25", "TwentyFive"), ("50", "Fifty"), ("100", "Hundred")):
+    _sv = [x for x in SUBS if S["R1"][x]["n"]]
+    if _sv:
+        _k = sum(S["R1"][x][_D]["XDSperm"]["any"] for x in _sv); _n = sum(S["R1"][x][_D]["XDSperm"]["n"] for x in _sv)
+        mac(f"RfXDSpermUp{_w}", f"{_up(_k, _n):.0f}\\%")
+        mac(f"RfFloorLCP{_w}", f"{np.mean([S['R1'][x][_D]['LCP']['floor_mean'] for x in _sv]):.1f}"); mac(f"RfFloorXDS{_w}", f"{np.mean([S['R1'][x][_D]['XDSperm']['floor_mean'] for x in _sv]):.1f}")
 mc = json.load(open(P("rev4/out/R6/R6_mantis_clusters.json"))); S.setdefault("R6", {})["mantis_clusters"] = mc
 fp = lambda x: f"{x:.2g}" if x >= 0.001 else f"{x:.1g}"
 mac("McLeaves", str(mc["n_leaves"])); mac("McTotal", str(mc["n_clusters_total"])); mac("McLevels", str(mc["n_levels"])); mac("McTopLabel", mc["top_PBonly_cluster"]["label"])
@@ -182,6 +189,84 @@ if all(S["R2c"][x]["XDSMb"]["n"] for x in SUBS):
     mac("RfBankXDSMb", ", ".join(f"{S['R2c'][x]['XDSMb']['any']}/{S['R2c'][x]['XDSMb']['n']}" for x in SUBS)); mac("RfBankXDSMbHolds", str(sum(holds(S['R2c'][x]['XDSMb']['any'], S['R2c'][x]['XDSMb']['n']) for x in SUBS)))
     mac("RfBankXDSMc", ", ".join(f"{S['R2c'][x]['XDSM']['any']}/{S['R2c'][x]['XDSM']['n']}" for x in SUBS)); mac("RfBankPBb", rng([S["R2c"][x]["PBb"]["meanV"] for x in SUBS]))
     sh = [v for x in SUBS for v in S["R2c"][x]["bank_shift_median"].values()]; mac("RfBankShift", f"{min(sh):.2f}--{max(sh):.2f}")
+# ---------- Amendment 3 (C1-C7) ----------
+S["C"] = {}
+C1 = load("rev4/out/C1_P*_k*.json"); C2 = load("rev4/out/C2_P*_k*.json"); C4 = load("rev4/out/C4_P*_k*.json")
+for nm, blk, ms in (("C1", C1, ("XDSM", "XDSMc", "PB", "PBc")), ("C2", C2, ("XDSM", "XDSMb", "PB")), ("C4", C4, ("XDS_normal", "XDS_perm", "LCPd_normal", "LCPd_perm"))):
+    S["C"][nm] = {}
+    for x in SUBS:
+        runs = [v for k, v in blk.items() if k.startswith(f"{nm}_{x}_")]
+        if runs: S["C"][nm][x] = {m: dict(any=sum(r[m]["V"] > 0 for r in runs), n=len(runs), meanV=float(np.mean([r[m]["V"] for r in runs]))) for m in ms}
+        if runs and nm == "C2": S["C"][nm][x]["bank_stats"] = runs[0]["bank_stats"]
+for nm in ("C1real", "C3", "C5", "C6"):
+    S["C"][nm] = {os.path.basename(f)[len(nm) + 1:-5]: json.load(open(f)) for f in sorted(glob.glob(P(f"rev4/out/{nm}_*.json")))}
+def anyn(blk, m): return ", ".join(f"{blk[x][m]['any']}/{blk[x][m]['n']}" for x in SUBS if x in blk)
+def hold3(blk, m): return str(sum(holds(blk[x][m]["any"], blk[x][m]["n"]) for x in SUBS if x in blk))
+c1 = S["C"]["C1"]
+if c1:
+    mac("CoNullXc", anyn(c1, "XDSMc")); mac("CoNullXcHolds", hold3(c1, "XDSMc")); mac("CoNullX", anyn(c1, "XDSM")); mac("CoNullPBc", rng([c1[x]["PBc"]["meanV"] for x in c1])); mac("CoNullPB", rng([c1[x]["PB"]["meanV"] for x in c1]))
+    mac("CoNullN", rng([c1[x]["XDSMc"]["n"] for x in c1]))
+c1r = S["C"]["C1real"]
+if c1r:
+    mac("CoRealX", ", ".join(fmt(c1r[x]["XDSM"]) for x in SUBS if x in c1r)); mac("CoRealXc", ", ".join(fmt(c1r[x]["XDSMc"]) for x in SUBS if x in c1r))
+    mac("CoRealBoth", ", ".join(fmt(c1r[x]["both"]) for x in SUBS if x in c1r)); mac("CoRealOnlyX", ", ".join(fmt(c1r[x]["only_XDSM"]) for x in SUBS if x in c1r)); mac("CoRealP", str(next(iter(c1r.values()))["p_covariates"])); kp = [100 * c1r[x]["both"] / c1r[x]["XDSM"] for x in SUBS if x in c1r]; mac("CoRealKeep", f"{min(kp):.0f}--{max(kp):.0f}\\%")
+c2 = S["C"]["C2"]
+if c2:
+    mac("BmX", anyn(c2, "XDSM")); mac("BmXHolds", hold3(c2, "XDSM")); mac("BmXb", anyn(c2, "XDSMb")); mac("BmXbHolds", hold3(c2, "XDSMb")); mac("BmPB", rng([c2[x]["PB"]["meanV"] for x in c2]))
+c3 = S["C"]["C3"]
+if c3:
+    for key, nm in (("XDSM_seed_vs_seed", "Seed"), ("PB_vs_XDSM", "PBX"), ("XDSM_half_vs_half", "HalfX"), ("PB_half_vs_half", "HalfPB")):
+        mac(f"Ov{nm}Top", rng([100 * c3[x][key]["top5000"] / 5000 for x in SUBS if x in c3]) + "\\%"); mac(f"Ov{nm}Hub", rng([c3[x][key]["hubs20"] for x in SUBS if x in c3]))
+    if "P1" in c3 and "PBonly_null_OR" in c3["P1"]: mac("OvOR", f"{c3['P1']['PBonly_null_OR']['OR']:.2f}")
+c4 = S["C"]["C4"]
+if c4.get("P1"):
+    mac("PermTwoXperm", f"{c4['P1']['XDS_perm']['any']}/{c4['P1']['XDS_perm']['n']}"); mac("PermTwoXnorm", f"{c4['P1']['XDS_normal']['any']}/{c4['P1']['XDS_normal']['n']}")
+    mac("PermTwoLperm", f"{c4['P1']['LCPd_perm']['any']}/{c4['P1']['LCPd_perm']['n']}"); mac("PermTwoHolds", "within" if holds(c4["P1"]["XDS_perm"]["any"], c4["P1"]["XDS_perm"]["n"]) else "outside")
+c5 = S["C"]["C5"]
+if c5:
+    ps = [x for x in SUBS if x in c5]; ob = [x for x in ("B1", "B2", "B3") if x in c5]
+    if ps: mac("CouplingPsy", "--".join(f"{v:.3f}" for v in (min(c5[x]["coupling_median"] for x in ps), max(c5[x]["coupling_median"] for x in ps)))); mac("CouplingPsyFrac", rng([100 * c5[x]["frac_abs_gt_0045"] for x in ps]) + "\\%")
+    if ob: mac("CouplingOnek", "--".join(f"{v:.3f}" for v in (min(c5[x]["coupling_median"] for x in ob), max(c5[x]["coupling_median"] for x in ob)))); mac("CouplingOnekFrac", rng([100 * c5[x]["frac_abs_gt_0045"] for x in ob]) + "\\%")
+c6 = S["C"]["C6"]
+if c6 and os.path.exists(P("rev4/mantis/gene_map_mantis.csv")):
+    import pandas as pd; from scipy.stats import spearmanr as _sp
+    gmap = pd.read_csv(P("rev4/mantis/gene_map_mantis.csv")); gn1 = pd.read_csv(P("rev4/out/R6/genes_numeric.csv")); g1 = gmap[["gene", "leaf_cluster_label"]].merge(gn1, on="gene")
+    HSl = S["R6"]["mantis_clusters"]["top_null_cluster"]["label"]; rep_ = {}
+    for x in ("P2", "P3"):
+        if x not in c6: continue
+        dg = c6[x]["degree"]; sub = g1[g1.gene.isin(dg.keys())].copy(); sub["deg_x"] = [dg[gg] for gg in sub.gene]
+        rho = float(_sp(sub.null_false_degree, sub.deg_x).correlation); med = sub.groupby("leaf_cluster_label").deg_x.median().sort_values(ascending=False)
+        rep_[x] = dict(n_genes=int(len(sub)), spearman_with_P1=rho, hs_rank=int(list(med.index).index(HSl) + 1) if HSl in med.index else None, n_leaves=int(len(med)))
+    S["C"]["C6_rep"] = rep_
+    if rep_: mac("McRepRho", " and ".join(f"{v['spearman_with_P1']:.2f}" for v in rep_.values())); mac("McRepRank", " and ".join(f"{v['hs_rank']} of {v['n_leaves']}" for v in rep_.values()))
+    # (a) permutation baseline for eta^2 of null false degree across Mantis leaves (P1)
+    rng_ = np.random.default_rng(20261102); labs = g1.leaf_cluster_label.values
+    def eta2(y, lab):
+        mu = y.mean(); ss = ((y - mu) ** 2).sum(); return sum(len(y[lab == l]) * (y[lab == l].mean() - mu) ** 2 for l in np.unique(lab)) / ss
+    perm = {}
+    for m in ("null_false_degree", "PB_only_degree", "XDSM_degree"):
+        y = g1[m].values.astype(float); e0 = eta2(y, labs); null = np.array([eta2(y, rng_.permutation(labs)) for _ in range(10000)])
+        perm[m] = dict(eta2=float(e0), perm_p=float((1 + (null >= e0).sum()) / 10001), null_median=float(np.median(null)))
+    S["C"]["C6_perm"] = perm
+    mac("McEtaNull", f"{perm['null_false_degree']['eta2']:.2f}"); mac("McEtaNullBase", f"{perm['null_false_degree']['null_median']:.2f}"); mac("McEtaNullP", f"{perm['null_false_degree']['perm_p']:.3f}")
+    mac("McEtaPBonlyP", f"{perm['PB_only_degree']['perm_p']:.2f}"); mac("McEtaXP", f"{perm['XDSM_degree']['perm_p']:.4f}")
+# REV4 Amendment 4 (post hoc): modularity of the Mantis function partition on each edge set
+a4f = P("rev4/out/A4/A4_summary.json")
+if os.path.exists(a4f):
+    A4 = json.load(open(a4f)); S["A4"] = A4; a4s = [x for x in SUBS if x in A4]
+    def zl(es, part="leaf"): return ", ".join(f"{A4[x][part]['sets'][es]['Q_z']:.1f}".replace("-", "$-$") for x in a4s)
+    mac("McModNullZ", zl("null_PB")); mac("McModRealPBZ", zl("real_PB")); mac("McModRealXZ", zl("real_XDSM")); mac("McModPBonlyZ", zl("PB_only")); mac("McModXonlyZ", zl("XDSM_only"))
+    mac("McModNullZcoarse", zl("null_PB", "L4")); mac("McModNullPcoarse", ", ".join(f"{A4[x]['L4']['sets']['null_PB']['p_Q']:.3f}" for x in a4s))
+    mac("McModNullP", f"{max(A4[x]['leaf']['sets']['null_PB']['p_Q'] for x in a4s):.4f}"); mac("McModNullHolds", str(sum(A4[x]['leaf']['sets']['null_PB']['p_Q'] < 0.01 for x in a4s)))
+    pct = lambda v: f"{100 * v:.1f}\\%"
+    def prng(key, es=None):
+        v = [A4[x]["leaf"]["all_pairs_within_frac"] if es is None else A4[x]["leaf"]["sets"][es][key] for x in a4s]; return f"{100 * min(v):.1f}--{100 * max(v):.1f}\\%"
+    mac("McModNullFrac", prng("within_frac", "null_PB")); mac("McModBase", prng(None)); mac("McModXFrac", prng("within_frac", "real_XDSM"))
+    mac("McModGenesTwoThree", " and ".join(str(A4[x]["n_genes"]) for x in a4s if x != "P1"))
+    d4 = A4.get("D4_P1", {})
+    if d4:
+        mac("McResidEtaNull", f"{d4['null_false_degree']['eta2_resid']:.2f}"); mac("McResidEtaNullP", f"{d4['null_false_degree']['p']:.3f}")
+        mac("McResidEtaXP", f"{d4['XDSM_degree']['p']:.3f}"); mac("McResidEtaPBonlyP", f"{d4['PB_only_degree']['p']:.2f}"); mac("McResidRtwo", f"{d4['null_false_degree']['r2_expression']:.2f}")
 with open(P("paper2/rev4nums.tex"), "w") as fh:
     fh.write("% generated by make_rev4.py from rev4/results/REV4_SUMMARY.json\n")
     for k, v in M.items(): fh.write(f"\\newcommand{{\\{k}}}{{{v}}}\n")

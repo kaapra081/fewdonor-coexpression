@@ -1,0 +1,34 @@
+{
+ "ties": {
+  "XDSM_p_zero": 6
+ },
+ "XDSM_seed_vs_seed": {
+  "top5000": 4717,
+  "hubs20": 20
+ },
+ "PB_vs_XDSM": {
+  "top5000": 3042,
+  "hubs20": 14
+ },
+ "XDSM_half_vs_half": {
+  "top5000": 3282,
+  "hubs20": 17
+ },
+ "PB_half_vs_half": {
+  "top5000": 2652,
+  "hubs20": 15
+ },
+ "PBonly_null_OR": {
+  "table": [
+   [
+    1439,
+    8475
+   ],
+   [
+    10670,
+    69092
+   ]
+  ],
+  "OR": 1.0994726537337614
+ }
+}

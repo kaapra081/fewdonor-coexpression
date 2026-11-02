@@ -1,12 +1,12 @@
 \begin{table}[t]\centering\small\setlength{\tabcolsep}{3.2pt}
-\caption{Run-level error on real-cell nulls: reassignments with at least one BH call, pooled over the three PsychAD subtypes (under a complete null this fraction is the FDR). $^\dagger$: outside the frozen bound ($0.05+2$\,SE) in at least one subtype or cell type. Donor-centred null: 25--100 pseudo-donors from REV3 (100 runs per subtype) for pseudobulk, XDS-M and KX, and from REV4 with $2\times10^6$ donor permutations (13--13 runs per subtype) for LCP, LCPd and XDS, which use permutation $p$-values at $D\le100$; 200 to full size from REV2 (100 runs per subtype, normal references). Bank: brain-bank-stratified null at full size (REV4, 40 runs per subtype); the bank-centred row is post hoc (Section~\ref{sec:calib}). OneK1K: pooled null at full size, three cell types (REV2; 30--33 runs each).}\label{tab:calib}
+\caption{Run-level error on real-cell nulls: reassignments with at least one BH call, pooled over the three PsychAD subtypes (under a complete null this fraction is the FDR). $^\dagger$: outside the frozen bound ($0.05+2$\,SE) in at least one subtype or cell type. Donor-centred null: 25--100 pseudo-donors from REV3 (100 runs per subtype) for pseudobulk, XDS-M and KX, and from REV4 with $2\times10^6$ donor permutations (18--18 runs per subtype) for LCP, LCPd and XDS, which use permutation $p$-values at $D\le100$; 200 to full size from REV2 (100 runs per subtype, normal references). Bank: brain-bank-stratified null at full size (REV4, 40 runs per subtype); the bank-centred row is post hoc (Section~\ref{sec:calib}). OneK1K: pooled null at full size, three cell types (REV2; 30--33 runs each).}\label{tab:calib}
 \begin{tabular}{lcccccc|c|c}\toprule & \multicolumn{6}{c|}{Donor-centred null, pseudo-donors} & Bank & OneK1K\\
 Method & 25 & 50 & 100 & 200 & 400 & full & full & full\\\midrule
 Pseudobulk & 300/300$^\dagger$ & 300/300$^\dagger$ & 300/300$^\dagger$ & 300/300$^\dagger$ & 300/300$^\dagger$ & 300/300$^\dagger$ & 120/120$^\dagger$ & 90/90$^\dagger$\\
-LCP & 19/25$^\dagger$ & 11/25$^\dagger$ & 25/25$^\dagger$ & 300/300$^\dagger$ & 300/300$^\dagger$ & 300/300$^\dagger$ & 120/120$^\dagger$ & 89/90$^\dagger$\\
-LCPd & 20/25$^\dagger$ & 5/25$^\dagger$ & 3/25 & 46/300$^\dagger$ & 42/300$^\dagger$ & 68/300$^\dagger$ & 76/120$^\dagger$ & --\\
-XDS, one split & 1/25 & 1/25 & 2/25 & 97/300$^\dagger$ & 82/300$^\dagger$ & 81/300$^\dagger$ & 27/120$^\dagger$ & --\\
+LCP & 27/34$^\dagger$ & 17/34$^\dagger$ & 34/34$^\dagger$ & 300/300$^\dagger$ & 300/300$^\dagger$ & 300/300$^\dagger$ & 120/120$^\dagger$ & 89/90$^\dagger$\\
+LCPd & 29/34$^\dagger$ & 6/34$^\dagger$ & 4/34$^\dagger$ & 46/300$^\dagger$ & 42/300$^\dagger$ & 68/300$^\dagger$ & 76/120$^\dagger$ & --\\
+XDS, one split & 1/34 & 1/34 & 3/34$^\dagger$ & 97/300$^\dagger$ & 82/300$^\dagger$ & 81/300$^\dagger$ & 27/120$^\dagger$ & --\\
 XDS-M & 147/300$^\dagger$ & 39/300$^\dagger$ & 15/300 & 9/300 & 23/300$^\dagger$ & 9/300 & 25/120$^\dagger$ & 6/99\\
 KX & 300/300$^\dagger$ & 237/300$^\dagger$ & 67/300$^\dagger$ & 24/300 & 16/300 & 11/300 & 25/120$^\dagger$ & --\\
-XDS-M, bank-centred & & & & & & & 7/116 & \\
+XDS-M, bank-centred & & & & & & & 7/120 & \\
 \bottomrule\end{tabular}\end{table}

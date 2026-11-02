@@ -21,6 +21,7 @@
 \newcommand{\RfRealPBonlyPct}{12--30\%}
 \newcommand{\RfRealXonly}{12{,}726, 10{,}092, 11{,}898}
 \newcommand{\RfRealShared}{43{,}349, 50{,}180, 25{,}968}
+\newcommand{\RfPBfewer}{all three subtypes}
 \newcommand{\RfHubOverlap}{11--14}
 \newcommand{\RfTopOverlap}{53--70\%}
 \newcommand{\RsixNullCalls}{12{,}109}
@@ -40,10 +41,19 @@
 \newcommand{\RsixPairNull}{0.26}
 \newcommand{\RsixPairRealPB}{0.50}
 \newcommand{\RsixPairRealX}{0.51}
-\newcommand{\RfRoneN}{0--13}
+\newcommand{\RfRoneN}{0--18}
 \newcommand{\RfUpperPooled}{11\%}
 \newcommand{\RfUpperThree}{18\%}
-\newcommand{\RfRoneMin}{9}
+\newcommand{\RfRoneMin}{10}
+\newcommand{\RfXDSpermUpTwentyFive}{15\%}
+\newcommand{\RfFloorLCPTwentyFive}{6.6}
+\newcommand{\RfFloorXDSTwentyFive}{1.1}
+\newcommand{\RfXDSpermUpFifty}{15\%}
+\newcommand{\RfFloorLCPFifty}{4.6}
+\newcommand{\RfFloorXDSFifty}{0.8}
+\newcommand{\RfXDSpermUpHundred}{24\%}
+\newcommand{\RfFloorLCPHundred}{14.3}
+\newcommand{\RfFloorXDSHundred}{0.9}
 \newcommand{\McLeaves}{49}
 \newcommand{\McTotal}{97}
 \newcommand{\McLevels}{10}
@@ -70,36 +80,36 @@
 \newcommand{\SeaXDSMTop}{0.043--0.070}
 \newcommand{\SeaKXTop}{0.055--0.061}
 \newcommand{\RfKXpoolThree}{36}
-\newcommand{\RfLCPTwentyFive}{19/25}
+\newcommand{\RfLCPTwentyFive}{27/34}
 \newcommand{\RfLCPTwentyFiveHolds}{0}
-\newcommand{\RfLCPdTwentyFive}{20/25}
+\newcommand{\RfLCPdTwentyFive}{29/34}
 \newcommand{\RfLCPdTwentyFiveHolds}{0}
-\newcommand{\RfXDSpermTwentyFive}{1/25}
+\newcommand{\RfXDSpermTwentyFive}{1/34}
 \newcommand{\RfXDSpermTwentyFiveHolds}{2}
-\newcommand{\RfXDSMTwentyFive}{13/25}
+\newcommand{\RfXDSMTwentyFive}{18/34}
 \newcommand{\RfXDSMTwentyFiveHolds}{0}
-\newcommand{\RfKXTwentyFive}{25/25}
+\newcommand{\RfKXTwentyFive}{34/34}
 \newcommand{\RfKXTwentyFiveHolds}{0}
-\newcommand{\RfLCPFifty}{11/25}
+\newcommand{\RfLCPFifty}{17/34}
 \newcommand{\RfLCPFiftyHolds}{0}
-\newcommand{\RfLCPdFifty}{5/25}
+\newcommand{\RfLCPdFifty}{6/34}
 \newcommand{\RfLCPdFiftyHolds}{1}
-\newcommand{\RfXDSpermFifty}{1/25}
+\newcommand{\RfXDSpermFifty}{1/34}
 \newcommand{\RfXDSpermFiftyHolds}{2}
-\newcommand{\RfXDSMFifty}{2/25}
+\newcommand{\RfXDSMFifty}{3/34}
 \newcommand{\RfXDSMFiftyHolds}{2}
-\newcommand{\RfKXFifty}{20/25}
+\newcommand{\RfKXFifty}{27/34}
 \newcommand{\RfKXFiftyHolds}{0}
-\newcommand{\RfLCPHundred}{25/25}
+\newcommand{\RfLCPHundred}{34/34}
 \newcommand{\RfLCPHundredHolds}{0}
-\newcommand{\RfLCPdHundred}{3/25}
-\newcommand{\RfLCPdHundredHolds}{2}
-\newcommand{\RfXDSpermHundred}{2/25}
-\newcommand{\RfXDSpermHundredHolds}{2}
-\newcommand{\RfXDSMHundred}{0/25}
+\newcommand{\RfLCPdHundred}{4/34}
+\newcommand{\RfLCPdHundredHolds}{1}
+\newcommand{\RfXDSpermHundred}{3/34}
+\newcommand{\RfXDSpermHundredHolds}{1}
+\newcommand{\RfXDSMHundred}{1/34}
 \newcommand{\RfXDSMHundredHolds}{2}
-\newcommand{\RfKXHundred}{3/25}
-\newcommand{\RfKXHundredHolds}{2}
+\newcommand{\RfKXHundred}{7/34}
+\newcommand{\RfKXHundredHolds}{1}
 \newcommand{\RfBankPB}{40/40, 40/40, 40/40}
 \newcommand{\RfBankPBHolds}{0}
 \newcommand{\RfBankPBMean}{8{,}640--23{,}907}
@@ -118,8 +128,63 @@
 \newcommand{\RfBankKX}{23/40, 2/40, 0/40}
 \newcommand{\RfBankKXHolds}{2}
 \newcommand{\RfBankKXMean}{0--1}
-\newcommand{\RfBankXDSMb}{4/36, 1/40, 2/40}
+\newcommand{\RfBankXDSMb}{4/40, 1/40, 2/40}
 \newcommand{\RfBankXDSMbHolds}{3}
-\newcommand{\RfBankXDSMc}{14/36, 8/40, 2/40}
+\newcommand{\RfBankXDSMc}{15/40, 8/40, 2/40}
 \newcommand{\RfBankPBb}{8{,}463--23{,}148}
 \newcommand{\RfBankShift}{0.01--0.16}
+\newcommand{\CoNullXc}{1/20, 0/20, 0/20}
+\newcommand{\CoNullXcHolds}{3}
+\newcommand{\CoNullX}{1/20, 0/20, 0/20}
+\newcommand{\CoNullPBc}{8{,}139--23{,}139}
+\newcommand{\CoNullPB}{8{,}466--23{,}523}
+\newcommand{\CoNullN}{20}
+\newcommand{\CoRealX}{56{,}075, 60{,}272, 37{,}866}
+\newcommand{\CoRealXc}{53{,}080, 57{,}568, 37{,}361}
+\newcommand{\CoRealBoth}{48{,}137, 54{,}591, 35{,}357}
+\newcommand{\CoRealOnlyX}{7{,}938, 5{,}681, 2{,}509}
+\newcommand{\CoRealP}{10}
+\newcommand{\CoRealKeep}{86--93\%}
+\newcommand{\BmX}{4/40, 2/40, 2/40}
+\newcommand{\BmXHolds}{3}
+\newcommand{\BmXb}{4/40, 2/40, 2/40}
+\newcommand{\BmXbHolds}{3}
+\newcommand{\BmPB}{8{,}612--23{,}344}
+\newcommand{\OvSeedTop}{90--96\%}
+\newcommand{\OvSeedHub}{18--20}
+\newcommand{\OvPBXTop}{53--70\%}
+\newcommand{\OvPBXHub}{11--14}
+\newcommand{\OvHalfXTop}{50--77\%}
+\newcommand{\OvHalfXHub}{13--17}
+\newcommand{\OvHalfPBTop}{42--71\%}
+\newcommand{\OvHalfPBHub}{13--15}
+\newcommand{\OvOR}{1.10}
+\newcommand{\CouplingPsy}{0.023--0.034}
+\newcommand{\CouplingPsyFrac}{20--41\%}
+\newcommand{\CouplingOnek}{0.008--0.023}
+\newcommand{\CouplingOnekFrac}{32--50\%}
+\newcommand{\McRepRho}{0.28 and 0.28}
+\newcommand{\McRepRank}{21 of 49 and 17 of 49}
+\newcommand{\McEtaNull}{0.19}
+\newcommand{\McEtaNullBase}{0.11}
+\newcommand{\McEtaNullP}{0.002}
+\newcommand{\McEtaPBonlyP}{0.01}
+\newcommand{\McEtaXP}{0.0001}
+\newcommand{\McModNullZ}{4.2, 5.0, 5.0}
+\newcommand{\McModRealPBZ}{4.9, 3.4, 2.5}
+\newcommand{\McModRealXZ}{4.2, 3.3, 1.8}
+\newcommand{\McModPBonlyZ}{$-$1.4, $-$1.4, $-$0.7}
+\newcommand{\McModXonlyZ}{$-$1.8, $-$1.9, $-$2.0}
+\newcommand{\McModNullZcoarse}{2.1, 1.6, 1.4}
+\newcommand{\McModNullPcoarse}{0.016, 0.055, 0.079}
+\newcommand{\McModNullP}{0.0001}
+\newcommand{\McModNullHolds}{3}
+\newcommand{\McModNullFrac}{2.6--3.2\%}
+\newcommand{\McModBase}{2.1--2.3\%}
+\newcommand{\McModXFrac}{2.3--2.5\%}
+\newcommand{\McModGenesTwoThree}{325 and 340}
+\newcommand{\McResidEtaNull}{0.17}
+\newcommand{\McResidEtaNullP}{0.012}
+\newcommand{\McResidEtaXP}{0.028}
+\newcommand{\McResidEtaPBonlyP}{0.82}
+\newcommand{\McResidRtwo}{0.30}
