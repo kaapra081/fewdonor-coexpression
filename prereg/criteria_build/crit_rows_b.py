@@ -181,87 +181,110 @@ xcheck('BthreeXDSM', ', '.join(f"{B3[D]['XDSM']['any']}/40" for D in ('200', '40
 note('REV3', 'The appendix\u2019s \u201c1 of 4 for 0.03\u20130.1 UMI per cell\u201d (macro AtwoLoDec*) counts only the A2x block (B1, genes 2,001\u20133,000). The original A2 block B2 also has a 0.03\u20130.1 stratum (50 genes), where XDS-M (S=5) is flagged calibrated in 4 of 4 combinations, but its expected count at 1e-5 is 19.7 (<20, not assessable at that threshold); pooling both blocks gives 5 of 8. The A2 criterion for the macro \u201cabove 0.1 UMI per cell\u201d (23 of 24) covers B1 and B2 strata >0.1 only; A2x 0.1\u20130.3 UMI/cell (4 of 4) and P3 (8 of 8) are counted separately.')
 note('REV3', 'A3 \u201cXDS\u201d in the frozen plan is the permutation version (LCPXd); the summary file also carries a single-split XDS with normal reference (reported above for context).')
 
-# ---------------------------------------------------------------- REV4
-plan('REV4', 'REV4_PREREG (external review) with Amendments 1 and 2', ['rev4/REV4_PREREG.md', 'rev4/REV4_AMENDMENT1.md', 'rev4/REV4_AMENDMENT2.md'],
-     f"no .sha256 file in bundle; sha256 of bundle files: PREREG {sha('rev4/REV4_PREREG.md')[:12]}\u2026, AMENDMENT1 {sha('rev4/REV4_AMENDMENT1.md')[:12]}\u2026, AMENDMENT2 {sha('rev4/REV4_AMENDMENT2.md')[:12]}\u2026",
-     'R1 PARTIAL (13, 12, 0 of 20 runs); R2 40 per subtype (R2c P1: 36); R3 20/10; R5 20; R6 descriptive.')
+# ---------------------------------------------------------------- REV4 (data-driven; final runs)
+plan('REV4', 'REV4_PREREG (external review) with Amendments 1-5', ['rev4/REV4_PREREG.md'] + [f'rev4/REV4_AMENDMENT{i}.md' for i in range(1, 6)],
+     'sha256 (first 12): ' + ', '.join(f"{n} {sha(f)[:12]}" for n, f in [('PREREG', 'rev4/REV4_PREREG.md')] + [(f'A{i}', f'rev4/REV4_AMENDMENT{i}.md') for i in range(1, 6)]),
+     'R1 20 runs per subtype; R2/R2c 40; R3 20/10; R5 20; C1 20; C2 40; C4 20; R6, C3, C5, C6, A4, A5 descriptive or single-run.')
 R4 = J('rev4/results/REV4_SUMMARY.json'); R1_4 = R4['R1']
 nR1 = {s: R1_4[s]['n'] for s in SUBS}
-assert nR1 == {'P1': 13, 'P2': 12, 'P3': 0}
-MAXR = 2   # plan: at most 2 of 20 runs (0.147); also the bound's whole-run count at n = 12, 13
-assert max_runs(12) == 2 and max_runs(13) == 2 and max_runs(20) == 2
-def r1cells(m): return [(s, D, R1_4[s][D][m]['any'], R1_4[s][D][m]['n']) for D in ('25', '50', '100') for s in ('P1', 'P2')]
-def r1h(m): return sum(k <= MAXR for _, _, k, _ in r1cells(m))
-def r1tot(m, D): return sum(R1_4[s][D][m]['any'] for s in ('P1', 'P2')), sum(R1_4[s][D]['PB']['n'] for s in ('P1', 'P2'))
+PART = any(n < 20 for n in nR1.values())
+def r1cells(m): return [(s, D, R1_4[s][D][m]['any'], R1_4[s][D][m]['n']) for D in ('25', '50', '100') for s in SUBS if nR1[s]]
+def r1h(m): return sum(ok_rl(k, n) for _, _, k, n in r1cells(m))
+def r1tot(m, D): return sum(R1_4[s][D][m]['any'] for s in SUBS if nR1[s]), sum(R1_4[s][D][m]['n'] for s in SUBS if nR1[s])
 def r1txt(m): return '; '.join(f"D={D}: {r1tot(m, D)[0]}/{r1tot(m, D)[1]}" for D in ('25', '50', '100'))
-R1CRIT = 'R1, per subtype and D (25, 50, 100): \u201cholds\u201d if at most 2 of 20 runs have \u22651 BH call (\u22640.147). '
-firm = lambda m: all(k >= 3 for _, _, k, _ in r1cells(m) if k > MAXR)
-pt = lambda m: f"Holds in {r1h(m)} of 6 evaluated cells (P1, P2 \u00d7 D=25, 50, 100); runs with a call (pooled P1+P2, 25 runs): {r1txt(m)}."
-assert r1h('PB') == 0 and r1h('LCP') == 0 and r1h('LCPd') == 3 and r1h('XDSperm') == 6 and r1h('XDS') == 5 and r1h('XDSM') == 4 and r1h('KX') == 2
-assert firm('PB') and firm('LCP') and firm('LCPd') and firm('XDS') and firm('XDSM') and firm('KX')
-add('REV4', 'REV4-R1a', 'R1 (all R1 rows): \u201cholds\u201d if \u22642 of 20 runs have a BH call, per subtype and D=25, 50, 100. PB and LCP.',
-    'FAIL*', f"PB: holds in 0 of 6 cells ({', '.join(str(r1tot('PB', D)[0]) + ' of ' + str(r1tot('PB', D)[1]) for D in ('25','50','100'))} runs with a call at D=25, 50, 100). LCP: 0 of 6; {r1txt('LCP')}. Failures cannot reverse with more runs.",
-    'rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.{PB,LCP}.{any,n}')
-add('REV4', 'REV4-R1b', 'R1, LCPd.', 'MIXED*', f"{pt('LCPd')} Fails at D=25 (both) and at D=50 in P2 (3 of 12); holds at D=100 (1 of 13, 2 of 12).", 'rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.LCPd.{any,n}')
-add('REV4', 'REV4-R1c', 'R1, XDS with permutation p-values (B=2,000,000 in the plan).', 'PASS*', f"{pt('XDSperm')} Provisional: P3 not run; B actually used is not recorded in the summary.", 'rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.XDSperm.{any,n}')
-add('REV4', 'REV4-R1d', 'R1, XDS (single split, normal-moment reference, recomputed on the same runs).', 'MIXED*', f"{pt('XDS')} Fails at D=100 in P2 (4 of 12).", 'rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.XDS.{any,n}')
-add('REV4', 'REV4-R1e', 'R1, XDS-M (S=5).', 'MIXED*', f"{pt('XDSM')} Fails at D=25 (6 of 13, 7 of 12); holds at D=50, 100.", 'rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.XDSM.{any,n}')
-add('REV4', 'REV4-R1f', 'R1, KX.', 'MIXED*', f"{pt('KX')} Fails at D=25 and D=50; holds at D=100 (2 of 13, 1 of 12).", 'rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.KX.{any,n}')
-add('REV4', 'REV4-R1g', 'R1 in P3 (ADAM_GPNMB): 20 runs planned at D=25, 50, 100.', 'NOT EVALUATED', f"0 of 20 runs in the bundle (R1.P3.n = {nR1['P3']}). P1: {nR1['P1']} of 20 runs, P2: {nR1['P2']} of 20 (partial). Plan: \u201creport the runs completed (stated as such)\u201d if compute does not allow 20.", 'rev4/results/REV4_SUMMARY.json: R1.<P>.n')
-for nm_, mac, comp in (('LCP', 'RfLCPTwentyFive', r1tot('LCP', '25')), ('LCPd', 'RfLCPdTwentyFive', r1tot('LCPd', '25')), ('XDSperm', 'RfXDSpermTwentyFive', r1tot('XDSperm', '25')), ('XDSM', 'RfXDSMTwentyFive', r1tot('XDSM', '25')), ('KX', 'RfKXTwentyFive', r1tot('KX', '25')),
-                       ('LCP', 'RfLCPFifty', r1tot('LCP', '50')), ('LCPd', 'RfLCPdFifty', r1tot('LCPd', '50')), ('XDSperm', 'RfXDSpermFifty', r1tot('XDSperm', '50')), ('XDSM', 'RfXDSMFifty', r1tot('XDSM', '50')), ('KX', 'RfKXFifty', r1tot('KX', '50')),
-                       ('LCP', 'RfLCPHundred', r1tot('LCP', '100')), ('LCPd', 'RfLCPdHundred', r1tot('LCPd', '100')), ('XDSperm', 'RfXDSpermHundred', r1tot('XDSperm', '100')), ('XDSM', 'RfXDSMHundred', r1tot('XDSM', '100')), ('KX', 'RfKXHundred', r1tot('KX', '100'))):
-    xcheck(mac, f"{comp[0]}/{comp[1]}")
+def r1fail(m): return ', '.join(f"{s} D={D} ({k}/{n})" for s, D, k, n in r1cells(m) if not ok_rl(k, n)) or 'none'
+def r1out(m):
+    h, t = r1h(m), len(r1cells(m)); o = 'PASS' if h == t else ('FAIL' if h == 0 else 'MIXED'); return o + ('*' if PART else '')
+for rid, m, lab in (('REV4-R1a', 'PB', 'pseudobulk'), ('REV4-R1b', 'LCP', 'LCP'), ('REV4-R1c', 'LCPd', 'LCPd'), ('REV4-R1d', 'XDSperm', 'XDS, permutation p-values (B = 2,000,000)'),
+                    ('REV4-R1e', 'XDS', 'XDS, normal-moment reference'), ('REV4-R1f', 'XDSM', 'XDS-M (S = 5)'), ('REV4-R1g', 'KX', 'KX')):
+    add('REV4', rid, f"R1, {lab}: at most 2 of 20 runs with a BH call, per subtype and D = 25, 50, 100.", r1out(m),
+        f"Holds in {r1h(m)} of {len(r1cells(m))} cells; runs with a call, pooled over subtypes: {r1txt(m)}. Failing cells: {r1fail(m)}.", f"rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.{m}.{{any,n}}")
+for D, w in (('25', 'TwentyFive'), ('50', 'Fifty'), ('100', 'Hundred')):
+    for m in ('LCP', 'LCPd', 'XDSperm', 'XDSM', 'KX'):
+        k, n = r1tot(m, D); xcheck(f'Rf{m}{w}', f"{k}/{n}")
 # R2
 R2 = R4['R2']
-def r2c(m): return [R2[s][m]['any'] for s in SUBS]
-assert all(R2[s]['XDSM']['n'] == 40 for s in SUBS) and max_runs(40) == 4
-hxm = sum(ok_rl(k, 40) for k in r2c('XDSM')); assert hxm == 1 and r2c('XDSM') == [15, 8, 2]
-oth = lambda m: ', '.join(f"{k}/40" for k in r2c(m))
-add('REV4', 'REV4-R2', 'R2 decision: XDS-M holds by the run-level rule (n=40: \u22644 of 40 runs with a call) in each subtype (brain-bank-stratified null).',
-    'MIXED', f"Holds in 1 of 3 (P3: 2/40); fails P1 15/40 and P2 8/40. Other methods (P1, P2, P3; same rule, not a named decision): PB {oth('PB')}; LCP {oth('LCP')}; LCPd {oth('LCPd')}; XDS {oth('XDS')}; KX {oth('KX')}.",
+def r2c(m): return [(R2[s][m]['any'], R2[s][m]['n']) for s in SUBS]
+oth = lambda m: ', '.join(f"{k}/{n}" for k, n in r2c(m))
+hxm = sum(ok_rl(k, n) for k, n in r2c('XDSM'))
+add('REV4', 'REV4-R2', 'R2 decision: XDS-M within the run-level bound (n = 40: at most 4 runs with a call) in each subtype, brain-bank-stratified null.',
+    'PASS' if hxm == 3 else ('FAIL' if hxm == 0 else 'MIXED'), f"Holds in {hxm} of 3 (XDS-M {oth('XDSM')}). Other methods (same rule, not named decisions): PB {oth('PB')}; LCP {oth('LCP')}; LCPd {oth('LCPd')}; XDS {oth('XDS')}; KX {oth('KX')}.",
     'rev4/results/REV4_SUMMARY.json: R2.<P>.<method>.{any,n}')
-xcheck('RfBankXDSM', oth('XDSM')); xcheck('RfBankPB', oth('PB')); xcheck('RfBankLCP', oth('LCP')); xcheck('RfBankLCPd', oth('LCPd')); xcheck('RfBankXDS', oth('XDS')); xcheck('RfBankKX', oth('KX'))
-# R2c
-R2c = R4['R2c']
-xb = [(R2c[s]['XDSMb']['any'], R2c[s]['XDSMb']['n']) for s in SUBS]; xm_c = [(R2c[s]['XDSM']['any'], R2c[s]['XDSM']['n']) for s in SUBS]
-rule = [ok_rl(k, n) for k, n in xb if True]
-assert xb == [(4, 36), (1, 40), (2, 40)] and all(rule)
-add('REV4', 'REV4-R2c', 'Amendment 2 (post hoc; rule fixed before R2c): if XDS-Mb fails \u2264 the bound\u2019s runs where XDS-M fails, attribute R2 failures to residual bank structure.',
-    'PASS*', f"Rule met. XDS-M fails in P1 ({xm_c[0][0]}/{xm_c[0][1]} runs) and P2 ({xm_c[1][0]}/{xm_c[1][1]}); XDS-Mb {xb[0][0]}/{xb[0][1]} (P1; exactly at the 4-run bound), {xb[1][0]}/{xb[1][1]} (P2), {xb[2][0]}/{xb[2][1]} (P3). Provisional: P1 has 36 of 40 runs. PB and bank-centred PB (PBb): 40/40 runs with a call in P2, P3 and 36/36 in P1.",
-    'rev4/results/REV4_SUMMARY.json: R2c.<P>.{XDSM,XDSMb,PB,PBb}.{any,n}')
-xcheck('RfBankXDSMb', ', '.join(f"{k}/{n}" for k, n in xb)); xcheck('RfBankXDSMc', ', '.join(f"{k}/{n}" for k, n in xm_c)); xcheck('RfBankXDSMbHolds', str(sum(rule)))
-# R3
+xcheck('RfBankXDSM', ', '.join(f"{k}/{n}" for k, n in r2c('XDSM'))); xcheck('RfBankKX', ', '.join(f"{k}/{n}" for k, n in r2c('KX')))
+# R2c (Amendment 2)
+R2c = R4['R2c']; xb = [(R2c[s]['XDSMb']['any'], R2c[s]['XDSMb']['n']) for s in SUBS]; hb = sum(ok_rl(k, n) for k, n in xb)
+add('REV4', 'REV4-R2c', 'Amendment 2 (post hoc; rule written before R2c ran): bank-centred XDS-Mb within the bound in every subtype attributes R2 failures to residual bank means.',
+    'PASS' if hb == 3 else 'MIXED', f"XDS-Mb {', '.join(f'{k}/{n}' for k, n in xb)} (holds in {hb} of 3); bank-centred PB {', '.join(str(R2c[s]['PBb']['any']) + '/' + str(R2c[s]['PBb']['n']) for s in SUBS)} runs with a call.",
+    'rev4/results/REV4_SUMMARY.json: R2c.<P>.{XDSMb,PBb}.{any,n}')
+xcheck('RfBankXDSMb', ', '.join(f"{k}/{n}" for k, n in xb)); xcheck('RfBankXDSMbHolds', str(hb))
+# R3, R4, R5 (unchanged logic)
 R3 = R4['R3']; R3o = R4['R3o']
-assert all(R3[s][m]['any'] == R3[s][m]['n'] for s in SUBS for m in R3[s]) and all(R3o[b][m]['any'] == R3o[b][m]['n'] for b in R3o for m in R3o[b])
-add('REV4', 'REV4-R3', 'R3: PC-adjusted (k=5, 10) and weighted pseudobulk baselines, PsychAD (20 runs) and OneK1K (10 runs). Descriptive; no decision.',
-    'DESCRIPTIVE', f"Every variant made \u22651 call in every run (PsychAD 20/20; OneK1K 10/10). Mean calls PsychAD: PBres {ic(min(R3[s]['PBres']['meanV'] for s in SUBS))}\u2013{ic(max(R3[s]['PBres']['meanV'] for s in SUBS))}; PBw {ic(min(R3[s]['PBw']['meanV'] for s in SUBS))}\u2013{ic(max(R3[s]['PBw']['meanV'] for s in SUBS))}; PC5/PC10 {ic(min(R3[s][m]['meanV'] for s in SUBS for m in ('PC5','PC10')))}\u2013{ic(max(R3[s][m]['meanV'] for s in SUBS for m in ('PC5','PC10')))}. OneK1K: PB {ic(min(R3o[b]['PB']['meanV'] for b in R3o))}\u2013{ic(max(R3o[b]['PB']['meanV'] for b in R3o))}; PBw {ic(min(R3o[b]['PBw']['meanV'] for b in R3o))}\u2013{ic(max(R3o[b]['PBw']['meanV'] for b in R3o))}; PC {ic(min(R3o[b][m]['meanV'] for b in R3o for m in ('PC5','PC10')))}\u2013{ic(max(R3o[b][m]['meanV'] for b in R3o for m in ('PC5','PC10')))}.",
-    'rev4/results/REV4_SUMMARY.json: R3.<P>.<method>.{any,n,meanV}; R3o.<B>.<method>')
-xcheck('RfPCadj', f"{ic(min(R3[s][m]['meanV'] for s in SUBS for m in ('PC5','PC10')))}\u2013{ic(max(R3[s][m]['meanV'] for s in SUBS for m in ('PC5','PC10')))}"); xcheck('RfOnekPB', f"{ic(min(R3o[b]['PB']['meanV'] for b in R3o))}\u2013{ic(max(R3o[b]['PB']['meanV'] for b in R3o))}"); xcheck('RfOnekPBw', f"{ic(min(R3o[b]['PBw']['meanV'] for b in R3o))}\u2013{ic(max(R3o[b]['PBw']['meanV'] for b in R3o))}"); xcheck('RfOnekPC', f"{ic(min(R3o[b][m]['meanV'] for b in R3o for m in ('PC5','PC10')))}\u2013{ic(max(R3o[b][m]['meanV'] for b in R3o for m in ('PC5','PC10')))}")
-# R4
+add('REV4', 'REV4-R3', 'R3: PC-adjusted (k = 5, 10), residualized and weighted pseudobulk, PsychAD (20 runs) and OneK1K (10 runs). Descriptive.',
+    'DESCRIPTIVE', f"Every variant made at least one call in every run. PsychAD mean calls: PBres {ic(min(R3[s]['PBres']['meanV'] for s in SUBS))}\u2013{ic(max(R3[s]['PBres']['meanV'] for s in SUBS))}; PBw {ic(min(R3[s]['PBw']['meanV'] for s in SUBS))}\u2013{ic(max(R3[s]['PBw']['meanV'] for s in SUBS))}; PC5/PC10 {ic(min(R3[s][m]['meanV'] for s in SUBS for m in ('PC5','PC10')))}\u2013{ic(max(R3[s][m]['meanV'] for s in SUBS for m in ('PC5','PC10')))}. OneK1K PB {ic(min(R3o[b]['PB']['meanV'] for b in R3o))}\u2013{ic(max(R3o[b]['PB']['meanV'] for b in R3o))}; PBw {ic(min(R3o[b]['PBw']['meanV'] for b in R3o))}\u2013{ic(max(R3o[b]['PBw']['meanV'] for b in R3o))}.",
+    'rev4/results/REV4_SUMMARY.json: R3.<P>.<method>; R3o.<B>.<method>')
 Rr = R4['R4']
-add('REV4', 'REV4-R4', 'R4: real-donor consequences on PsychAD: PB vs XDS-M calls and overlap, r_w and (r_PB \u2212 rho) by class, hub overlap. Descriptive; no decision.',
-    'DESCRIPTIVE', f"Calls PB {ic(Rr['P1']['calls']['PB'])}/{ic(Rr['P2']['calls']['PB'])}/{ic(Rr['P3']['calls']['PB'])}; XDS-M {ic(Rr['P1']['calls']['XDSM'])}/{ic(Rr['P2']['calls']['XDSM'])}/{ic(Rr['P3']['calls']['XDSM'])}. PB-only {ic(Rr['P1']['classes']['PBonly']['n'])}/{ic(Rr['P2']['classes']['PBonly']['n'])}/{ic(Rr['P3']['classes']['PBonly']['n'])}; XDS-M-only {ic(Rr['P1']['classes']['XDSMonly']['n'])}/{ic(Rr['P2']['classes']['XDSMonly']['n'])}/{ic(Rr['P3']['classes']['XDSMonly']['n'])}; shared {ic(Rr['P1']['classes']['shared']['n'])}/{ic(Rr['P2']['classes']['shared']['n'])}/{ic(Rr['P3']['classes']['shared']['n'])}. Top-20 hub overlap {rf([Rr[s]['hub_overlap_top20'] for s in SUBS],0)}; top-5,000-pair overlap {rf([100*Rr[s]['top5000_pair_overlap']/5000 for s in SUBS],0)}%; Spearman(r_PB\u2212rho, r_w) {fx(min(Rr[s]['spearman_delta_rw'] for s in SUBS),2)} to {fx(max(Rr[s]['spearman_delta_rw'] for s in SUBS),2)}.",
-    'rev4/results/REV4_SUMMARY.json: R4.<P>.{calls,classes,hub_overlap_top20,top5000_pair_overlap,spearman_delta_rw}')
-xcheck('RfRealPB', ', '.join(ic(Rr[s]['calls']['PB']) for s in SUBS)); xcheck('RfRealXDSM', ', '.join(ic(Rr[s]['calls']['XDSM']) for s in SUBS)); xcheck('RfRealPBonly', ', '.join(ic(Rr[s]['classes']['PBonly']['n']) for s in SUBS)); xcheck('RfRealXonly', ', '.join(ic(Rr[s]['classes']['XDSMonly']['n']) for s in SUBS)); xcheck('RfRealShared', ', '.join(ic(Rr[s]['classes']['shared']['n']) for s in SUBS))
-xcheck('RfHubOverlap', rf([Rr[s]['hub_overlap_top20'] for s in SUBS], 0)); xcheck('RfTopOverlap', rf([100 * Rr[s]['top5000_pair_overlap'] / 5000 for s in SUBS], 0) + '%')
-# R5
-R5 = R4['R5']
-assert all(R5[s]['XDSMgu']['n'] == 20 and R5[s]['XDSMgu']['any'] <= 2 for s in SUBS) and max_runs(20) == 2
-hg = sum(R5[s]['XDSMg']['any'] <= 2 for s in SUBS)
-add('REV4', 'REV4-R5', 'R5 decision: XDS-Mgu holds by the run-level rule (n=20: \u22642 of 20 runs with a call) in each subtype (DC donor-centred null).',
-    'PASS', f"Holds in 3 of 3: XDS-Mgu {R5['P1']['XDSMgu']['any']}/20, {R5['P2']['XDSMgu']['any']}/20, {R5['P3']['XDSMgu']['any']}/20 runs with a call. Same rule on others (not named decisions): XDS-Mg {R5['P1']['XDSMg']['any']}, {R5['P2']['XDSMg']['any']}, {R5['P3']['XDSMg']['any']} of 20 (holds in {hg} of 3; fails P2); XDS-g {R5['P1']['XDSg']['any']}, {R5['P2']['XDSg']['any']}, {R5['P3']['XDSg']['any']}; PB 20, 20, 20 (mean calls {ic(R5['P1']['PB']['meanV'])}/{ic(R5['P2']['PB']['meanV'])}/{ic(R5['P3']['PB']['meanV'])}).",
-    'rev4/results/REV4_SUMMARY.json: R5.<P>.{XDSMgu,XDSMg,XDSg,PB}.{any,n,meanV}')
-xcheck('RfDCguHolds', str(sum(R5[s]['XDSMgu']['any'] <= 2 for s in SUBS))); xcheck('RfDCgHolds', str(hg)); xcheck('RfDCgu', ', '.join(str(R5[s]['XDSMgu']['any']) for s in SUBS)); xcheck('RfDCg', ', '.join(str(R5[s]['XDSMg']['any']) for s in SUBS))
-xcheck('RfDCPB', f"{ic(min(R5[s]['PB']['meanV'] for s in SUBS))}\u2013{ic(max(R5[s]['PB']['meanV'] for s in SUBS))}")
-# R6
-R6_ = R4['R6']
-add('REV4', 'REV4-R6', 'Amendment 1 (R6a\u2013c, Mantis maps): donor maps, pair-level and gene-level Spearman statistics. \u201cDescriptive only; no pass/fail decision.\u201d',
-    'DESCRIPTIVE', f"P1 profile norm vs n_d (Spearman): null PB {fx(R6_['null_L']['spearman_norm_ncells'],2)}, design-standardized {fx(R6_['null_R']['spearman_norm_ncells'],2)}; real PB {fx(R6_['real_L']['spearman_norm_ncells'],2)}, standardized {fx(R6_['real_R']['spearman_norm_ncells'],2)}. Pairs vs r_w: null PB {fx(R6_['pairs']['spearman_nullPB_rw'],2)}, real PB {fx(R6_['pairs']['spearman_realPB_rw'],2)}, real XDS-M {fx(R6_['pairs']['spearman_realXDSMz_rw'],2)}. Genes: null false degree vs PB-only degree {fx(R6_['genes']['spearman_nullfalse_PBonly'],2)}. Mantis-cluster Kruskal\u2013Wallis tests: not determinable from bundle.",
-    'rev4/results/REV4_SUMMARY.json: R6.{null_L,null_R,real_L,real_R,pairs,genes}')
-xcheck('RsixNormPB', fx(R6_['null_L']['spearman_norm_ncells'], 2)); xcheck('RsixNormR', fx(R6_['null_R']['spearman_norm_ncells'], 2)); xcheck('RsixRealNormPB', fx(R6_['real_L']['spearman_norm_ncells'], 2)); xcheck('RsixRealNormR', fx(R6_['real_R']['spearman_norm_ncells'], 2))
-xcheck('RsixPairNull', fx(R6_['pairs']['spearman_nullPB_rw'], 2)); xcheck('RsixPairRealPB', fx(R6_['pairs']['spearman_realPB_rw'], 2)); xcheck('RsixPairRealX', fx(R6_['pairs']['spearman_realXDSMz_rw'], 2)); xcheck('RsixPairs', ic(R6_['pairs']['n'])); xcheck('RsixNullCalls', ic(R6_['pairs']['null_calls']))
-note('REV4', 'R1 is PARTIAL: 13 (P1), 12 (P2) and 0 (P3) of the planned 20 runs per subtype are in the summary (25 of 60). The appendix list item for REV4 does not say so. Verdicts marked partial (table: *; Markdown: (partial)) rest on these runs. Because the bound is at most 2 runs for n = 12, 13 and 20 alike, a cell with \u22653 runs with a call has failed for good (FAIL partial is final for those cells); \u201cholds\u201d cells (PASS and MIXED partial) are provisional.')
-note('REV4', 'Discrepancy for the authors: the appendix says \u201cLCP and LCPd fail at 25\u2013100 donors\u201d. In the R1 data LCPd holds at D=100 in both evaluated subtypes (3/25 runs) and in P1 at D=50; it fails at D=25 (20/25 runs). The statement is accurate for LCP only.')
-note('REV4', 'R1 plan: permutation tests with B = 2,000,000; the summary does not record B, so it cannot be confirmed from the bundle. R2 plan item \u201cmedian library size and cells per donor by bank\u201d is not in the summary; R2c bank shifts are in R2c.<P>.bank_shift_median. R6c Mantis-cluster results are referenced by a macro (GeneMapAppendix, in appendix.tex) that is not defined in the supplied macro files.')
-note('REV4', 'R2c P1 has 36 of 40 reassignments in the bundle; the XDS-M comparison in R2c P1 (14/36) therefore differs slightly from R2 P1 (15/40).')
+add('REV4', 'REV4-R4', 'R4: real-donor pseudobulk and XDS-M calls, overlap and hubs, PsychAD. Descriptive.', 'DESCRIPTIVE',
+    f"Calls PB {'/'.join(ic(Rr[s]['calls']['PB']) for s in SUBS)}; XDS-M {'/'.join(ic(Rr[s]['calls']['XDSM']) for s in SUBS)}; PB-only {'/'.join(ic(Rr[s]['classes']['PBonly']['n']) for s in SUBS)}; XDS-M-only {'/'.join(ic(Rr[s]['classes']['XDSMonly']['n']) for s in SUBS)}.",
+    'rev4/results/REV4_SUMMARY.json: R4.<P>.{calls,classes}')
+xcheck('RfRealPB', ', '.join(ic(Rr[s]['calls']['PB']) for s in SUBS)); xcheck('RfRealXDSM', ', '.join(ic(Rr[s]['calls']['XDSM']) for s in SUBS))
+R5 = R4['R5']; hg = sum(ok_rl(R5[s]['XDSMg']['any'], R5[s]['XDSMg']['n']) for s in SUBS); hgu = sum(ok_rl(R5[s]['XDSMgu']['any'], R5[s]['XDSMgu']['n']) for s in SUBS)
+add('REV4', 'REV4-R5', 'R5 decision: XDS-Mgu within the run-level bound (n = 20: at most 2 runs with a call) in each subtype, differential co-expression null.',
+    'PASS' if hgu == 3 else 'MIXED', f"XDS-Mgu {', '.join(str(R5[s]['XDSMgu']['any']) for s in SUBS)} of 20 (holds in {hgu} of 3); XDS-Mg {', '.join(str(R5[s]['XDSMg']['any']) for s in SUBS)} (holds in {hg}); PB 20 of 20 in each.",
+    'rev4/results/REV4_SUMMARY.json: R5.<P>.{XDSMgu,XDSMg,PB}')
+xcheck('RfDCgu', ', '.join(str(R5[s]['XDSMgu']['any']) for s in SUBS)); xcheck('RfDCg', ', '.join(str(R5[s]['XDSMg']['any']) for s in SUBS))
+# R6 (Amendment 1)
+R6_ = R4['R6']; mc = J('rev4/out/R6/R6_mantis_clusters.json')
+add('REV4', 'REV4-R6', 'Amendment 1 (Mantis maps): donor and gene maps; Kruskal-Wallis of real pseudobulk-only and XDS-M degree across leaf clusters. Descriptive.', 'DESCRIPTIVE',
+    f"Null PB profile length vs cells, Spearman {fx(R6_['null_L']['spearman_norm_ncells'],2)} (design-standardized {fx(R6_['null_R']['spearman_norm_ncells'],2)}). Kruskal-Wallis p: PB-only degree {mc['kw']['PB_only_degree']['p']:.2g}, XDS-M degree {mc['kw']['XDSM_degree']['p']:.2g}, null false degree (added) {mc['kw']['null_false_degree']['p']:.2g}; top PB-only leaf: {mc['top_PBonly_cluster']['label']}.",
+    'rev4/results/REV4_SUMMARY.json: R6; rev4/out/R6/R6_mantis_clusters.json: kw, top_PBonly_cluster')
+# Amendment 3
+C = R4['C']
+def cell3(blk, m): return [(blk[s][m]['any'], blk[s][m]['n']) for s in SUBS if s in blk]
+c1 = cell3(C['C1'], 'XDSMc'); h1 = sum(ok_rl(k, n) for k, n in c1)
+add('REV4', 'REV4-C1', 'Amendment 3 C1: covariate-adjusted XDS-Mc on a covariate-carrying donor-centred null; at most 2 of 20 runs with a call, each subtype.',
+    'PASS' if h1 == 3 else 'MIXED', f"XDS-Mc {', '.join(f'{k}/{n}' for k, n in c1)} (holds in {h1} of 3); covariate-adjusted PB {', '.join(str(C['C1'][s]['PBc']['any']) + '/' + str(C['C1'][s]['PBc']['n']) for s in SUBS)}. Real donors: XDS-Mc {'/'.join(ic(C['C1real'][s]['XDSMc']) for s in SUBS)} calls, XDS-M {'/'.join(ic(C['C1real'][s]['XDSM']) for s in SUBS)}.",
+    'rev4/results/REV4_SUMMARY.json: C.C1.<P>.{XDSMc,PBc}; C.C1real.<P>')
+c2 = cell3(C['C2'], 'XDSM'); h2 = sum(ok_rl(k, n) for k, n in c2)
+add('REV4', 'REV4-C2', 'Amendment 3 C2: bank-mean-removed bank-stratified null; XDS-M at most 4 of 40 in every subtype attributes R2 failures to residual bank means.',
+    'PASS' if h2 == 3 else 'MIXED', f"XDS-M {', '.join(f'{k}/{n}' for k, n in c2)} (holds in {h2} of 3); PB {', '.join(str(C['C2'][s]['PB']['any']) + '/' + str(C['C2'][s]['PB']['n']) for s in SUBS)}.",
+    'rev4/results/REV4_SUMMARY.json: C.C2.<P>.{XDSM,PB}')
+xcheck('BmX', ', '.join(f"{k}/{n}" for k, n in c2)); xcheck('CoNullXc', ', '.join(f"{k}/{n}" for k, n in c1))
+C3 = C['C3']
+add('REV4', 'REV4-C3', 'Amendment 3 C3: noise baselines for real-donor overlaps (top 5,000 pairs; 20 hubs). Descriptive.', 'DESCRIPTIVE',
+    f"Top-5,000 shared: XDS-M seed vs seed {rf([C3[s]['XDSM_seed_vs_seed']['top5000'] for s in SUBS],0)}; PB vs XDS-M {rf([C3[s]['PB_vs_XDSM']['top5000'] for s in SUBS],0)}; XDS-M halves {rf([C3[s]['XDSM_half_vs_half']['top5000'] for s in SUBS],0)}; PB halves {rf([C3[s]['PB_half_vs_half']['top5000'] for s in SUBS],0)}.",
+    'rev4/results/REV4_SUMMARY.json: C.C3.<P>')
+c4 = C.get('C4', {}).get('P1')
+if c4:
+    add('REV4', 'REV4-C4', 'Amendment 3 C4: permutation XDS (2,000,000 permutations) at 200 donors, Homeo_CECR2; at most 2 of 20 runs with a call.',
+        'PASS' if ok_rl(c4['XDS_perm']['any'], c4['XDS_perm']['n']) else 'FAIL', f"XDS (perm.) {c4['XDS_perm']['any']}/{c4['XDS_perm']['n']}; XDS (normal) {c4['XDS_normal']['any']}/{c4['XDS_normal']['n']}; LCPd (perm.) {c4['LCPd_perm']['any']}/{c4['LCPd_perm']['n']}.",
+        'rev4/results/REV4_SUMMARY.json: C.C4.P1')
+else:
+    add('REV4', 'REV4-C4', 'Amendment 3 C4: permutation XDS at 200 donors, at most 2 of 20 runs with a call.', 'NOT EVALUATED', 'No C4 results in the bundle.', 'rev4/out/C4_P1_k*.json')
+C5 = C['C5']
+add('REV4', 'REV4-C5', 'Amendment 3 C5: depth-state coupling statistic (median over genes; fraction with |c| > 0.045). Descriptive.', 'DESCRIPTIVE',
+    '; '.join(f"{s} {C5[s]['coupling_median']:.3f} ({100*C5[s]['frac_abs_gt_0045']:.0f}%)" for s in ('P1', 'P2', 'P3', 'B1', 'B2', 'B3') if s in C5) + '.', 'rev4/results/REV4_SUMMARY.json: C.C5.<sub>')
+rep_ = C.get('C6_rep', {}); perm = C.get('C6_perm', {})
+add('REV4', 'REV4-C6', 'Amendment 3 C6: eta-squared of gene degree across Mantis leaves vs random partitions (P1); heat-shock leaf rank in P2, P3. Descriptive.', 'DESCRIPTIVE',
+    f"Null false degree eta2 {perm['null_false_degree']['eta2']:.2f} (permutation median {perm['null_false_degree']['null_median']:.2f}, p {perm['null_false_degree']['perm_p']:.3f}); heat-shock leaf rank {', '.join(str(v['hs_rank']) + ' of ' + str(v['n_leaves']) for v in rep_.values())} in P2, P3.",
+    'rev4/results/REV4_SUMMARY.json: C.C6_perm, C.C6_rep')
+add('REV4', 'REV4-C7', 'Amendment 3 C7 (computed shortly before the amendment): overlap of REV3 runs with an XDS-M call at 25 donors across subtypes. Descriptive.', 'DESCRIPTIVE',
+    'Runs with a call share 24, 22 and 27 indices between subtype pairs and 13 across all three (49 of 100 in each); independence predicts 24 and 12.', 'computed from rev3 per-run files; stated in rev4/REV4_AMENDMENT3.md')
+# Amendment 4
+A4 = J('rev4/out/A4/A4_summary.json'); h4 = sum(A4[s]['leaf']['sets']['null_PB']['p_Q'] < 0.01 for s in SUBS)
+z4 = ', '.join(format(A4[s]['leaf']['sets']['null_PB']['Q_z'], '.1f') for s in SUBS)
+add('REV4', 'REV4-A4', 'Amendment 4 (post hoc): null pseudobulk edges function-coherent if leaf-partition modularity p < 0.01 in at least 2 of 3 subtypes.',
+    'PASS' if h4 >= 2 else 'FAIL', f"Met in {h4} of 3: z {z4}.", 'rev4/out/A4/A4_summary.json: <P>.leaf.sets.null_PB.{Q_z,p_Q}')
+# Amendment 5
+A5 = J('rev4/out/A4/A5_summary.json'); ru = A5['rule']
+add('REV4', 'REV4-A5a', 'Amendment 5 (post hoc) E1(a): expression-stratified relabelling, null PB leaf modularity p < 0.01 in at least 2 of 3 subtypes.',
+    'PASS' if ru['a'] >= 2 else 'FAIL', f"Met in {ru['a']} of 3: z {', '.join(format(A5[s]['leaf']['null_PB']['Q_z'], '.1f') for s in SUBS)}.", 'rev4/out/A4/A5_summary.json: <P>.leaf.null_PB')
+add('REV4', 'REV4-A5b', 'E1(b): mean stratified z over 20 null reassignments above 2.33 in at least 2 of 3 subtypes.',
+    'PASS' if ru['b'] >= 2 else 'FAIL', f"Met in {ru['b']} of 3: mean z {', '.join(format(A5[s]['null20']['z_mean'], '.1f') for s in SUBS)}; p < 0.01 in {', '.join(str(A5[s]['null20']['n_p_lt_001']) for s in SUBS)} of 20.", 'rev4/out/A4/A5_summary.json: <P>.null20')
+add('REV4', 'REV4-A5d', 'E1(d): GO named only if shared-term enrichment of null PB edges has p < 0.01 in at least 2 of 3 subtypes.',
+    'PASS' if ru['d'] >= 2 else 'FAIL', f"Met in {ru['d']} of 3: ratio {', '.join(format(A5[s]['GO']['sets']['null_PB']['ratio'], '.2f') for s in SUBS)}, p {', '.join(format(A5[s]['GO']['sets']['null_PB']['p'], '.3f') for s in SUBS)}. GO is therefore not named in the abstract.", 'rev4/out/A4/A5_summary.json: <P>.GO.sets.null_PB')
+sx = {s: J(f'rev4/out/A5sex_{s}.json') for s in SUBS}
+add('REV4', 'REV4-A5e2', 'E2: sex positive control; XIST-Y and Y-Y pairs under XDS-M and covariate-adjusted XDS-Mc on real donors. Descriptive.', 'DESCRIPTIVE',
+    f"XIST-Y called (of 7): XDS-M {', '.join(str(sx[s]['XIST_Y']['called_XDSM']) for s in SUBS)}, XDS-Mc {', '.join(str(sx[s]['XIST_Y']['called_XDSMc']) for s in SUBS)}; Y-Y (of 21): {', '.join(str(sx[s]['Y_Y']['called_XDSM']) for s in SUBS)} and {', '.join(str(sx[s]['Y_Y']['called_XDSMc']) for s in SUBS)}.", 'rev4/out/A5sex_<P>.json')
+add('REV4', 'REV4-A5e3', 'E3: odds ratio that a real PB-only call is a false call in the first null reassignment. Descriptive.', 'DESCRIPTIVE',
+    f"OR {', '.join(format(A5[s]['PBonly_null_OR']['OR'], '.2f') for s in SUBS)}.", 'rev4/out/A4/A5_summary.json: <P>.PBonly_null_OR')
+note('REV4', 'R1 used B = 2,000,000 donor permutations (code default; the override variable was unset in the running processes, recorded in Amendment 5).')

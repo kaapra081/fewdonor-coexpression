@@ -41,14 +41,14 @@ PLAN_SHORT = {
     'ONEK': 'ONEK\\_PREREG (OneK1K), with Amendment 1',
     'REV2': 'REV2\\_PREREG (internal review 2), with Amendment 1',
     'REV3': 'REV3\\_PREREG (internal review 3), with Amendment 1',
-    'REV4': 'REV4\\_PREREG (external review), with Amendments 1 and 2',
+    'REV4': 'REV4\\_PREREG (external review), with Amendments 1--5',
 }
 W = dict(id=0.10, crit=0.285, out=0.085, ev=0.45)
 CPL_C, CPL_E, LH = 29.0, 43.0, 8.3   # chars per line (crit, evidence) at \scriptsize, \linewidth = 347 pt (LNCS); line height
 LEGEND = (r"Every frozen decision criterion and its outcome. "
           r"PASS/FAIL: the frozen rule was met/not met; for rules evaluated per subtype, cohort size or method cell, PASS means every cell met it and MIXED means some did (counts in Evidence). "
           r"DESCR.: reported without a frozen threshold. n/d: not determinable from the supplied files. NOT EVAL.: planned, no results available. "
-          r"$^{*}$: based on partial runs (REV4 R1: 13 of 20 runs in P1, 12 in P2, none in P3; REV4 R2c: 36 of 40 runs in P1); FAIL$^{*}$ cannot change with more runs, PASS$^{*}$ and MIXED$^{*}$ are provisional. "
+          r""
           r"Run-level bound: fraction of runs with a BH call $\le 0.05+2\,\mathrm{SE}$, SE binomial at $p=0.05$ (at most 9 of 100, 4 of 40, 2 of 20 runs). "
           r"Numbers are taken from the result files; sources are listed in CRITERIA.md.")
 
@@ -146,7 +146,7 @@ def build_md(rows, plans, notes, xcheck_rows, extra_sections):
     L.append('- **PASS / FAIL**: the frozen rule was met / not met. For rules evaluated per subtype, cohort size or method cell, PASS means every cell met it.')
     L.append('- **MIXED**: the rule was evaluated in several cells and some met it, some did not (counts in Evidence). This label is an addition to the PASS / FAIL / NOT EVALUATED / DESCRIPTIVE set, used only where a single PASS or FAIL would hide the split.')
     L.append('- **DESCRIPTIVE**: the plan reports the quantity without a frozen threshold (no criterion). **NOT EVALUATED**: planned, no results in the bundle. **NOT DETERMINABLE FROM BUNDLE**: the outcome cannot be read from the supplied files.')
-    L.append('- **(partial)**: based on partial runs (REV4 R1: 13 of 20 runs in P1, 12 in P2, none in P3; REV4 R2c: 36 of 40 runs in P1). For R1, FAIL (partial) cannot change with more runs (the bound is at most 2 runs for n = 12, 13 and 20, and every failing cell already has at least 3 runs with a call); PASS and MIXED (partial) are provisional.')
+    pass
     L.append('- **Run-level rule**: a method holds in a cell if the fraction of runs with at least one BH call (q = 0.05) is at most 0.05 + 2 SE, SE binomial at p = 0.05 (REV3 and REV4 plans state this; it gives at most 9 of 100, 4 of 40, 2 of 20, 1 of 10, 4 of 33 runs).')
     L.append('- **MCSE**: Monte Carlo standard error as stored in the result files; **top-1%**: type-I over the 1% of pairs most correlated within pseudo-donors; **SE** in top-1% bounds is the stored binomial SE (pairs x reassignments).\n')
     cnt = collections.Counter(r['out'] for r in rows)

@@ -7,13 +7,12 @@ Built from `criteria_inputs.tgz` (prereg/, rev2/, rev3/, rev4/, results/, paper2
 - **PASS / FAIL**: the frozen rule was met / not met. For rules evaluated per subtype, cohort size or method cell, PASS means every cell met it.
 - **MIXED**: the rule was evaluated in several cells and some met it, some did not (counts in Evidence). This label is an addition to the PASS / FAIL / NOT EVALUATED / DESCRIPTIVE set, used only where a single PASS or FAIL would hide the split.
 - **DESCRIPTIVE**: the plan reports the quantity without a frozen threshold (no criterion). **NOT EVALUATED**: planned, no results in the bundle. **NOT DETERMINABLE FROM BUNDLE**: the outcome cannot be read from the supplied files.
-- **(partial)**: based on partial runs (REV4 R1: 13 of 20 runs in P1, 12 in P2, none in P3; REV4 R2c: 36 of 40 runs in P1). For R1, FAIL (partial) cannot change with more runs (the bound is at most 2 runs for n = 12, 13 and 20, and every failing cell already has at least 3 runs with a call); PASS and MIXED (partial) are provisional.
 - **Run-level rule**: a method holds in a cell if the fraction of runs with at least one BH call (q = 0.05) is at most 0.05 + 2 SE, SE binomial at p = 0.05 (REV3 and REV4 plans state this; it gives at most 9 of 100, 4 of 40, 2 of 20, 1 of 10, 4 of 33 runs).
 - **MCSE**: Monte Carlo standard error as stored in the result files; **top-1%**: type-I over the 1% of pairs most correlated within pseudo-donors; **SE** in top-1% bounds is the stored binomial SE (pairs x reassignments).
 
 ## Summary
 
-75 criteria rows. DESCRIPTIVE: 21; FAIL: 19; PASS: 13; MIXED: 12; MIXED (partial): 4; NOT DETERMINABLE FROM BUNDLE: 2; PASS (partial): 2; FAIL (partial): 1; NOT EVALUATED: 1.
+88 criteria rows. DESCRIPTIVE: 27; FAIL: 23; PASS: 20; MIXED: 16; NOT DETERMINABLE FROM BUNDLE: 2.
 
 | Plan | Rows | PASS | FAIL | MIXED | DESCRIPTIVE | NOT EVALUATED | NOT DETERMINABLE FROM BUNDLE | PASS (partial) | FAIL (partial) | MIXED (partial) |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -28,7 +27,7 @@ Built from `criteria_inputs.tgz` (prereg/, rev2/, rev3/, rev4/, results/, paper2
 | ONEK | 4 | 1 |  | 2 |  |  | 1 |  |  |  |
 | REV2 | 13 | 1 | 3 | 1 | 7 |  | 1 |  |  |  |
 | REV3 | 15 | 2 | 4 | 7 | 2 |  |  |  |  |  |
-| REV4 | 13 | 1 |  | 1 | 3 | 1 |  | 2 | 1 | 4 |
+| REV4 | 26 | 8 | 4 | 5 | 9 |  |  |  |  |  |
 
 ## FIX_PREREG (real-cell pseudo-donor null in SEA-AD; LCP2)
 
@@ -234,41 +233,48 @@ Notes and deviations:
 - The appendix’s “1 of 4 for 0.03–0.1 UMI per cell” (macro AtwoLoDec*) counts only the A2x block (B1, genes 2,001–3,000). The original A2 block B2 also has a 0.03–0.1 stratum (50 genes), where XDS-M (S=5) is flagged calibrated in 4 of 4 combinations, but its expected count at 1e-5 is 19.7 (<20, not assessable at that threshold); pooling both blocks gives 5 of 8. The A2 criterion for the macro “above 0.1 UMI per cell” (23 of 24) covers B1 and B2 strata >0.1 only; A2x 0.1–0.3 UMI/cell (4 of 4) and P3 (8 of 8) are counted separately.
 - A3 “XDS” in the frozen plan is the permutation version (LCPXd); the summary file also carries a single-split XDS with normal reference (reported above for context).
 
-## REV4_PREREG (external review) with Amendments 1 and 2
+## REV4_PREREG (external review) with Amendments 1-5
 
-- Files: `rev4/REV4_PREREG.md`, `rev4/REV4_AMENDMENT1.md`, `rev4/REV4_AMENDMENT2.md`
-- Hash: no .sha256 file in bundle; sha256 of bundle files: PREREG 4c7d55279263…, AMENDMENT1 92c885d008f9…, AMENDMENT2 07edeeedb9cc…
-- Scope in bundle: R1 PARTIAL (13, 12, 0 of 20 runs); R2 40 per subtype (R2c P1: 36); R3 20/10; R5 20; R6 descriptive.
+- Files: `rev4/REV4_PREREG.md`, `rev4/REV4_AMENDMENT1.md`, `rev4/REV4_AMENDMENT2.md`, `rev4/REV4_AMENDMENT3.md`, `rev4/REV4_AMENDMENT4.md`, `rev4/REV4_AMENDMENT5.md`
+- Hash: sha256 (first 12): PREREG 4c7d55279263, A1 92c885d008f9, A2 07edeeedb9cc, A3 4363134a6ee2, A4 76f1a8d55c26, A5 a501dc2b6150
+- Scope in bundle: R1 20 runs per subtype; R2/R2c 40; R3 20/10; R5 20; C1 20; C2 40; C4 20; R6, C3, C5, C6, A4, A5 descriptive or single-run.
 
 | ID | Criterion | Outcome | Evidence | Source (file: key) |
 |---|---|---|---|---|
-| REV4-R1a | R1 (all R1 rows): “holds” if ≤2 of 20 runs have a BH call, per subtype and D=25, 50, 100. PB and LCP. | **FAIL (partial)** | PB: holds in 0 of 6 cells (25 of 25, 25 of 25, 25 of 25 runs with a call at D=25, 50, 100). LCP: 0 of 6; D=25: 19/25; D=50: 11/25; D=100: 25/25. Failures cannot reverse with more runs. | `rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.{PB,LCP}.{any,n}` |
-| REV4-R1b | R1, LCPd. | **MIXED (partial)** | Holds in 3 of 6 evaluated cells (P1, P2 × D=25, 50, 100); runs with a call (pooled P1+P2, 25 runs): D=25: 20/25; D=50: 5/25; D=100: 3/25. Fails at D=25 (both) and at D=50 in P2 (3 of 12); holds at D=100 (1 of 13, 2 of 12). | `rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.LCPd.{any,n}` |
-| REV4-R1c | R1, XDS with permutation p-values (B=2,000,000 in the plan). | **PASS (partial)** | Holds in 6 of 6 evaluated cells (P1, P2 × D=25, 50, 100); runs with a call (pooled P1+P2, 25 runs): D=25: 1/25; D=50: 1/25; D=100: 2/25. Provisional: P3 not run; B actually used is not recorded in the summary. | `rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.XDSperm.{any,n}` |
-| REV4-R1d | R1, XDS (single split, normal-moment reference, recomputed on the same runs). | **MIXED (partial)** | Holds in 5 of 6 evaluated cells (P1, P2 × D=25, 50, 100); runs with a call (pooled P1+P2, 25 runs): D=25: 0/25; D=50: 1/25; D=100: 5/25. Fails at D=100 in P2 (4 of 12). | `rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.XDS.{any,n}` |
-| REV4-R1e | R1, XDS-M (S=5). | **MIXED (partial)** | Holds in 4 of 6 evaluated cells (P1, P2 × D=25, 50, 100); runs with a call (pooled P1+P2, 25 runs): D=25: 13/25; D=50: 2/25; D=100: 0/25. Fails at D=25 (6 of 13, 7 of 12); holds at D=50, 100. | `rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.XDSM.{any,n}` |
-| REV4-R1f | R1, KX. | **MIXED (partial)** | Holds in 2 of 6 evaluated cells (P1, P2 × D=25, 50, 100); runs with a call (pooled P1+P2, 25 runs): D=25: 25/25; D=50: 20/25; D=100: 3/25. Fails at D=25 and D=50; holds at D=100 (2 of 13, 1 of 12). | `rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.KX.{any,n}` |
-| REV4-R1g | R1 in P3 (ADAM_GPNMB): 20 runs planned at D=25, 50, 100. | **NOT EVALUATED** | 0 of 20 runs in the bundle (R1.P3.n = 0). P1: 13 of 20 runs, P2: 12 of 20 (partial). Plan: “report the runs completed (stated as such)” if compute does not allow 20. | `rev4/results/REV4_SUMMARY.json: R1.<P>.n` |
-| REV4-R2 | R2 decision: XDS-M holds by the run-level rule (n=40: ≤4 of 40 runs with a call) in each subtype (brain-bank-stratified null). | **MIXED** | Holds in 1 of 3 (P3: 2/40); fails P1 15/40 and P2 8/40. Other methods (P1, P2, P3; same rule, not a named decision): PB 40/40, 40/40, 40/40; LCP 40/40, 40/40, 40/40; LCPd 36/40, 29/40, 11/40; XDS 8/40, 12/40, 7/40; KX 23/40, 2/40, 0/40. | `rev4/results/REV4_SUMMARY.json: R2.<P>.<method>.{any,n}` |
-| REV4-R2c | Amendment 2 (post hoc; rule fixed before R2c): if XDS-Mb fails ≤ the bound’s runs where XDS-M fails, attribute R2 failures to residual bank structure. | **PASS (partial)** | Rule met. XDS-M fails in P1 (14/36 runs) and P2 (8/40); XDS-Mb 4/36 (P1; exactly at the 4-run bound), 1/40 (P2), 2/40 (P3). Provisional: P1 has 36 of 40 runs. PB and bank-centred PB (PBb): 40/40 runs with a call in P2, P3 and 36/36 in P1. | `rev4/results/REV4_SUMMARY.json: R2c.<P>.{XDSM,XDSMb,PB,PBb}.{any,n}` |
-| REV4-R3 | R3: PC-adjusted (k=5, 10) and weighted pseudobulk baselines, PsychAD (20 runs) and OneK1K (10 runs). Descriptive; no decision. | **DESCRIPTIVE** | Every variant made ≥1 call in every run (PsychAD 20/20; OneK1K 10/10). Mean calls PsychAD: PBres 6,483–20,722; PBw 11–4,820; PC5/PC10 4,226–9,222. OneK1K: PB 18,989–23,114; PBw 1,096–2,590; PC 4,084–17,974. | `rev4/results/REV4_SUMMARY.json: R3.<P>.<method>.{any,n,meanV}; R3o.<B>.<method>` |
-| REV4-R4 | R4: real-donor consequences on PsychAD: PB vs XDS-M calls and overlap, r_w and (r_PB − rho) by class, hub overlap. Descriptive; no decision. | **DESCRIPTIVE** | Calls PB 53,263/57,280/37,325; XDS-M 56,075/60,272/37,866. PB-only 9,914/7,100/11,357; XDS-M-only 12,726/10,092/11,898; shared 43,349/50,180/25,968. Top-20 hub overlap 11–14; top-5,000-pair overlap 53–70%; Spearman(r_PB−rho, r_w) −0.47 to −0.30. | `rev4/results/REV4_SUMMARY.json: R4.<P>.{calls,classes,hub_overlap_top20,top5000_pair_overlap,spearman_delta_rw}` |
-| REV4-R5 | R5 decision: XDS-Mgu holds by the run-level rule (n=20: ≤2 of 20 runs with a call) in each subtype (DC donor-centred null). | **PASS** | Holds in 3 of 3: XDS-Mgu 0/20, 0/20, 0/20 runs with a call. Same rule on others (not named decisions): XDS-Mg 1, 4, 2 of 20 (holds in 2 of 3; fails P2); XDS-g 0, 1, 0; PB 20, 20, 20 (mean calls 4,893/3,598/1,075). | `rev4/results/REV4_SUMMARY.json: R5.<P>.{XDSMgu,XDSMg,XDSg,PB}.{any,n,meanV}` |
-| REV4-R6 | Amendment 1 (R6a–c, Mantis maps): donor maps, pair-level and gene-level Spearman statistics. “Descriptive only; no pass/fail decision.” | **DESCRIPTIVE** | P1 profile norm vs n_d (Spearman): null PB −0.98, design-standardized −0.03; real PB −0.81, standardized −0.26. Pairs vs r_w: null PB 0.26, real PB 0.50, real XDS-M 0.51. Genes: null false degree vs PB-only degree 0.10. Mantis-cluster Kruskal–Wallis tests: not determinable from bundle. | `rev4/results/REV4_SUMMARY.json: R6.{null_L,null_R,real_L,real_R,pairs,genes}` |
+| REV4-R1a | R1, pseudobulk: at most 2 of 20 runs with a BH call, per subtype and D = 25, 50, 100. | **FAIL** | Holds in 0 of 9 cells; runs with a call, pooled over subtypes: D=25: 60/60; D=50: 60/60; D=100: 60/60. Failing cells: P1 D=25 (20/20), P2 D=25 (20/20), P3 D=25 (20/20), P1 D=50 (20/20), P2 D=50 (20/20), P3 D=50 (20/20), P1 D=100 (20/20), P2 D=100 (20/20), P3 D=100 (20/20). | `rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.PB.{any,n}` |
+| REV4-R1b | R1, LCP: at most 2 of 20 runs with a BH call, per subtype and D = 25, 50, 100. | **FAIL** | Holds in 0 of 9 cells; runs with a call, pooled over subtypes: D=25: 51/60; D=50: 33/60; D=100: 60/60. Failing cells: P1 D=25 (16/20), P2 D=25 (17/20), P3 D=25 (18/20), P1 D=50 (12/20), P2 D=50 (8/20), P3 D=50 (13/20), P1 D=100 (20/20), P2 D=100 (20/20), P3 D=100 (20/20). | `rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.LCP.{any,n}` |
+| REV4-R1c | R1, LCPd: at most 2 of 20 runs with a BH call, per subtype and D = 25, 50, 100. | **MIXED** | Holds in 2 of 9 cells; runs with a call, pooled over subtypes: D=25: 53/60; D=50: 11/60; D=100: 7/60. Failing cells: P1 D=25 (16/20), P2 D=25 (19/20), P3 D=25 (18/20), P2 D=50 (5/20), P3 D=50 (4/20), P2 D=100 (3/20), P3 D=100 (3/20). | `rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.LCPd.{any,n}` |
+| REV4-R1d | R1, XDS, permutation p-values (B = 2,000,000): at most 2 of 20 runs with a BH call, per subtype and D = 25, 50, 100. | **MIXED** | Holds in 8 of 9 cells; runs with a call, pooled over subtypes: D=25: 2/60; D=50: 1/60; D=100: 4/60. Failing cells: P2 D=100 (3/20). | `rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.XDSperm.{any,n}` |
+| REV4-R1e | R1, XDS, normal-moment reference: at most 2 of 20 runs with a BH call, per subtype and D = 25, 50, 100. | **MIXED** | Holds in 4 of 9 cells; runs with a call, pooled over subtypes: D=25: 0/60; D=50: 10/60; D=100: 19/60. Failing cells: P2 D=50 (3/20), P3 D=50 (5/20), P1 D=100 (5/20), P2 D=100 (6/20), P3 D=100 (8/20). | `rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.XDS.{any,n}` |
+| REV4-R1f | R1, XDS-M (S = 5): at most 2 of 20 runs with a BH call, per subtype and D = 25, 50, 100. | **MIXED** | Holds in 6 of 9 cells; runs with a call, pooled over subtypes: D=25: 32/60; D=50: 6/60; D=100: 2/60. Failing cells: P1 D=25 (9/20), P2 D=25 (11/20), P3 D=25 (12/20). | `rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.XDSM.{any,n}` |
+| REV4-R1g | R1, KX: at most 2 of 20 runs with a BH call, per subtype and D = 25, 50, 100. | **FAIL** | Holds in 0 of 9 cells; runs with a call, pooled over subtypes: D=25: 60/60; D=50: 49/60; D=100: 12/60. Failing cells: P1 D=25 (20/20), P2 D=25 (20/20), P3 D=25 (20/20), P1 D=50 (16/20), P2 D=50 (17/20), P3 D=50 (16/20), P1 D=100 (5/20), P2 D=100 (3/20), P3 D=100 (4/20). | `rev4/results/REV4_SUMMARY.json: R1.<P>.<D>.KX.{any,n}` |
+| REV4-R2 | R2 decision: XDS-M within the run-level bound (n = 40: at most 4 runs with a call) in each subtype, brain-bank-stratified null. | **MIXED** | Holds in 1 of 3 (XDS-M 15/40, 8/40, 2/40). Other methods (same rule, not named decisions): PB 40/40, 40/40, 40/40; LCP 40/40, 40/40, 40/40; LCPd 36/40, 29/40, 11/40; XDS 8/40, 12/40, 7/40; KX 23/40, 2/40, 0/40. | `rev4/results/REV4_SUMMARY.json: R2.<P>.<method>.{any,n}` |
+| REV4-R2c | Amendment 2 (post hoc; rule written before R2c ran): bank-centred XDS-Mb within the bound in every subtype attributes R2 failures to residual bank means. | **PASS** | XDS-Mb 4/40, 1/40, 2/40 (holds in 3 of 3); bank-centred PB 40/40, 40/40, 40/40 runs with a call. | `rev4/results/REV4_SUMMARY.json: R2c.<P>.{XDSMb,PBb}.{any,n}` |
+| REV4-R3 | R3: PC-adjusted (k = 5, 10), residualized and weighted pseudobulk, PsychAD (20 runs) and OneK1K (10 runs). Descriptive. | **DESCRIPTIVE** | Every variant made at least one call in every run. PsychAD mean calls: PBres 6,483–20,722; PBw 11–4,820; PC5/PC10 4,226–9,222. OneK1K PB 18,989–23,114; PBw 1,096–2,590. | `rev4/results/REV4_SUMMARY.json: R3.<P>.<method>; R3o.<B>.<method>` |
+| REV4-R4 | R4: real-donor pseudobulk and XDS-M calls, overlap and hubs, PsychAD. Descriptive. | **DESCRIPTIVE** | Calls PB 53,263/57,280/37,325; XDS-M 56,075/60,272/37,866; PB-only 9,914/7,100/11,357; XDS-M-only 12,726/10,092/11,898. | `rev4/results/REV4_SUMMARY.json: R4.<P>.{calls,classes}` |
+| REV4-R5 | R5 decision: XDS-Mgu within the run-level bound (n = 20: at most 2 runs with a call) in each subtype, differential co-expression null. | **PASS** | XDS-Mgu 0, 0, 0 of 20 (holds in 3 of 3); XDS-Mg 1, 4, 2 (holds in 2); PB 20 of 20 in each. | `rev4/results/REV4_SUMMARY.json: R5.<P>.{XDSMgu,XDSMg,PB}` |
+| REV4-R6 | Amendment 1 (Mantis maps): donor and gene maps; Kruskal-Wallis of real pseudobulk-only and XDS-M degree across leaf clusters. Descriptive. | **DESCRIPTIVE** | Null PB profile length vs cells, Spearman −0.98 (design-standardized −0.03). Kruskal-Wallis p: PB-only degree 0.24, XDS-M degree 0.00054, null false degree (added) 0.009; top PB-only leaf: Heat Shock Chaperones And Protein Folding. | `rev4/results/REV4_SUMMARY.json: R6; rev4/out/R6/R6_mantis_clusters.json: kw, top_PBonly_cluster` |
+| REV4-C1 | Amendment 3 C1: covariate-adjusted XDS-Mc on a covariate-carrying donor-centred null; at most 2 of 20 runs with a call, each subtype. | **PASS** | XDS-Mc 1/20, 0/20, 0/20 (holds in 3 of 3); covariate-adjusted PB 20/20, 20/20, 20/20. Real donors: XDS-Mc 53,080/57,568/37,361 calls, XDS-M 56,075/60,272/37,866. | `rev4/results/REV4_SUMMARY.json: C.C1.<P>.{XDSMc,PBc}; C.C1real.<P>` |
+| REV4-C2 | Amendment 3 C2: bank-mean-removed bank-stratified null; XDS-M at most 4 of 40 in every subtype attributes R2 failures to residual bank means. | **PASS** | XDS-M 4/40, 2/40, 2/40 (holds in 3 of 3); PB 40/40, 40/40, 40/40. | `rev4/results/REV4_SUMMARY.json: C.C2.<P>.{XDSM,PB}` |
+| REV4-C3 | Amendment 3 C3: noise baselines for real-donor overlaps (top 5,000 pairs; 20 hubs). Descriptive. | **DESCRIPTIVE** | Top-5,000 shared: XDS-M seed vs seed 4496–4798; PB vs XDS-M 2643–3521; XDS-M halves 2508–3855; PB halves 2093–3531. | `rev4/results/REV4_SUMMARY.json: C.C3.<P>` |
+| REV4-C4 | Amendment 3 C4: permutation XDS (2,000,000 permutations) at 200 donors, Homeo_CECR2; at most 2 of 20 runs with a call. | **PASS** | XDS (perm.) 2/20; XDS (normal) 1/20; LCPd (perm.) 2/20. | `rev4/results/REV4_SUMMARY.json: C.C4.P1` |
+| REV4-C5 | Amendment 3 C5: depth-state coupling statistic (median over genes; fraction with \|c\| &gt; 0.045). Descriptive. | **DESCRIPTIVE** | P1 0.031 (32%); P2 0.034 (41%); P3 0.023 (20%); B1 0.023 (50%); B2 0.008 (32%); B3 0.018 (36%). | `rev4/results/REV4_SUMMARY.json: C.C5.<sub>` |
+| REV4-C6 | Amendment 3 C6: eta-squared of gene degree across Mantis leaves vs random partitions (P1); heat-shock leaf rank in P2, P3. Descriptive. | **DESCRIPTIVE** | Null false degree eta2 0.19 (permutation median 0.11, p 0.002); heat-shock leaf rank 21 of 49, 17 of 49 in P2, P3. | `rev4/results/REV4_SUMMARY.json: C.C6_perm, C.C6_rep` |
+| REV4-C7 | Amendment 3 C7 (computed shortly before the amendment): overlap of REV3 runs with an XDS-M call at 25 donors across subtypes. Descriptive. | **DESCRIPTIVE** | Runs with a call share 24, 22 and 27 indices between subtype pairs and 13 across all three (49 of 100 in each); independence predicts 24 and 12. | `computed from rev3 per-run files; stated in rev4/REV4_AMENDMENT3.md` |
+| REV4-A4 | Amendment 4 (post hoc): null pseudobulk edges function-coherent if leaf-partition modularity p &lt; 0.01 in at least 2 of 3 subtypes. | **PASS** | Met in 3 of 3: z 4.2, 5.0, 5.0. | `rev4/out/A4/A4_summary.json: <P>.leaf.sets.null_PB.{Q_z,p_Q}` |
+| REV4-A5a | Amendment 5 (post hoc) E1(a): expression-stratified relabelling, null PB leaf modularity p &lt; 0.01 in at least 2 of 3 subtypes. | **PASS** | Met in 3 of 3: z 3.5, 3.9, 4.3. | `rev4/out/A4/A5_summary.json: <P>.leaf.null_PB` |
+| REV4-A5b | E1(b): mean stratified z over 20 null reassignments above 2.33 in at least 2 of 3 subtypes. | **PASS** | Met in 2 of 3: mean z 2.0, 3.4, 4.5; p &lt; 0.01 in 8, 18, 20 of 20. | `rev4/out/A4/A5_summary.json: <P>.null20` |
+| REV4-A5d | E1(d): GO named only if shared-term enrichment of null PB edges has p &lt; 0.01 in at least 2 of 3 subtypes. | **FAIL** | Met in 0 of 3: ratio 1.01, 1.05, 1.13, p 0.452, 0.175, 0.042. GO is therefore not named in the abstract. | `rev4/out/A4/A5_summary.json: <P>.GO.sets.null_PB` |
+| REV4-A5e2 | E2: sex positive control; XIST-Y and Y-Y pairs under XDS-M and covariate-adjusted XDS-Mc on real donors. Descriptive. | **DESCRIPTIVE** | XIST-Y called (of 7): XDS-M 7, 7, 7, XDS-Mc 6, 0, 6; Y-Y (of 21): 21, 21, 21 and 18, 10, 17. | `rev4/out/A5sex_<P>.json` |
+| REV4-A5e3 | E3: odds ratio that a real PB-only call is a false call in the first null reassignment. Descriptive. | **DESCRIPTIVE** | OR 1.10, 0.78, 1.08. | `rev4/out/A4/A5_summary.json: <P>.PBonly_null_OR` |
 
 Notes and deviations:
 
-- R1 is PARTIAL: 13 (P1), 12 (P2) and 0 (P3) of the planned 20 runs per subtype are in the summary (25 of 60). The appendix list item for REV4 does not say so. Verdicts marked partial (table: *; Markdown: (partial)) rest on these runs. Because the bound is at most 2 runs for n = 12, 13 and 20 alike, a cell with ≥3 runs with a call has failed for good (FAIL partial is final for those cells); “holds” cells (PASS and MIXED partial) are provisional.
-- Discrepancy for the authors: the appendix says “LCP and LCPd fail at 25–100 donors”. In the R1 data LCPd holds at D=100 in both evaluated subtypes (3/25 runs) and in P1 at D=50; it fails at D=25 (20/25 runs). The statement is accurate for LCP only.
-- R1 plan: permutation tests with B = 2,000,000; the summary does not record B, so it cannot be confirmed from the bundle. R2 plan item “median library size and cells per donor by bank” is not in the summary; R2c bank shifts are in R2c.<P>.bank_shift_median. R6c Mantis-cluster results are referenced by a macro (GeneMapAppendix, in appendix.tex) that is not defined in the supplied macro files.
-- R2c P1 has 36 of 40 reassignments in the bundle; the XDS-M comparison in R2c P1 (14/36) therefore differs slightly from R2 P1 (15/40).
+- R1 used B = 2,000,000 donor permutations (code default; the override variable was unset in the running processes, recorded in Amendment 5).
 
 ## Verification performed
 
-- Macro cross-check: 139 values from `nums.tex`, `rev2nums.tex` and `rev4nums.tex` were recomputed from the result files; all 139 agree (listing at the end of this file). Six further recomputed values have no macro of that name; the four that quote paper text (power ratio 0.87, DC type-I 0.048–0.052, OneK1K growth ratios 2.2/1.7/8.5 and PB calls 19,787–24,641) agree, and the two XDS-M tail-count ranges have no counterpart in the paper.
-- Stored decision flags were re-derived from the underlying numbers using the frozen rules and agree in every case: `A2_SUMMARY.json` `calibrated` and `run_ok` (220 of 220 entries), `pop_results.json` `holds` (100 of 100 cells), `xu_results.json` E1 `holds` (12 of 12), `xs_results.json` and `d_results.json` null `holds` (6 of 6), `fix_results.json` LCP/LCP2 flags and adoption decision, `onek_summary.json` `holds` (12 of 12 cells), `xs_results.json` and `d_results.json` decision flags.
-- Run-level verdicts for REV-R1, REV2-A, REV3-A3, REV4-R1/R2/R2c/R5 were counted from the per-run files or per-cell `any`/`n` counts; the counts reproduce the paper macros (`RoneXDSruns`, `RtwoHoldsXDSM`, `AthreeHoldsXDSMFifty`, `RfBankXDSM`, `RfDCguHolds`, and others).
-- Not verified: the LaTeX file was not compiled (no TeX installation in the build sandbox; the tectonic package bundle could not be fetched). A static lint confirmed balanced braces and environments, four cells per row, ASCII-only content, and a whitelist of commands. It needs `\usepackage{booktabs,array}` and uses no paper macros.
+- Macro cross-check: every value listed at the end of this file was recomputed from the result files and agrees with the macro of the same name in `nums.tex`, `rev2nums.tex` or `rev4nums.tex` (the build stops on any disagreement).
 
 ## Plan hash check
 
@@ -295,26 +301,14 @@ The paper states each plan was hashed before its computations; a hash shows the 
 
 ## Flags for the authors
 
-1. **REV4 / appendix wording on LCPd.** The appendix list says LCP and LCPd fail at 25–100 donors. In the R1 data LCPd fails at D=25 (20 of 25 runs with a call) but holds at D=100 in both evaluated subtypes (3 of 25 runs) and at D=50 in P1 (REV4-R1b; macros `RfLCPdFifty`, `RfLCPdHundred`). The statement is accurate for LCP only.
-2. **REV4 R1 is partial (13, 12 and 0 of 20 runs in P1, P2, P3).** The appendix list item for REV4 does not say so. All “holds” verdicts for R1 (including permutation-based XDS holding) are provisional; P3 has no R1 result (REV4-R1g).
-3. **REV3 A2 counts.** The appendix figure “1 of 4 for 0.03–0.1 UMI per cell” (macros `AtwoLoDec*`) counts only the A2x block (OneK1K B1, genes 2,001–3,000). The A2 block B2 has a 50-gene 0.03–0.1 stratum flagged calibrated for XDS-M (S=5) in 4 of 4 combinations, but not assessable at 1e-5 (expected count 19.7); counting both blocks gives 5 of 8 (REV3 note).
-4. **REV3 validated gene range.** The frozen definition (strata calibrated in every data set, null and D) gives 0.1–1 UMI per cell for XDS-M (S=5), because the >1 UMI stratum fails once (B1, donor-centred null, D=200: 3 of 20 runs). The paper reports 23 of 24 and 1 of 4, not the range itself (REV3-A2r, derived here).
-5. **REV2 thresholds.** REV2_PREREG states no threshold for parts D1, D2, D3, E and F, and no rule for XDS-Mg although Amendment 1 refers to one. The paper's “XDS-M within the bound over 33 runs” uses the Part-A rule (at most 4 of 33); the values (4, 1, 1 of 33) satisfy it.
-6. **REV2 summary file is named “interim”** (`rev2/interim/REV2_SUMMARY_latest.json`). It is complete for every part and reproduces all `rev2nums.tex` macros compared here, but the bundle does not show whether a later final file exists.
-7. **POP_RESULTS.md ordering.** It lists real-donor XDS calls as 32,790 / 49,852 / 55,021; `pop_results.json` gives P1 49,852, P2 55,021, P3 32,790. The table uses the JSON.
-8. **DSTD criterion (d)** (PsychAD null at D=all) is not stored as a flag in `d_results.json`; it was recomputed from `pop_results.json` (same K = 3 reassignments).
-9. **XS-2 is a near miss:** LCPX-S FDR in F_S2 is 0.0557 against a bound of 0.0556. The claim fails independently in F_S1 (FDR and weak-null type-I).
-10. **Run-level SE reading.** The REV plans define SE at p = 0.05 (REV3 and REV4 state it; REV_PREREG and REV2_PREREG say only “binomial”). With the SE taken at the observed fraction instead, XDS in REV-R1a (11 of 100 in P1 and P3) would be borderline. The paper's reading is used throughout.
+1. **REV4 R1 is complete** (20 runs per subtype and size). LCP fails at every size; LCPd fails at D = 25 in every subtype and holds in one subtype at D = 50 and D = 100; permutation XDS holds at D = 25 and 50 in every subtype and at D = 100 in two of three (PVM_CD163: 3 of 20).
+2. **R1 permutation count**: B = 2,000,000 (code default; the override variable was unset in the running processes; recorded in REV4 Amendment 5).
+3. **Amendments 4 and 5 are post hoc** (written after results had been seen, before their own computations). The GO criterion of Amendment 5 was not met, so GO is not named in the abstract.
 
 ## Not determinable from the bundle
 
 - **ONEK-4** real-donor OneK1K calls and PB-only counts: no result file in the bundle.
 - **REV2-G** oracle (matched-FDP) power: no result file in the bundle.
-- **REV4-R6c** Kruskal–Wallis tests across Mantis clusters and the top clusters by PB-only degree: not in `REV4_SUMMARY.json` (`R6.genes` holds only the Spearman statistics); `appendix.tex` calls a macro `\GeneMapAppendix` that is not defined in the supplied macro files.
-- **REV4-R1 permutation count:** the plan specifies B = 2,000,000 for LCP, LCPd and XDS-perm; the summary does not record the B used.
-- **REV-R3 overlap** of real-donor XDS-DCg calls with the pooled-centre XDS-DC calls: `rev_dc_r5.json` has `XDSg_in_pooled` without a definition.
-- **XU E4** (six small designs) and **DC-3** method overlaps: E4 values are in `xu_results.json` but no criterion applies; overlaps are not tabulated.
-- **Stored hashes for REV2, REV3, REV4 plans and amendments:** not in the bundle (the paper's `verify_hashes.py` reads `rev3/*.sha256`, which was not bundled); the sha256 of each bundled file is listed above.
 
 ## Plans in the bundle not covered by the table
 
@@ -326,7 +320,7 @@ DEV_PREREG, HELDOUT_SPEC and RARE_PREREG all contain explicit criteria; none is 
 
 ## Cross-check of the paper macros against the bundle
 
-139 macro values (nums.tex, rev2nums.tex, rev4nums.tex) were compared with the value recomputed from the result files for this table: 139 agree after normalising formatting, 0 differ.
+115 macro values (nums.tex, rev2nums.tex, rev4nums.tex) were compared with the value recomputed from the result files for this table: 115 agree after normalising formatting, 0 differ.
 
 <details><summary>All compared macros</summary>
 
@@ -422,54 +416,30 @@ DEV_PREREG, HELDOUT_SPEC and RARE_PREREG all contain explicit criteria; none is 
 | `BtwoPBres` | `6,483--20,722` | `6,483–20,722` |
 | `BthreeXDSM` | `1/40, 2/40, 1/40` | `1/40, 2/40, 1/40` |
 | `BthreeLCPd` | `7/40, 36/40, 40/40` | `7/40, 36/40, 40/40` |
-| `RfLCPTwentyFive` | `19/25` | `19/25` |
-| `RfLCPdTwentyFive` | `20/25` | `20/25` |
-| `RfXDSpermTwentyFive` | `1/25` | `1/25` |
-| `RfXDSMTwentyFive` | `13/25` | `13/25` |
-| `RfKXTwentyFive` | `25/25` | `25/25` |
-| `RfLCPFifty` | `11/25` | `11/25` |
-| `RfLCPdFifty` | `5/25` | `5/25` |
-| `RfXDSpermFifty` | `1/25` | `1/25` |
-| `RfXDSMFifty` | `2/25` | `2/25` |
-| `RfKXFifty` | `20/25` | `20/25` |
-| `RfLCPHundred` | `25/25` | `25/25` |
-| `RfLCPdHundred` | `3/25` | `3/25` |
-| `RfXDSpermHundred` | `2/25` | `2/25` |
-| `RfXDSMHundred` | `0/25` | `0/25` |
-| `RfKXHundred` | `3/25` | `3/25` |
+| `RfLCPTwentyFive` | `51/60` | `51/60` |
+| `RfLCPdTwentyFive` | `53/60` | `53/60` |
+| `RfXDSpermTwentyFive` | `2/60` | `2/60` |
+| `RfXDSMTwentyFive` | `32/60` | `32/60` |
+| `RfKXTwentyFive` | `60/60` | `60/60` |
+| `RfLCPFifty` | `33/60` | `33/60` |
+| `RfLCPdFifty` | `11/60` | `11/60` |
+| `RfXDSpermFifty` | `1/60` | `1/60` |
+| `RfXDSMFifty` | `6/60` | `6/60` |
+| `RfKXFifty` | `49/60` | `49/60` |
+| `RfLCPHundred` | `60/60` | `60/60` |
+| `RfLCPdHundred` | `7/60` | `7/60` |
+| `RfXDSpermHundred` | `4/60` | `4/60` |
+| `RfXDSMHundred` | `2/60` | `2/60` |
+| `RfKXHundred` | `12/60` | `12/60` |
 | `RfBankXDSM` | `15/40, 8/40, 2/40` | `15/40, 8/40, 2/40` |
-| `RfBankPB` | `40/40, 40/40, 40/40` | `40/40, 40/40, 40/40` |
-| `RfBankLCP` | `40/40, 40/40, 40/40` | `40/40, 40/40, 40/40` |
-| `RfBankLCPd` | `36/40, 29/40, 11/40` | `36/40, 29/40, 11/40` |
-| `RfBankXDS` | `8/40, 12/40, 7/40` | `8/40, 12/40, 7/40` |
 | `RfBankKX` | `23/40, 2/40, 0/40` | `23/40, 2/40, 0/40` |
-| `RfBankXDSMb` | `4/36, 1/40, 2/40` | `4/36, 1/40, 2/40` |
-| `RfBankXDSMc` | `14/36, 8/40, 2/40` | `14/36, 8/40, 2/40` |
+| `RfBankXDSMb` | `4/40, 1/40, 2/40` | `4/40, 1/40, 2/40` |
 | `RfBankXDSMbHolds` | `3` | `3` |
-| `RfPCadj` | `4{,}226--9{,}222` | `4,226–9,222` |
-| `RfOnekPB` | `18{,}989--23{,}114` | `18,989–23,114` |
-| `RfOnekPBw` | `1{,}096--2{,}590` | `1,096–2,590` |
-| `RfOnekPC` | `4{,}084--17{,}974` | `4,084–17,974` |
 | `RfRealPB` | `53{,}263, 57{,}280, 37{,}325` | `53,263, 57,280, 37,325` |
 | `RfRealXDSM` | `56{,}075, 60{,}272, 37{,}866` | `56,075, 60,272, 37,866` |
-| `RfRealPBonly` | `9{,}914, 7{,}100, 11{,}357` | `9,914, 7,100, 11,357` |
-| `RfRealXonly` | `12{,}726, 10{,}092, 11{,}898` | `12,726, 10,092, 11,898` |
-| `RfRealShared` | `43{,}349, 50{,}180, 25{,}968` | `43,349, 50,180, 25,968` |
-| `RfHubOverlap` | `11--14` | `11–14` |
-| `RfTopOverlap` | `53--70\%` | `53–70%` |
-| `RfDCguHolds` | `3` | `3` |
-| `RfDCgHolds` | `2` | `2` |
 | `RfDCgu` | `0, 0, 0` | `0, 0, 0` |
 | `RfDCg` | `1, 4, 2` | `1, 4, 2` |
-| `RfDCPB` | `1{,}075--4{,}893` | `1,075–4,893` |
-| `RsixNormPB` | `$-$0.98` | `−0.98` |
-| `RsixNormR` | `$-$0.03` | `−0.03` |
-| `RsixRealNormPB` | `$-$0.81` | `−0.81` |
-| `RsixRealNormR` | `$-$0.26` | `−0.26` |
-| `RsixPairNull` | `0.26` | `0.26` |
-| `RsixPairRealPB` | `0.50` | `0.50` |
-| `RsixPairRealX` | `0.51` | `0.51` |
-| `RsixPairs` | `89{,}676` | `89,676` |
-| `RsixNullCalls` | `12{,}109` | `12,109` |
+| `BmX` | `4/40, 2/40, 2/40` | `4/40, 2/40, 2/40` |
+| `CoNullXc` | `1/20, 0/20, 0/20` | `1/20, 0/20, 0/20` |
 
 </details>
