@@ -271,137 +271,137 @@
    }
   },
   "P3": {
-   "n": 3,
+   "n": 20,
    "25": {
     "PB": {
-     "any": 3,
-     "n": 3,
-     "meanV": 496.0,
-     "floor_mean": 80.66666666666667
+     "any": 20,
+     "n": 20,
+     "meanV": 719.45,
+     "floor_mean": 124.05
     },
     "LCP": {
-     "any": 2,
-     "n": 3,
-     "meanV": 1.6666666666666667,
-     "floor_mean": 6.0
+     "any": 18,
+     "n": 20,
+     "meanV": 2.4,
+     "floor_mean": 6.8
     },
     "LCPd": {
-     "any": 3,
-     "n": 3,
-     "meanV": 11.333333333333334,
-     "floor_mean": 13.333333333333334
+     "any": 18,
+     "n": 20,
+     "meanV": 9.8,
+     "floor_mean": 12.45
     },
     "XDSperm": {
-     "any": 0,
-     "n": 3,
-     "meanV": 0.0,
-     "floor_mean": 0.6666666666666666
+     "any": 1,
+     "n": 20,
+     "meanV": 0.05,
+     "floor_mean": 0.95
     },
     "XDS": {
      "any": 0,
-     "n": 3,
+     "n": 20,
      "meanV": 0.0,
-     "floor_mean": 0.0
+     "floor_mean": 0.05
     },
     "XDSM": {
-     "any": 2,
-     "n": 3,
-     "meanV": 1.0,
-     "floor_mean": 4.333333333333333
+     "any": 12,
+     "n": 20,
+     "meanV": 1.05,
+     "floor_mean": 4.35
     },
     "KX": {
-     "any": 3,
-     "n": 3,
-     "meanV": 101.33333333333333,
-     "floor_mean": 45.0
+     "any": 20,
+     "n": 20,
+     "meanV": 138.35,
+     "floor_mean": 55.35
     }
    },
    "50": {
     "PB": {
-     "any": 3,
-     "n": 3,
-     "meanV": 759.3333333333334,
-     "floor_mean": 122.0
+     "any": 20,
+     "n": 20,
+     "meanV": 919.25,
+     "floor_mean": 170.05
     },
     "LCP": {
-     "any": 1,
-     "n": 3,
-     "meanV": 1.0,
-     "floor_mean": 8.0
+     "any": 13,
+     "n": 20,
+     "meanV": 2.9,
+     "floor_mean": 7.45
     },
     "LCPd": {
-     "any": 0,
-     "n": 3,
-     "meanV": 0.0,
-     "floor_mean": 2.3333333333333335
+     "any": 4,
+     "n": 20,
+     "meanV": 1.25,
+     "floor_mean": 3.4
     },
     "XDSperm": {
      "any": 0,
-     "n": 3,
+     "n": 20,
      "meanV": 0.0,
-     "floor_mean": 0.3333333333333333
+     "floor_mean": 0.7
     },
     "XDS": {
-     "any": 1,
-     "n": 3,
-     "meanV": 0.3333333333333333,
-     "floor_mean": 1.0
+     "any": 5,
+     "n": 20,
+     "meanV": 0.45,
+     "floor_mean": 0.95
     },
     "XDSM": {
-     "any": 0,
-     "n": 3,
-     "meanV": 0.0,
-     "floor_mean": 2.0
+     "any": 2,
+     "n": 20,
+     "meanV": 0.2,
+     "floor_mean": 1.6
     },
     "KX": {
-     "any": 3,
-     "n": 3,
-     "meanV": 1.6666666666666667,
-     "floor_mean": 3.6666666666666665
+     "any": 16,
+     "n": 20,
+     "meanV": 6.2,
+     "floor_mean": 7.5
     }
    },
    "100": {
     "PB": {
-     "any": 3,
-     "n": 3,
-     "meanV": 2199.0,
-     "floor_mean": 392.3333333333333
+     "any": 20,
+     "n": 20,
+     "meanV": 1642.1,
+     "floor_mean": 286.75
     },
     "LCP": {
-     "any": 3,
-     "n": 3,
-     "meanV": 37.666666666666664,
-     "floor_mean": 28.333333333333332
+     "any": 20,
+     "n": 20,
+     "meanV": 26.1,
+     "floor_mean": 22.05
     },
     "LCPd": {
-     "any": 0,
-     "n": 3,
-     "meanV": 0.0,
-     "floor_mean": 1.6666666666666667
+     "any": 3,
+     "n": 20,
+     "meanV": 0.25,
+     "floor_mean": 3.0
     },
     "XDSperm": {
      "any": 1,
-     "n": 3,
-     "meanV": 0.3333333333333333,
-     "floor_mean": 0.6666666666666666
+     "n": 20,
+     "meanV": 0.05,
+     "floor_mean": 1.0
     },
     "XDS": {
-     "any": 1,
-     "n": 3,
-     "meanV": 0.3333333333333333,
-     "floor_mean": 2.0
+     "any": 8,
+     "n": 20,
+     "meanV": 0.65,
+     "floor_mean": 2.3
     },
     "XDSM": {
      "any": 1,
-     "n": 3,
-     "meanV": 0.3333333333333333,
-     "floor_mean": 1.0
+     "n": 20,
+     "meanV": 0.05,
+     "floor_mean": 0.75
     },
     "KX": {
-     "any": 1,
-     "n": 3,
-     "meanV": 0.3333333333333333,
-     "floor_mean": 1.0
+     "any": 4,
+     "n": 20,
+     "meanV": 0.3,
+     "floor_mean": 1.6
     }
    }
   }
@@ -1692,7 +1692,30 @@
     }
    }
   },
-  "C4": {},
+  "C4": {
+   "P1": {
+    "XDS_normal": {
+     "any": 1,
+     "n": 20,
+     "meanV": 0.05
+    },
+    "XDS_perm": {
+     "any": 2,
+     "n": 20,
+     "meanV": 0.1
+    },
+    "LCPd_normal": {
+     "any": 1,
+     "n": 20,
+     "meanV": 0.05
+    },
+    "LCPd_perm": {
+     "any": 2,
+     "n": 20,
+     "meanV": 0.1
+    }
+   }
+  },
   "C1real": {
    "P1": {
     "D": 1054,

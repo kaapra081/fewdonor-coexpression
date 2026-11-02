@@ -289,8 +289,8 @@ if os.path.exists(a5f):
     sx = {x: json.load(open(P(f"rev4/out/A5sex_{x}.json"))) for x in SUBS if os.path.exists(P(f"rev4/out/A5sex_{x}.json"))}
     if len(sx) == 3:
         mac("SexXYc", ", ".join(str(sx[x]["XIST_Y"]["called_XDSMc"]) for x in SUBS)); mac("SexYYc", ", ".join(str(sx[x]["Y_Y"]["called_XDSMc"]) for x in SUBS))
-        def sci_(v): e = int(np.floor(np.log10(v))); return f"10^{{{e}}}" if v > 0 else "0"
-        mac("SexPc", rr([sx[x][k]["median_p_XDSMc"] for x in SUBS for k in ("XIST_Y", "Y_Y")], 4))
+        def sci_(v): e = int(np.ceil(np.log10(v))); return f"10^{{{e}}}" if v > 0 else "0"
+        _pc = [sx[x][k]["median_p_XDSMc"] for x in SUBS for k in ("XIST_Y", "Y_Y")]; mac("SexPc", f"{min(_pc):.4f}--{max(_pc):.2f}")
         mac("SexPraw", "10^{-300}" if min(sx[x][k]["median_p_XDSM"] for x in SUBS for k in ("XIST_Y",)) == 0 else "")
         mac("SexPrawMax", sci_(max(sx[x][k]["median_p_XDSM"] for x in SUBS for k in ("XIST_Y", "Y_Y"))))
 rsim = json.load(open(P("results/rev/rev_sim_results.json"))); mac("KXpowTwo", f"{rsim['L200']['KX']['power']:.2f}"); mac("XDSMpowTwo", f"{rsim['L200']['XDSM']['power']:.2f}")
