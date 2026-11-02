@@ -1,0 +1,90 @@
+{
+ "D": 1054,
+ "XDSMca": {
+  "calls": 53919,
+  "keep_of_XDSM": 0.8653232278198841,
+  "XDSM": 56075
+ },
+ "sex_XDSMca_all": {
+  "XIST_Y": {
+   "called": 1,
+   "n": 7,
+   "median_p": 0.16470151347889428
+  },
+  "Y_Y": {
+   "called": 5,
+   "n": 21,
+   "median_p": 0.16979303124694167
+  },
+  "calls_total": 53919
+ },
+ "sex_XDSMca_sexonly": {
+  "XIST_Y": {
+   "called": 1,
+   "n": 7,
+   "median_p": 0.1478050069736478
+  },
+  "Y_Y": {
+   "called": 5,
+   "n": 21,
+   "median_p": 0.1617352844530432
+  },
+  "calls_total": 56217
+ },
+ "clean_fixed": {
+  "nuclei_removed": 84,
+  "XDSMc": {
+   "XIST_Y": {
+    "called": 5,
+    "n": 7,
+    "median_p": 0.02102719576492553
+   },
+   "Y_Y": {
+    "called": 17,
+    "n": 21,
+    "median_p": 0.0006481311592490714
+   },
+   "calls_total": 53176
+  },
+  "sexonly": {
+   "XIST_Y": {
+    "called": 4,
+    "n": 7,
+    "median_p": 0.030715806716633397
+   },
+   "Y_Y": {
+    "called": 18,
+    "n": 21,
+    "median_p": 0.001158077733633573
+   },
+   "calls_total": 55604
+  },
+  "XDSMca": {
+   "XIST_Y": {
+    "called": 0,
+    "n": 7,
+    "median_p": 0.6472183990161222
+   },
+   "Y_Y": {
+    "called": 4,
+    "n": 21,
+    "median_p": 0.1999774211644868
+   },
+   "calls_total": 54041
+  },
+  "XDSMca_sexonly": {
+   "XIST_Y": {
+    "called": 0,
+    "n": 7,
+    "median_p": 0.7477199154044645
+   },
+   "Y_Y": {
+    "called": 5,
+    "n": 21,
+    "median_p": 0.20990026115942206
+   },
+   "calls_total": 56342
+  }
+ },
+ "sec": 32
+}

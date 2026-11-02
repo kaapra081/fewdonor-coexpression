@@ -1,0 +1,1 @@
+{"XDSM_sign": {"calls": 17, "opposite_to_rw": 4, "frac_opposite": 0.23529411764705882, "null_frac_opposite_all_pairs": 0.5278223828003034}, "XDSM": {"calls": 17, "t05": 0.06336143449752442}, "XDSMsrc": {"calls": 1, "t05": 0.06761006289308176}, "D_src": 964, "D": 1054, "sec": 9}
