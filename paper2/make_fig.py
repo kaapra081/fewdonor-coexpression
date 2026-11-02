@@ -12,8 +12,8 @@ def J(p):
 pop = J("pop/pop_results.json"); info = {s: J(f"pop/pop_{s}_info.json") for s in ("P1", "P2", "P3")}
 S2 = J("rev2/interim/REV2_SUMMARY_latest.json"); A3 = J("rev3/results/A3B3_SUMMARY.json")["A3"]; R1 = J("rev4/results/REV4_SUMMARY.json")["R1"]
 apply_figure_style(sizes=(8, 7, 6))
-COL = {"PB": "#7f7f7f", "LCP": "#c98b2b", "LCPd": "#8c5fb3", "XDS": "#4f8fd1", "XDSM": "#0b2e5a"}
-LAB = {"PB": "Pseudobulk", "LCP": "Leak-corrected (LCP)", "LCPd": "LCPd", "XDS": "XDS, one split", "XDSM": "XDS-M"}
+COL = {"PB": "#7f7f7f", "LCP": "#c98b2b", "LCPd": "#8c5fb3", "XDS": "#4f8fd1", "XDSM": "#0b2e5a", "KX": "#2a9d8f"}
+LAB = {"PB": "Pseudobulk", "LCP": "Leak-corrected (LCP)", "LCPd": "LCPd", "XDS": "XDS, one split", "XDSM": "XDS-M", "KX": "KX"}
 KEY = {"PB": "PB", "LCP": "LCP", "XDS": "LCPXd"}; SUBN = {"P1": "Homeo_CECR2", "P2": "PVM_CD163", "P3": "ADAM_GPNMB"}
 fig = plt.figure(figsize=(7.0, 2.7))
 outer = fig.add_gridspec(1, 2, width_ratios=[3, 1.45], wspace=0.30, left=0.085, right=0.985, bottom=0.19, top=0.76)
@@ -46,7 +46,7 @@ def pooled(m):
     k, n = np.array(k), np.array(n); p = k / n
     lo = np.where(k == 0, 0, beta.ppf(0.025, k, n - k + 1)); hi = np.where(k == n, 1, beta.ppf(0.975, k + 1, n - k))
     return 100 * p, 100 * lo, 100 * hi, n
-for m in ("PB", "LCP", "LCPd", "XDS", "XDSM"):
+for m in ("PB", "LCP", "LCPd", "KX", "XDS", "XDSM"):
     p, lo, hi, n = pooled(m); foc = m == "XDSM"
     ax.errorbar(xs, p, yerr=[p - lo, hi - p], fmt="-", color=COL[m], lw=1.9 if foc else 1.0, capsize=0, elinewidth=0.8, zorder=4 if foc else 2, clip_on=False)
     for j, (x_, y_) in enumerate(zip(xs, p)):
@@ -58,8 +58,8 @@ ax.set_xticks(xs); ax.set_xticklabels(["25", "50", "100", "200", "400", "full"])
 ax.set_yticks([0, 1, 5, 10, 50, 100]); ax.set_yticklabels(["0", "1", "5", "10", "50", "100"])
 ax.set_xlabel("Pseudo-donors (donor-centred null)"); ax.set_ylabel("Runs with any false call (%)", labelpad=2)
 fig.text(0.70, 0.865, "XDS-M: 3\u20138% of runs from 100 donors up", fontsize=8, ha="left")
-hs = [mpl.lines.Line2D([], [], color=COL[m], marker="o", ms=3.2, lw=1.9 if m == "XDSM" else 1.0) for m in ("PB", "LCP", "LCPd", "XDS", "XDSM")]
-fig.legend(hs, [LAB[m] for m in ("PB", "LCP", "LCPd", "XDS", "XDSM")], loc="upper left", bbox_to_anchor=(0.085, 1.0), ncol=5, frameon=False, fontsize=7,
+hs = [mpl.lines.Line2D([], [], color=COL[m], marker="o", ms=3.2, lw=1.9 if m == "XDSM" else 1.0) for m in ("PB", "LCP", "LCPd", "KX", "XDS", "XDSM")]
+fig.legend(hs, [LAB[m] for m in ("PB", "LCP", "LCPd", "KX", "XDS", "XDSM")], loc="upper left", bbox_to_anchor=(0.085, 1.0), ncol=6, frameon=False, fontsize=7,
            handlelength=1.6, columnspacing=1.4, handletextpad=0.5)
 panel_letter(axs[0], "a"); panel_letter(ax, "b")
 out = os.path.join(RR, "paper2", "figures"); fig.savefig(os.path.join(out, "fig_growth.pdf")); fig.savefig(os.path.join(out, "fig_growth.png"), dpi=300)

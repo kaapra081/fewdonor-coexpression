@@ -83,6 +83,11 @@ def pooled(block, D, m):
     sv = [s for s in SUBS if block[s].get("n", 0)]
     k = sum(block[s][D][m]["any"] for s in sv); n = sum(block[s][D][m]["n"] for s in sv); h = sum(holds(block[s][D][m]["any"], block[s][D][m]["n"]) for s in sv); return k, n, h
 mac("RfRoneN", rng([S["R1"][s]["n"] for s in SUBS]))
+from scipy.stats import beta as _beta
+_up = lambda k, n: 100 * _beta.ppf(0.975, k + 1, n - k)
+_k400 = sum(RA_[x]["400"]["XDSM"]["any"] for x in SUBS) if (RA_ := json.load(open(P("rev2/interim/REV2_SUMMARY_latest.json")))["A"]) else 0
+mac("RfUpperPooled", f"{_up(_k400, 300):.0f}\\%"); mac("RfUpperThree", f"{_up(RA_['P3']['400']['XDSM']['any'], 100):.0f}\\%")
+_secs = [v["sec"] for k, v in R1.items() if "sec" in v]; mac("RfRoneMin", f"{np.median(_secs) / 60:.0f}" if _secs else "?")
 mc = json.load(open(P("rev4/out/R6/R6_mantis_clusters.json"))); S.setdefault("R6", {})["mantis_clusters"] = mc
 fp = lambda x: f"{x:.2g}" if x >= 0.001 else f"{x:.1g}"
 mac("McLeaves", str(mc["n_leaves"])); mac("McTotal", str(mc["n_clusters_total"])); mac("McLevels", str(mc["n_levels"])); mac("McTopLabel", mc["top_PBonly_cluster"]["label"])

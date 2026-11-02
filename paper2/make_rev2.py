@@ -200,7 +200,7 @@ try:
     if S.get("C"): o2 += "(B, C) no trend of the standardized mean square with cell number; real-donor XDS-M results in Section~\\ref{sec:real}. "
     if S.get("D1"): o2 += f"(D) pseudobulk differential co-expression confounded on the donor-centred null (\\DCdcPB{{}} false calls); group-centred XDS-M variants \\DCdcXDS{{}}. "
     if S.get("E"): o2 += f"(E) XDS-M within the bound over 33 runs in \\OnekEholdXDSM; PBlin made thousands of false calls, so the transformation is not the main cause. "
-    if S.get("F"): o2 += "(F) reported in Section~\\ref{sec:null}."
+    if S.get("F"): o2 += "(F) reported in Section~\\ref{sec:calib}."
     M["REVtwoOutcomes"] = o2
 except Exception as e:
     print("outcome2 failed", e)
@@ -208,7 +208,7 @@ try:
     o3 = []
     if "AtwoHiDecM" in M: o3.append(f"(A2) XDS-M (S = 5) met the calibration rule in {M['AtwoHiDecM']} combinations for genes above 0.1 UMI per cell and in {M['AtwoLoDecM']} for 0.03--0.1 UMI per cell; pseudobulk in none")
     if "AtwoPthreeDecM" in M: o3.append(f"(A2-P3, ADAM\\_GPNMB, 2{{,}}000 genes all above 0.3 UMI per cell) XDS-M met the rule in {M['AtwoPthreeDecM']}, single-split XDS in {M['AtwoPthreeDecS']}, pseudobulk in {M['AtwoPthreeDecPB']}")
-    if "AthreeHoldsXDSMHundred" in M: o3.append(f"(A3) XDS with permutation $p$-values held at every size; XDS-M held at 100 donors in {M['AthreeHoldsXDSMHundred']} subtypes, at 50 in {M['AthreeHoldsXDSMFifty']}, at 25 in {M['AthreeHoldsXDSMTwentyFive']}; LCP held at 25 and 50 and failed at 100")
+    if "AthreeHoldsXDSMHundred" in M: o3.append(f"(A3) XDS with permutation $p$-values held at every size (uninformative at $10^5$ permutations; superseded by REV4 R1); XDS-M held at 100 donors in {M['AthreeHoldsXDSMHundred']} subtypes, at 50 in {M['AthreeHoldsXDSMFifty']}, at 25 in {M['AthreeHoldsXDSMTwentyFive']}; LCP held at 25 and 50 and failed at 100 (the 25 and 50 results are uninformative at $10^5$ permutations and were overturned by REV4 R1)")
     if "BtwoPBw" in M: o3.append("(B2) the frozen criterion that covariate adjustment does not fix pseudobulk was not met, because precision weighting left fewer than 100 mean false calls in two subtypes, although it made at least one false call in every run")
     if "BthreeXDSM" in M: o3.append(f"(B3) descriptive: XDS-M {M['BthreeXDSM']}, LCPd {M['BthreeLCPd']} runs with a false call")
     M["REVthreeOutcomes"] = "; ".join(o3) + "." if o3 else "[pending]"
