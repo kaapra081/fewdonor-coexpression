@@ -137,7 +137,7 @@ python rev4/rev4.py --mode R1 --sub P1 --k0 0 --k1 20   # also P2, P3; --mode R2
 python rev4/rev4_R2c.py --sub P1                         # post hoc bank-centred diagnostic (Amendment 2)
 for s in P1 P2 P3; do python rev4/rev4_C.py --mode C1 --sub $s; done   # Amendment 3 (also C1real, C2, C3, C4, C5, C6)
 for s in P1 P2 P3; do python rev4/rev4_R6.py --sub $s; python rev4/rev4_A5.py --mode top --sub $s; python rev4/rev4_A5.py --mode sexctl --sub $s; python rev4/rev4_A5.py --mode null20 --sub $s; done
-python rev4/rev4_A4.py; python rev4/rev4_A5local.py      # Amendments 4-5 (need the compact A4_<s>.npz extracted from R6_<s>.npz)
+python rev4/rev4_A4.py; python rev4/rev4_A5local.py      # Amendments 4-5 (first: python rev4/rev4_A4extract.py P1 P2 P3)
 python rev4/rev4_R6.py --sub P1 && python rev4/rev4_R6sum.py && python rev4/rev4_R6pca.py && python rev4/rev4_R6pc1.py && python rev4/rev4_R6hs.py && python rev4/rev4_R6clusters.py
 python paper2/make_rev4.py                               # rev4nums.tex, table_pbfix/calib/R1/R2.tex
 # 7. diagnostics, paper numbers, tables, figure
