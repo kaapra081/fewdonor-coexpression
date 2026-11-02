@@ -197,7 +197,10 @@ try:
     hc = {lab: f"{sum(holds(a) for a in runs(m))} of {len(runs(m))}" for m, lab in MS}
     fails = [f"{s} at {D}" for s in ("P1", "P2", "P3") if s in S["A"] for D in ("200", "400", "all") if not holds(S["A"][s][D]["XDSM"])]
     o2 = (f"(A) cells within the run-level bound: XDS-M {hc['XDS-M']}" + (f" (fails {', '.join(fails)})" if fails else "") + f", KX {hc['KX']}, LCPd {hc['LCPd']}, single-split XDS {hc['XDS']}, pseudobulk and LCP {hc['PB']}; LCPd is therefore not co-recommended. ")
-    if S.get("C"): o2 += "(B, C) no trend of the standardized mean square with cell number; real-donor XDS-M results in Section~\\ref{sec:real}. "
+    if S.get("C"):
+        _r2 = [S["C"][s]["A5"]["mean_R2"] for s in ("P1", "P2", "P3")]; _lo = min(min(v) for v in _r2); _hi = max(max(v) for v in _r2); _top = sum(v[-1] == min(v) for v in _r2)
+        _tw = ("none", "one", "two", "three")[_top]
+        o2 += f"(B, C) the standardized mean square varied little with cell number (decile means {_lo:.2f}--{_hi:.2f}, lowest in the top decile in {_tw} of three subtypes); real-donor XDS-M results in Section~\\ref{{sec:real}}. "
     if S.get("D1"): o2 += f"(D) pseudobulk differential co-expression confounded on the donor-centred null (\\DCdcPB{{}} false calls per run over the first 9 runs); group-centred XDS-M variants \\DCdcXDS{{}}. "
     if S.get("E"): o2 += f"(E) XDS-M within the bound over 33 runs in \\OnekEholdXDSM; PBlin made thousands of false calls, so the transformation is not the main cause. "
     if S.get("F"): o2 += "(F) reported in Section~\\ref{sec:calib}."
