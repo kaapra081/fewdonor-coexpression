@@ -319,7 +319,7 @@ for lab, d in (("16 donors, $\\sim$40 cells", "F_D16"), ("24 donors, $\\sim$40 c
 mcse = max(get(d, m)["FDR_mcse"] for d in ("F_D16", "F_D24", "F_D40", "F_D16_n100", "F_S1", "F_S2", "L200", "L500", "L1000") for m in MS_)
 open(os.path.join(OUT, "table_sim.tex"), "w").write(
     "\\begin{table}[t]\\centering\\small\\setlength{\\tabcolsep}{3pt}\\caption{Simulations with exact truth: FDR at BH $q=0.05$ and power. $R=100$ replicates for designs with up to 83 donors, $R=50$ for larger designs; the largest FDR MCSE is "
-    + f"{mcse:.3f}" + " (all MCSEs in the repository). XDS-M uses a normal reference and is intended for large cohorts.}\\label{tab:sim}\n"
+    + f"{mcse:.3f}" + " (all MCSEs in the repository). XDS-M uses a normal reference and is intended for large cohorts. KX (not shown): power \\KXpowList{} at 200, 500 and 1{,}000 donors in the large designs (FDR \\KXfdrList).}\\label{tab:sim}\n"
     "\\begin{tabular}{lcccccccccc}\\toprule & \\multicolumn{5}{c}{FDR} & \\multicolumn{5}{c}{Power}\\\\\\cmidrule(lr){2-6}\\cmidrule(lr){7-11}\n"
     "Design & PB & LCP & LCPd & XDS & XDS-M & PB & LCP & LCPd & XDS & XDS-M\\\\\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\\end{tabular}\\end{table}\n")
 TABLES["table_sim.tex"] = "regenerated"

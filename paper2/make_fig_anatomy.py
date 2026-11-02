@@ -59,7 +59,7 @@ for j_, (es, lab_) in enumerate(ES):
 axf.axvline(0, color="0.5", lw=0.6); axf.axvline(2.33, color="0.5", lw=0.6, ls=":")
 axf.set_yticks(range(len(ES))); axf.set_yticklabels([l for _, l in ES], fontsize=6); axf.set_xlim(-3, 6.6); axf.set_ylim(len(ES) - 0.4, -0.6)
 axf.set_xlabel("Function modularity (z)", labelpad=3)
-axf.set_title("Edges within function clusters:\nfalse edges as coherent as real", loc="left", fontsize=7)
+axf.set_title("False edges at least as coherent\nas real-donor edges", loc="left", fontsize=7)
 hh = [mpl.lines.Line2D([], [], marker=m_, ls="", mfc="white", mec="0.3", ms=3.5, mew=0.8) for m_, _ in MK.values()]
 axf.legend(hh, [nm for _, nm in MK.values()], frameon=False, fontsize=6, loc="lower right", handletextpad=0.2, borderaxespad=0.1, ncol=1)
 for a_, l_ in zip(axs + [axd, axe, axf], "abcdef"): panel_letter(a_, l_)
