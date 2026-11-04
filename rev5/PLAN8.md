@@ -1,4 +1,4 @@
-# Plan 8 (4 Nov 2026, ~19:20 UTC). POST HOC, written after an external review of the submitted draft and BEFORE any of the computations below.
+# Plan 8 (4 Nov 2026, ~18:50 UTC). POST HOC, written after an external review of the submitted draft and BEFORE any of the computations below.
 
 Reviewer points addressed: (1) XDS-Mh, the recommended test, was developed on PsychAD and OneK1K and was never run on a held-out cohort
 or on the brain-bank-stratified null where XDS-M failed; (2) power comparisons were reported at unequal achieved FDR. Code: `rev5/rev5_f.py`.
