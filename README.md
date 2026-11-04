@@ -15,7 +15,6 @@ per-donor cell numbers, so the true between-donor covariance is exactly zero and
 | XDS-M (5 random splits, studentized across donors) | `XDSM` | `rev/revm.py` (`methods`) |
 | KX (kappa extrapolation) | `KX` | `rev/revm.py` (`methods`) |
 | LCPX, XU, LCP2 (reported negative results) | `LCPX`, `XU`, `LCP2` | `xsplit/`, `xu/`, `fix/` |
-
 | XDS-Mh (recommended; XDS-M with each half's standardized values residualized on that half's own design summaries [1, log rhat, log n]; post hoc) | `XDSMh` | `rev5/rev5_d.py` (`variants`) |
 | XDS-Mca (covariates adjusted on the half means before design standardization; post hoc) | `XDSMca` | `rev5/rev5_post.py` (`ca_splits`) |
 | XDS-Mgu (group-centred, unstandardized; differential co-expression) | `XDSMgu` | `rev2/rev2_D.py` |
