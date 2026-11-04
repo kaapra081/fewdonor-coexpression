@@ -16,6 +16,15 @@ per-donor cell numbers, so the true between-donor covariance is exactly zero and
 | KX (kappa extrapolation) | `KX` | `rev/revm.py` (`methods`) |
 | LCPX, XU, LCP2 (reported negative results) | `LCPX`, `XU`, `LCP2` | `xsplit/`, `xu/`, `fix/` |
 
+| XDS-Mh (recommended; XDS-M with each half's standardized values residualized on that half's own design summaries [1, log rhat, log n]; post hoc) | `XDSMh` | `rev5/rev5_d.py` (`variants`) |
+| XDS-Mca (covariates adjusted on the half means before design standardization; post hoc) | `XDSMca` | `rev5/rev5_post.py` (`ca_splits`) |
+| XDS-Mgu (group-centred, unstandardized; differential co-expression) | `XDSMgu` | `rev2/rev2_D.py` |
+| XDS-r (cross-split correlation estimate) | `XDSr` | `rev5/rev5.py` (`xds_r`) |
+
+**Build a real-cell null for your own data (one command):** `python examples/make_null.py --h5ad cells.h5ad --donor-col donor_id [--type-col subtype --type <name>] --mode donor-centred|pooled|depth-matched --out null.h5ad`. Any between-donor test run on the output should make no calls.
+
+**Plans 6-7 (2 Nov 2026).** `rev5/PLAN6.md` (pre-specified: planted signal, depth-matched, library-preserving and planted-confounder nulls, real-donor diagnostics) and its post hoc follow-ups `rev5/PLAN6B.md`-`PLAN6E.md`, each hashed (`*.sha256`) before its own runs; code `rev5/rev5*.py`; results `rev5/out/` (summaries `plan6*_summary.json`). The lupus replication (Perez et al. 2022) is in `lupus/` (`PLAN7.md`, amendments, code, `LUPUS_RESULTS.md`, `results/`). The runs used Modal CPU containers (image: python 3.11, numpy 1.26.4, scipy 1.17.1, torch CPU); `paper2/make_rev5.py` turns the summaries into `paper2/rev5nums.tex`.
+
 The repository also contains the earlier paper on the leak-corrected test (`paper/`, `lcp/`, `dev/`, `real/`, `rare/`, `fix/`); parts of it feed `paper2/` (SEA-AD nulls, depth-state coupling diagnostic) and are listed below.
 
 ## Install and check (no data needed; about 1 minute)
