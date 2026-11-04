@@ -1,0 +1,625 @@
+{
+ "A1": {
+  "LM": {
+   "E1": {
+    "PB": {
+     "n_runs": 20,
+     "mean_calls": 63005.6,
+     "max_calls": 63979,
+     "runs_ge1": 20,
+     "mean_t05": 0.6612283183354902,
+     "holds": false
+    },
+    "XDSM": {
+     "n_runs": 20,
+     "mean_calls": 48555.65,
+     "max_calls": 49264,
+     "runs_ge1": 20,
+     "mean_t05": 0.5408994693070894,
+     "holds": false
+    },
+    "XDSMlib": {
+     "n_runs": 20,
+     "mean_calls": 34652.0,
+     "max_calls": 36149,
+     "runs_ge1": 20,
+     "mean_t05": 0.4267458191631303,
+     "holds": false
+    },
+    "XDSMcoh": {
+     "n_runs": 20,
+     "mean_calls": 31245.5,
+     "max_calls": 31904,
+     "runs_ge1": 20,
+     "mean_t05": 0.4064310149376512,
+     "holds": false
+    },
+    "XDSMpc": {
+     "n_runs": 20,
+     "mean_calls": 42336.15,
+     "max_calls": 42912,
+     "runs_ge1": 20,
+     "mean_t05": 0.49491277174185655,
+     "holds": false
+    },
+    "XDSMlibcoh": {
+     "n_runs": 20,
+     "mean_calls": 9258.45,
+     "max_calls": 10672,
+     "runs_ge1": 20,
+     "mean_t05": 0.24038031319910513,
+     "holds": false
+    },
+    "XDSMlibpc": {
+     "n_runs": 20,
+     "mean_calls": 26387.15,
+     "max_calls": 28281,
+     "runs_ge1": 20,
+     "mean_t05": 0.37390475617218927,
+     "holds": false
+    },
+    "_D_lib_mean": 261.0
+   },
+   "E2": {
+    "XDSM": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.0508467009761138,
+     "holds": true
+    },
+    "XDSMcoh": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.05219500205656043,
+     "holds": true
+    },
+    "XDSMpc": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.05460669535819264,
+     "holds": true
+    }
+   },
+   "ER": {
+    "D": 261,
+    "calls": {
+     "XDSM": 69764,
+     "XDSMcoh": 59543,
+     "XDSMpc": 58292,
+     "XDSMlib": 69134,
+     "XDSMlibcoh": 58321,
+     "XDSMlibpc": 57052,
+     "PB": 69706
+    },
+    "keep_of_XDSM": {
+     "XDSM": 1.0,
+     "XDSMcoh": 0.7225933146035204,
+     "XDSMpc": 0.7192964852932745,
+     "XDSMlib": 0.9790006306977811,
+     "XDSMlibcoh": 0.7070265466429677,
+     "XDSMlibpc": 0.7026833323777306,
+     "PB": 0.9509775815606903
+    },
+    "t05": {
+     "XDSM": 0.7201974298010654,
+     "XDSMcoh": 0.6329992676638476,
+     "XDSMpc": 0.6218135853372257,
+     "XDSMlib": 0.7146697966513177,
+     "XDSMlibcoh": 0.6235792177044773,
+     "XDSMlibpc": 0.6125640794133285
+    },
+    "D_lib": 261,
+    "sec": 10
+   }
+  },
+  "FC": {
+   "E1": {
+    "PB": {
+     "n_runs": 20,
+     "mean_calls": 11453.5,
+     "max_calls": 13989,
+     "runs_ge1": 20,
+     "mean_t05": 0.24244239122801742,
+     "holds": false
+    },
+    "XDSM": {
+     "n_runs": 20,
+     "mean_calls": 11.95,
+     "max_calls": 44,
+     "runs_ge1": 17,
+     "mean_t05": 0.06392191089575747,
+     "holds": false
+    },
+    "XDSMlib": {
+     "n_runs": 20,
+     "mean_calls": 0.05,
+     "max_calls": 1,
+     "runs_ge1": 1,
+     "mean_t05": 0.0565057533531967,
+     "holds": false
+    },
+    "XDSMcoh": {
+     "n_runs": 20,
+     "mean_calls": 0.25,
+     "max_calls": 2,
+     "runs_ge1": 3,
+     "mean_t05": 0.05636881652471384,
+     "holds": false
+    },
+    "XDSMpc": {
+     "n_runs": 20,
+     "mean_calls": 0.3,
+     "max_calls": 4,
+     "runs_ge1": 3,
+     "mean_t05": 0.06247629939507027,
+     "holds": false
+    },
+    "XDSMlibcoh": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.05304521423340457,
+     "holds": true
+    },
+    "XDSMlibpc": {
+     "n_runs": 20,
+     "mean_calls": 0.1,
+     "max_calls": 1,
+     "runs_ge1": 2,
+     "mean_t05": 0.05813645529238269,
+     "holds": false
+    },
+    "_D_lib_mean": 232.0
+   },
+   "E2": {
+    "XDSM": {
+     "n_runs": 20,
+     "mean_calls": 0.1,
+     "max_calls": 1,
+     "runs_ge1": 2,
+     "mean_t05": 0.05024227285039275,
+     "holds": true
+    },
+    "XDSMcoh": {
+     "n_runs": 20,
+     "mean_calls": 0.05,
+     "max_calls": 1,
+     "runs_ge1": 1,
+     "mean_t05": 0.05229482047732266,
+     "holds": true
+    },
+    "XDSMpc": {
+     "n_runs": 20,
+     "mean_calls": 0.05,
+     "max_calls": 1,
+     "runs_ge1": 1,
+     "mean_t05": 0.055608390766545265,
+     "holds": false
+    }
+   },
+   "ER": {
+    "D": 235,
+    "calls": {
+     "XDSM": 36029,
+     "XDSMcoh": 11811,
+     "XDSMpc": 12134,
+     "XDSMlib": 31916,
+     "XDSMlibcoh": 7696,
+     "XDSMlibpc": 8607,
+     "PB": 31360
+    },
+    "keep_of_XDSM": {
+     "XDSM": 1.0,
+     "XDSMcoh": 0.28407671597879486,
+     "XDSMpc": 0.3002026145604929,
+     "XDSMlib": 0.7944433650670293,
+     "XDSMlibcoh": 0.17880041078020484,
+     "XDSMlibpc": 0.2053623469982514,
+     "PB": 0.6297149518443476
+    },
+    "t05": {
+     "XDSM": 0.44616326080195823,
+     "XDSMcoh": 0.256899509435098,
+     "XDSMpc": 0.25706002146848445,
+     "XDSMlib": 0.4148533822895035,
+     "XDSMlibcoh": 0.21622977297579277,
+     "XDSMlibpc": 0.22180756613597374
+    },
+    "D_lib": 232,
+    "sec": 5
+   }
+  }
+ },
+ "A2": {
+  "LM": {
+   "F1": {
+    "PB": {
+     "n_runs": 20,
+     "mean_calls": 62653.3,
+     "max_calls": 64159,
+     "runs_ge1": 20,
+     "mean_t05": 0.6582774049217002,
+     "holds": false
+    },
+    "PBpool": {
+     "n_runs": 20,
+     "mean_calls": 30288.15,
+     "max_calls": 35463,
+     "runs_ge1": 20,
+     "mean_t05": 0.3956295582909481,
+     "holds": false
+    },
+    "XDSM": {
+     "n_runs": 20,
+     "mean_calls": 48488.85,
+     "max_calls": 49309,
+     "runs_ge1": 20,
+     "mean_t05": 0.5407996508863274,
+     "holds": false
+    },
+    "XDSMlib": {
+     "n_runs": 20,
+     "mean_calls": 34349.55,
+     "max_calls": 35906,
+     "runs_ge1": 20,
+     "mean_t05": 0.42503486120725115,
+     "holds": false
+    },
+    "XDSMpool": {
+     "n_runs": 20,
+     "mean_calls": 0.5,
+     "max_calls": 3,
+     "runs_ge1": 7,
+     "mean_t05": 0.0797704677922573,
+     "holds": false
+    },
+    "XDSMlibpool": {
+     "n_runs": 20,
+     "mean_calls": 17781.6,
+     "max_calls": 21086,
+     "runs_ge1": 20,
+     "mean_t05": 0.29827349244088647,
+     "holds": false
+    },
+    "_D_lib_mean": 261.0
+   },
+   "F1_DC": {
+    "PBDC": {
+     "n_runs": 20,
+     "mean_calls": 22439.65,
+     "max_calls": 24571,
+     "runs_ge1": 20,
+     "mean_t05": 0.34603886397608374,
+     "holds": false
+    },
+    "XDSMgu": {
+     "n_runs": 20,
+     "mean_calls": 23.25,
+     "max_calls": 56,
+     "runs_ge1": 20,
+     "mean_t05": 0.10632567891574123,
+     "holds": false
+    },
+    "XDSMgupool": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.0328437716315045,
+     "holds": true
+    },
+    "_D_lib_mean": 261.0
+   },
+   "F2": {
+    "XDSM": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.0508467009761138,
+     "holds": true
+    },
+    "XDSMpool": {
+     "n_runs": 20,
+     "mean_calls": 0.25,
+     "max_calls": 2,
+     "runs_ge1": 4,
+     "mean_t05": 0.061362747163451414,
+     "holds": false
+    },
+    "PBpool": {
+     "n_runs": 20,
+     "mean_calls": 4148.1,
+     "max_calls": 6760,
+     "runs_ge1": 20,
+     "mean_t05": 0.17702320402082644,
+     "holds": false
+    }
+   },
+   "F2B": {
+    "XDSMgu": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.037810114264503765,
+     "holds": true
+    },
+    "XDSMgupool": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.05490665222058366,
+     "holds": true
+    }
+   },
+   "FR": {
+    "D": 261,
+    "calls": {
+     "XDSM": 69764,
+     "XDSMpool": 59772,
+     "PB": 69706,
+     "PBpool": 60236,
+     "XDSMlib": 69134,
+     "XDSMlibpool": 58535
+    },
+    "keep_of_XDSM": {
+     "XDSM": 1.0,
+     "XDSMpool": 0.6873745771458059,
+     "PB": 0.9509775815606903,
+     "PBpool": 0.6908004128203658,
+     "XDSMlib": 0.9790006306977811,
+     "XDSMlibpool": 0.6717934751447738
+    },
+    "t05": {
+     "XDSM": 0.7201974298010654,
+     "XDSMpool": 0.6328989476429812,
+     "PB": 0.7190738455673599,
+     "PBpool": 0.6344840039726728,
+     "XDSMlib": 0.7146697966513177,
+     "XDSMlibpool": 0.6224957614791183
+    },
+    "D_lib": 261,
+    "DC": {
+     "calls": {
+      "PBDC": 40629,
+      "XDSMgu": 43082,
+      "XDSMgupool": 18211
+     },
+     "pos": {
+      "PBDC": 19524,
+      "XDSMgu": 21012,
+      "XDSMgupool": 8820
+     },
+     "isg_called": {
+      "PBDC": 478,
+      "XDSMgu": 496,
+      "XDSMgupool": 487
+     },
+     "isg_called_pos": {
+      "PBDC": 478,
+      "XDSMgu": 496,
+      "XDSMgupool": 487
+     },
+     "overlap_XDSMgu_pool": 12400,
+     "keep_of_XDSMgu": 0.28782322083468737,
+     "t05": {
+      "PBDC": 0.4827600044140809,
+      "XDSMgu": 0.5030146166270403,
+      "XDSMgupool": 0.29084780449634334
+     },
+     "n_isg_pairs": 496
+    },
+    "sec": 17
+   }
+  },
+  "FC": {
+   "F1": {
+    "PB": {
+     "n_runs": 20,
+     "mean_calls": 11737.05,
+     "max_calls": 15093,
+     "runs_ge1": 20,
+     "mean_t05": 0.24385890992265322,
+     "holds": false
+    },
+    "PBpool": {
+     "n_runs": 20,
+     "mean_calls": 7785.3,
+     "max_calls": 11532,
+     "runs_ge1": 20,
+     "mean_t05": 0.2067063933949298,
+     "holds": false
+    },
+    "XDSM": {
+     "n_runs": 20,
+     "mean_calls": 9.2,
+     "max_calls": 35,
+     "runs_ge1": 19,
+     "mean_t05": 0.0640066813133897,
+     "holds": false
+    },
+    "XDSMlib": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.05642499573639911,
+     "holds": false
+    },
+    "XDSMpool": {
+     "n_runs": 20,
+     "mean_calls": 0.3,
+     "max_calls": 2,
+     "runs_ge1": 4,
+     "mean_t05": 0.0631474403346676,
+     "holds": false
+    },
+    "XDSMlibpool": {
+     "n_runs": 20,
+     "mean_calls": 0.75,
+     "max_calls": 5,
+     "runs_ge1": 7,
+     "mean_t05": 0.06617610176462917,
+     "holds": false
+    },
+    "_D_lib_mean": 232.0
+   },
+   "F1_DC": {
+    "PBDC": {
+     "n_runs": 20,
+     "mean_calls": 9212.4,
+     "max_calls": 13792,
+     "runs_ge1": 20,
+     "mean_t05": 0.2236790361252395,
+     "holds": false
+    },
+    "XDSMgu": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.046548991282190186,
+     "holds": true
+    },
+    "XDSMgupool": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.05221506606073374,
+     "holds": true
+    },
+    "_D_lib_mean": 232.0
+   },
+   "F2": {
+    "XDSM": {
+     "n_runs": 20,
+     "mean_calls": 0.1,
+     "max_calls": 1,
+     "runs_ge1": 2,
+     "mean_t05": 0.05024227285039275,
+     "holds": true
+    },
+    "XDSMpool": {
+     "n_runs": 20,
+     "mean_calls": 0.15,
+     "max_calls": 1,
+     "runs_ge1": 3,
+     "mean_t05": 0.06407289252716165,
+     "holds": false
+    },
+    "PBpool": {
+     "n_runs": 20,
+     "mean_calls": 2571.95,
+     "max_calls": 4304,
+     "runs_ge1": 20,
+     "mean_t05": 0.1549959370391549,
+     "holds": false
+    }
+   },
+   "F2B": {
+    "XDSMgu": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.047846630752099197,
+     "holds": true
+    },
+    "XDSMgupool": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.05201392441889628,
+     "holds": true
+    }
+   },
+   "FR": {
+    "D": 235,
+    "calls": {
+     "XDSM": 36029,
+     "XDSMpool": 6893,
+     "PB": 31360,
+     "PBpool": 12691,
+     "XDSMlib": 31916,
+     "XDSMlibpool": 5208
+    },
+    "keep_of_XDSM": {
+     "XDSM": 1.0,
+     "XDSMpool": 0.1516278553387549,
+     "PB": 0.6297149518443476,
+     "PBpool": 0.20000555108384913,
+     "XDSMlib": 0.7944433650670293,
+     "XDSMlibpool": 0.10688611951483527
+    },
+    "t05": {
+     "XDSM": 0.44616326080195823,
+     "XDSMpool": 0.1952729206167675,
+     "PB": 0.4039084680129613,
+     "PBpool": 0.24546302705630962,
+     "XDSMlib": 0.4148533822895035,
+     "XDSMlibpool": 0.17613186063542702
+    },
+    "D_lib": 232,
+    "DC": {
+     "calls": {
+      "PBDC": 12357,
+      "XDSMgu": 2195,
+      "XDSMgupool": 7
+     },
+     "pos": {
+      "PBDC": 5320,
+      "XDSMgu": 1189,
+      "XDSMgupool": 7
+     },
+     "isg_called": {
+      "PBDC": 52,
+      "XDSMgu": 112,
+      "XDSMgupool": 6
+     },
+     "isg_called_pos": {
+      "PBDC": 48,
+      "XDSMgu": 112,
+      "XDSMgupool": 6
+     },
+     "overlap_XDSMgu_pool": 7,
+     "keep_of_XDSMgu": 0.0031890660592255125,
+     "t05": {
+      "PBDC": 0.2594275739609354,
+      "XDSMgu": 0.1448219821229723,
+      "XDSMgupool": 0.06465625344850072
+     },
+     "n_isg_pairs": 496
+    },
+    "sec": 7
+   }
+  }
+ },
+ "rules": {
+  "E-a_XDSMcoh": false,
+  "E-b_XDSMcoh": true,
+  "E-a_XDSMpc": false,
+  "E-b_XDSMpc": false,
+  "E-a_XDSMlibcoh": false,
+  "E-a_XDSMlibpc": false,
+  "F-a_XDSMpool": false,
+  "F-b_XDSMpool": false,
+  "F-a_XDSMlibpool": false,
+  "F-c_XDSMgupool_restores": true,
+  "F-c_XDSMgupool_valid": true,
+  "F-c_XDSMgu_raw_holds_F1": {
+   "LM": false,
+   "FC": true
+  }
+ }
+}

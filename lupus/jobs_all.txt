@@ -1,0 +1,10 @@
+--mode R --sub LM
+--mode D --sub LM --k0 0 --k1 20
+--mode A --sub LM --k0 0 --k1 20
+--mode B --sub LM --k0 0 --k1 20
+--mode A2 --sub LM --k0 0 --k1 20
+--mode R --sub FC
+--mode D --sub FC --k0 0 --k1 20
+--mode A --sub FC --k0 0 --k1 20
+--mode B --sub FC --k0 0 --k1 20
+--mode A2 --sub FC --k0 0 --k1 20

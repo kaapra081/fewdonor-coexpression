@@ -1,0 +1,6 @@
+--mode ER --sub LM
+--mode E1 --sub LM --k0 0 --k1 20
+--mode E2 --sub LM --k0 0 --k1 20
+--mode ER --sub FC
+--mode E1 --sub FC --k0 0 --k1 20
+--mode E2 --sub FC --k0 0 --k1 20

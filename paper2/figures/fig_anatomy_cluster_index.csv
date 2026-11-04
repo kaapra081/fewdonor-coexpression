@@ -1,0 +1,50 @@
+index,leaf_cluster_label,n_genes,median_null_false_degree
+1,Heat Shock Chaperones And Protein Folding,11,100.0
+2,Cytoskeleton Dynamics and Navigator Homologs,7,68.0
+3,Dedicator of Cytokinesis Cdc42 Activators,8,67.0
+4,Glycosyltransferases And Sulfotransferases,14,65.0
+5,LPS-Responsive Endosomal Trafficking In Immune Cells,6,64.0
+6,SCF-Like Substrate Recognition Complexes,5,64.0
+7,Cardiac Calcium Release And Excitation-Contraction Coupling,7,63.0
+8,Proteolytic Shedding and Adhesion Regulators,9,63.0
+9,Rab GTPase-Activating TBC Regulators,8,63.0
+10,Zinc Finger Transcriptional Repressors,9,62.0
+11,Amyloid-Beta Processing Regulators,5,61.0
+12,Protein-Coding Gene Antisense Transcripts,7,61.0
+13,Cyclic Nucleotide And Solute Transporters,8,60.5
+14,E3 Ubiquitin Ligases,10,60.5
+15,Purine Nucleotide-Processing And Coagulation-Linked Enzymes,10,58.5
+16,Adapter Proteins In Signaling Cascades,14,58.0
+17,Macrophage Surface Receptor Signaling Kinases,14,58.0
+18,Synaptic Adhesion Molecules and Lamina-Specific Connectivity,9,58.0
+19,Tumor Suppressor And Proteinase Inhibitor Proteins,7,57.0
+20,Cytoplasmic mRNA Deadenylation Factors,8,55.5
+21,Endosomal SNARE-Mediated Vesicle Fusion,5,55.0
+22,Rab Exchange Activators,7,55.0
+23,Kv4 A-Type Potassium Channel Subunits,5,54.0
+24,Zinc Finger DNA-Binding Repressors,7,54.0
+25,Ras-Like Domain-Containing Signaling Proteins,20,53.0
+26,Serine/Threonine Kinase Signaling In Cytokine And,17,53.0
+27,ATP-Dependent RNA Helicases,7,52.0
+28,Receptor-Type Tyrosine Phosphatase Regulators,6,52.0
+29,Uncharacterized Host And Function-Lacking Transcripts,11,52.0
+30,Neurite Outgrowth and RAC1-Mediated Axon Extension,5,50.0
+31,Rho GTPase-Activating Proteins,17,50.0
+32,Selective Autophagy Receptors And Adapters,5,50.0
+33,PI3K Catalytic And Regulatory Subunits,6,49.5
+34,Long Intergenic Non-Coding RNAs (Linc),7,49.0
+35,X-Inactivation And Paraspeckle lncRNAs,8,49.0
+36,Actin Filament Polymerization and Cytoskeleton Reorganizers,12,48.5
+37,Centrosome and Ciliary Microtubule Proteins,8,47.5
+38,H3 Lysine Demethylases And Methyltransferases,9,47.0
+39,Nuclear Receptor Coactivators And Chromatin Regulators,13,47.0
+40,Enhancer-Binding Differentiation Factors,12,46.5
+41,Epithelial Polarity Regulators and mRNA Cap,5,46.0
+42,ATP-Dependent Chromatin Remodeling Complexes,8,44.5
+43,Deubiquitinating Hydrolases,5,44.0
+44,ATP-Dependent Phospholipid Flippases And Lipid Transfer,7,43.0
+45,RNA-Binding Splicing Factors,9,43.0
+46,Homologous Recombination And Double-Strand Break Repair,11,42.0
+47,Ras and Rho Signaling Exchangers,6,41.5
+48,G Protein-Coupled Receptor Alpha Subunit Signaling,5,40.0
+49,Clathrin-Mediated Endocytosis Adaptors,5,34.0

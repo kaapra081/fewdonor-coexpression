@@ -1,0 +1,17 @@
+\begin{table}[h]\centering\scriptsize\caption{Criteria ledger, Plan 6 and its post hoc follow-ups (Appendix~\ref{app:plan6}).}\label{tab:criteria_plan6}
+\begin{tabular}{@{}p{0.12\linewidth}p{0.34\linewidth}p{0.07\linewidth}p{0.37\linewidth}@{}}\toprule ID & Criterion & Outcome & Values\\\midrule
+P6-S-a & Planted signal: XDS-M FDR $\le$0.05+2 MCSE at full size and at 200 donors, all subtypes. & PASS & Full: 0.048, 0.045, 0.040; 200: 0.029, 0.000, 0.100. \\
+P6-S-b & Planted signal: PB FDR $\ge$0.20 at full size, all subtypes. & PASS & PB FDR 0.936, 0.978, 0.951. \\
+P6-S-c & XDS-r $|$mean bias$|\le$0.05 per module at full size. & PASS & Max $|$bias$|$ 0.003, 0.006, 0.007; PB $r$ bias down to -0.244. \\
+P6-S (KX, PBw) & KX and PBw judged by the bound of S-a (full size). & MIXED & KX FDR 0.039, 0.035, 0.031 (held); PBw 0.008, 0.546, 0.314 (failed in P2, P3). \\
+P6-D-a & Depth-matched null: XDS-M $\le$2/20 runs with false calls and type-I $\le$0.055, all subtypes. & FAIL & Runs 20/20, 20/20, 1/20; type-I 0.099, 0.066, 0.052. \\
+P6-D-b & If D-a fails: XDS-Md by the same rule. & PASS & Runs 1/20, 2/20, 2/20; type-I 0.054, 0.051, 0.051 (but failed in OneK1K, Plan 6c). \\
+P6-L-a & Library-preserving null: XDS-M by the rule of D-a. & FAIL & Runs 20/20, 20/20, 20/20; null confounded by exact centring (App.~\ref{app:plan6}). \\
+P6-L-b & Library-preserving null: XDS-Mlib by the same rule. & FAIL & Runs 20/20, 20/20, 19/20. \\
+P6-C-a & Planted confounder: XDS-Mc and XDS-Mad $\le$2/20 runs, planted type-I $\le$0.055. & FAIL & XDS-Mc runs 20/20, 20/20, 7/20; planted type-I 0.348, 0.258, 0.131. \\
+P6-C-b & Planted confounder detectable: XDS-M mean planted calls $>$1,000. & PASS & Mean planted calls 19{,}161, 18{,}580, 14{,}378. \\
+P6b-H1 (post hoc) & XDS-Mca (adjust first, standardize second) on the planted-confounder null. & PASS & Runs 0/20, 2/20, 2/20; planted type-I 0.054, 0.053, 0.053. \\
+P6c (post hoc) & XDS-Mda recommended if it holds in all 6c nulls; else XDS-Md. & FAIL & OneK1K runs: XDS-Md 8/10, 1/10, 1/10; XDS-Mda 10/10, 4/10, 6/10. \\
+P6d (post hoc) & XDS-Mh recommended if it holds in the depth-matched, donor-centred (full, 200), OneK1K and planted-signal nulls. & PASS & Depth 1, 2, 2; donor-centred 0, 2, 1 / 1, 1, 0; OneK1K 1, 1, 0 of 10; FDR 0.038--0.047. \\
+P6e (post hoc) & XDS-Mca combined with XDS-Mh validated if the 6e rule holds. & FAIL & Run level held; per-pair type-I 0.052--0.071. \\
+\bottomrule\end{tabular}\end{table}

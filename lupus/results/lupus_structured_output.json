@@ -1,0 +1,472 @@
+{
+ "dataset": {
+  "collection_id": "436154da-bcf1-4130-9c8b-120ff9a888f2",
+  "dataset_id": "218acb0f-9f2f-4f76-b90b-15a4b7c7f629",
+  "dataset_version_id": "4118e166-34f5-4c1f-9eed-c64b90a3dace",
+  "census": "2025-11-08"
+ },
+ "plan7_sha256": "2868352532bac24df94aae87f9583dcb3b21e2d9abbb2339b4d7f842e47954c2",
+ "amendment1_sha256": "8cc98ba32e83f77540d9ff49e83b384ea851bf9016b64771d23096924e5610a7",
+ "amendment2_sha256": "eaff32ca379a786bf35af08b0182fd05169667f1f6a212d7b6584a38d4039f1a",
+ "cell_types": {
+  "LM": {
+   "cell_type": "classical monocyte",
+   "cells": 307429,
+   "donors": 261,
+   "median_nd": 1005.0,
+   "donors_by_disease": {
+    "systemic lupus erythematosus": 162,
+    "normal": 99
+   },
+   "G": 447
+  },
+  "FC": {
+   "cell_type": "plasmacytoid dendritic cell",
+   "cells": 5181,
+   "donors": 235,
+   "median_nd": 15.0,
+   "donors_by_disease": {
+    "systemic lupus erythematosus": 143,
+    "normal": 92
+   },
+   "G": 447
+  }
+ },
+ "rules": {
+  "A-a": {
+   "XDSM_holds": {
+    "LM": true,
+    "FC": true
+   },
+   "outcome": true
+  },
+  "A-b": {
+   "PB_fails": {
+    "LM": true,
+    "FC": true
+   }
+  },
+  "A-c": {
+   "replicates": true,
+   "fully": true
+  },
+  "A-d": {
+   "t05_PB": {
+    "LM": 0.29238219921549746,
+    "FC": 0.16673990028189928
+   },
+   "FC_gt_LM": false
+  },
+  "A-other": {
+   "LM": {
+    "PBw": false,
+    "KX": false
+   },
+   "FC": {
+    "PBw": false,
+    "KX": false
+   }
+  },
+  "B-a": {
+   "XDSMgu_holds": {
+    "LM": true,
+    "FC": true
+   },
+   "outcome": true
+  },
+  "B-b": {
+   "PBDC_fails": {
+    "LM": true,
+    "FC": true
+   }
+  },
+  "B-c": {
+   "rho_PB": {
+    "LM": 0.21997710994609762,
+    "FC": 0.12083029861616897
+   },
+   "not_interpretable": {
+    "LM": false,
+    "FC": false
+   }
+  },
+  "D-a": {
+   "XDSM_holds": {
+    "LM": false,
+    "FC": false
+   },
+   "outcome": false
+  },
+  "D-b": {
+   "XDSMlib_holds": {
+    "LM": false,
+    "FC": false
+   },
+   "outcome": false
+  },
+  "D-c": {
+   "applies": true,
+   "XDSMlib_recommended": false
+  },
+  "D-other": {
+   "LM": {
+    "PB": false,
+    "PBw": false,
+    "KX": false
+   },
+   "FC": {
+    "PB": false,
+    "PBw": false,
+    "KX": false
+   }
+  }
+ },
+ "amendment_rules": {
+  "E-a_XDSMcoh": false,
+  "E-b_XDSMcoh": true,
+  "E-a_XDSMpc": false,
+  "E-b_XDSMpc": false,
+  "E-a_XDSMlibcoh": false,
+  "E-a_XDSMlibpc": false,
+  "F-a_XDSMpool": false,
+  "F-b_XDSMpool": false,
+  "F-a_XDSMlibpool": false,
+  "F-c_XDSMgupool_restores": true,
+  "F-c_XDSMgupool_valid": true,
+  "F-c_XDSMgu_raw_holds_F1": {
+   "LM": false,
+   "FC": true
+  }
+ },
+ "paragraph": "Second disease. In the Perez et al. lupus PBMC cohort (CELLxGENE dataset 218acb0f; 162 SLE and 99 control donors; 88 libraries in 24 multiplexed pools), analysed under a plan hashed before any expression was read, pseudobulk co-expression again made false calls under a donor-centred null (20 reassignments, 99,681 pairs): 16,631 per run in classical monocytes (1,005 cells per donor, per-pair type-I 0.29) and 3,472 in plasmacytoid dendritic cells (15 cells per donor, 0.17). XDS-M made 0.0 and 0.1 (type-I 0.051, 0.050) and met the frozen rule in both; the predicted ordering by cell number did not hold. For SLE-versus-control differential co-expression, pseudobulk called 8,937 and 1,493 pairs per run under a label null, 22% and 12% of its real calls, and XDS-Mgu none. A library-preserving null is a different test, and XDS-M failed it (48,661 calls per run in monocytes, 13 in pDCs; pseudobulk 62,723 and 11,126), as did our library-split variant in monocytes; post hoc, conditioning on donor pool composition removed these calls in monocytes (0.5 per run) at the cost of mild per-pair inflation (0.061 to 0.080).",
+ "numbers": {
+  "LM": {
+   "A": {
+    "PB": {
+     "n_runs": 20,
+     "mean_calls": 16630.7,
+     "sd_calls": 2713.7062459805197,
+     "min_calls": 12766,
+     "max_calls": 24532,
+     "runs_ge1": 20,
+     "mean_t05": 0.29238219921549746,
+     "holds": false,
+     "complete": true
+    },
+    "PBw": {
+     "n_runs": 20,
+     "mean_calls": 409.55,
+     "sd_calls": 72.12669773610733,
+     "min_calls": 272,
+     "max_calls": 529,
+     "runs_ge1": 20,
+     "mean_t05": 0.06050149978431194,
+     "holds": false,
+     "complete": true
+    },
+    "KX": {
+     "n_runs": 20,
+     "mean_calls": 0.2,
+     "sd_calls": 0.4103913408340617,
+     "min_calls": 0,
+     "max_calls": 1,
+     "runs_ge1": 4,
+     "mean_t05": 0.05359396474754467,
+     "holds": false,
+     "complete": true
+    },
+    "XDSM": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "sd_calls": 0.0,
+     "min_calls": 0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.0508467009761138,
+     "holds": true,
+     "complete": true
+    }
+   },
+   "A2": {
+    "PB": {
+     "n_runs": 20,
+     "mean_calls": 8880.15,
+     "sd_calls": 9655.647620761425,
+     "min_calls": 292,
+     "max_calls": 25362,
+     "runs_ge1": 20,
+     "mean_t05": 0.20890791625284658,
+     "holds": false,
+     "complete": true
+    },
+    "XDSM": {
+     "n_runs": 20,
+     "mean_calls": 0.05,
+     "sd_calls": 0.22360679774997894,
+     "min_calls": 0,
+     "max_calls": 1,
+     "runs_ge1": 1,
+     "mean_t05": 0.05311844784863715,
+     "holds": true,
+     "complete": true
+    }
+   },
+   "B": {
+    "PBDC": {
+     "n_runs": 20,
+     "mean_calls": 8937.45,
+     "sd_calls": 1706.1473211827129,
+     "min_calls": 6210,
+     "max_calls": 11915,
+     "runs_ge1": 20,
+     "mean_t05": 0.2294449293245453,
+     "holds": false,
+     "complete": true
+    },
+    "XDSMgu": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "sd_calls": 0.0,
+     "min_calls": 0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.037810114264503765,
+     "holds": true,
+     "complete": true
+    }
+   },
+   "rho_PB": 0.21997710994609762,
+   "real_C": {
+    "PB": 69706,
+    "PBw": 64315,
+    "KX": 59021,
+    "XDSM": 69764
+   },
+   "real_DC": {
+    "PBDC": 40629,
+    "XDSMgu": 43082
+   },
+   "D": {
+    "PB": {
+     "n_runs": 20,
+     "mean_calls": 62723.25,
+     "sd_calls": 930.0600928519563,
+     "min_calls": 61080,
+     "max_calls": 64534,
+     "runs_ge1": 20,
+     "mean_t05": 0.65877750022572,
+     "holds": false,
+     "complete": true
+    },
+    "PBw": {
+     "n_runs": 20,
+     "mean_calls": 53164.25,
+     "sd_calls": 516.4435950247668,
+     "min_calls": 52390,
+     "max_calls": 54035,
+     "runs_ge1": 20,
+     "mean_t05": 0.5767242503586442,
+     "holds": false,
+     "complete": true
+    },
+    "KX": {
+     "n_runs": 20,
+     "mean_calls": 25068.7,
+     "sd_calls": 1167.0044017415746,
+     "min_calls": 22833,
+     "max_calls": 27531,
+     "runs_ge1": 20,
+     "mean_t05": 0.37370210973003876,
+     "holds": false,
+     "complete": true
+    },
+    "XDSM": {
+     "n_runs": 20,
+     "mean_calls": 48661.45,
+     "sd_calls": 438.03982935945805,
+     "min_calls": 47994,
+     "max_calls": 49630,
+     "runs_ge1": 20,
+     "mean_t05": 0.5422487735877449,
+     "holds": false,
+     "complete": true
+    },
+    "XDSMlib": {
+     "n_runs": 20,
+     "mean_calls": 34663.75,
+     "sd_calls": 844.4393889314658,
+     "min_calls": 32885,
+     "max_calls": 35861,
+     "runs_ge1": 20,
+     "mean_t05": 0.4266946559524884,
+     "holds": false,
+     "complete": true
+    }
+   }
+  },
+  "FC": {
+   "A": {
+    "PB": {
+     "n_runs": 20,
+     "mean_calls": 3472.3,
+     "sd_calls": 758.8692488446908,
+     "min_calls": 2572,
+     "max_calls": 5679,
+     "runs_ge1": 20,
+     "mean_t05": 0.16673990028189928,
+     "holds": false,
+     "complete": true
+    },
+    "PBw": {
+     "n_runs": 20,
+     "mean_calls": 81.3,
+     "sd_calls": 27.90981717490894,
+     "min_calls": 49,
+     "max_calls": 169,
+     "runs_ge1": 20,
+     "mean_t05": 0.029610457358975127,
+     "holds": false,
+     "complete": true
+    },
+    "KX": {
+     "n_runs": 20,
+     "mean_calls": 0.15,
+     "sd_calls": 0.36634754853252327,
+     "min_calls": 0,
+     "max_calls": 1,
+     "runs_ge1": 3,
+     "mean_t05": 0.053635095956099964,
+     "holds": false,
+     "complete": true
+    },
+    "XDSM": {
+     "n_runs": 20,
+     "mean_calls": 0.1,
+     "sd_calls": 0.30779350562554625,
+     "min_calls": 0,
+     "max_calls": 1,
+     "runs_ge1": 2,
+     "mean_t05": 0.05024227285039275,
+     "holds": true,
+     "complete": true
+    }
+   },
+   "A2": {
+    "PB": {
+     "n_runs": 20,
+     "mean_calls": 1706.75,
+     "sd_calls": 959.4966813798511,
+     "min_calls": 674,
+     "max_calls": 4949,
+     "runs_ge1": 20,
+     "mean_t05": 0.14127767578575656,
+     "holds": false,
+     "complete": true
+    },
+    "XDSM": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "sd_calls": 0.0,
+     "min_calls": 0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.051226913855198085,
+     "holds": true,
+     "complete": true
+    }
+   },
+   "B": {
+    "PBDC": {
+     "n_runs": 20,
+     "mean_calls": 1493.1,
+     "sd_calls": 726.5523417229883,
+     "min_calls": 659,
+     "max_calls": 3386,
+     "runs_ge1": 20,
+     "mean_t05": 0.14070585166681712,
+     "holds": false,
+     "complete": true
+    },
+    "XDSMgu": {
+     "n_runs": 20,
+     "mean_calls": 0.0,
+     "sd_calls": 0.0,
+     "min_calls": 0,
+     "max_calls": 0,
+     "runs_ge1": 0,
+     "mean_t05": 0.047846630752099197,
+     "holds": true,
+     "complete": true
+    }
+   },
+   "rho_PB": 0.12083029861616897,
+   "real_C": {
+    "PB": 31360,
+    "PBw": 23851,
+    "KX": 19734,
+    "XDSM": 36029
+   },
+   "real_DC": {
+    "PBDC": 12357,
+    "XDSMgu": 2195
+   },
+   "D": {
+    "PB": {
+     "n_runs": 20,
+     "mean_calls": 11126.1,
+     "sd_calls": 1453.8964670299274,
+     "min_calls": 8051,
+     "max_calls": 14845,
+     "runs_ge1": 20,
+     "mean_t05": 0.238904605692158,
+     "holds": false,
+     "complete": true
+    },
+    "PBw": {
+     "n_runs": 20,
+     "mean_calls": 1046.15,
+     "sd_calls": 258.3356191183538,
+     "min_calls": 727,
+     "max_calls": 1650,
+     "runs_ge1": 20,
+     "mean_t05": 0.07231368064124558,
+     "holds": false,
+     "complete": true
+    },
+    "KX": {
+     "n_runs": 20,
+     "mean_calls": 1.9,
+     "sd_calls": 2.863564212655271,
+     "min_calls": 0,
+     "max_calls": 9,
+     "runs_ge1": 13,
+     "mean_t05": 0.06809221416318054,
+     "holds": false,
+     "complete": true
+    },
+    "XDSM": {
+     "n_runs": 20,
+     "mean_calls": 13.1,
+     "sd_calls": 10.062436662108606,
+     "min_calls": 0,
+     "max_calls": 34,
+     "runs_ge1": 19,
+     "mean_t05": 0.06384215647916855,
+     "holds": false,
+     "complete": true
+    },
+    "XDSMlib": {
+     "n_runs": 20,
+     "mean_calls": 0.1,
+     "sd_calls": 0.30779350562554625,
+     "min_calls": 0,
+     "max_calls": 1,
+     "runs_ge1": 2,
+     "mean_t05": 0.056970235049808894,
+     "holds": false,
+     "complete": true
+    }
+   }
+  }
+ }
+}

@@ -244,12 +244,12 @@ if ok_:
     nm = {"B1": "transitional B cells", "B2": "naive B cells", "B3": "naive CD4 T cells"}
     parts = [f"{nm[t_]} ({c(on[t_]['info']['donors'])} donors, median {c(on[t_]['info']['median_n'])} cells)" for t_ in ok_]
     M["OnekText"] = ("In OneK1K blood \\citep{Yazar2022}, queried from CELLxGENE Census release 2025-11-08, we repeated the null in " + ", ".join(parts) +
-        " (frozen plan ONEK\\_PREREG, " + KW + " reassignments each). At full cohort size pseudobulk made " +
+        " (pre-specified; " + KW + " reassignments each). At full cohort size pseudobulk made " +
         rng([on[t_]["all"]["PB"]["mean_calls"] for t_ in ok_]) + " false calls per reassignment (type-I " + rng([on[t_]["all"]["PB"]["typeI"] for t_ in ok_], f2) +
         "), LCP " + rng([on[t_]["all"]["LCP"]["mean_calls"] for t_ in ok_]) + ", XDS " + rng([on[t_]["all"]["LCPXd"]["mean_calls"] for t_ in ok_], lambda x: f"{x:.1f}") +
         " and XDS-M " + rng([on[t_]["all"]["XDSM"]["mean_calls"] for t_ in ok_], lambda x: f"{x:.1f}") + " (type-I " + rng([on[t_]["all"]["XDSM"]["typeI"] for t_ in ok_], f3) +
         "). Pseudobulk's false calls at full size were " + ", ".join(f"{on[t_]['all']['PB']['mean_calls'] / on[t_]['200']['PB']['mean_calls']:.1f}" for t_ in ok_)
-        + " times those at 200 donors, so the frozen growth criterion (at least 2) was met in " + str(sum(on[t_]['all']['PB']['mean_calls'] >= 2 * on[t_]['200']['PB']['mean_calls'] and on[t_]['all']['PB']['mean_calls'] >= 100 for t_ in ok_))
+        + " times those at 200 donors, so the pre-specified growth criterion (at least 2) was met in " + str(sum(on[t_]['all']['PB']['mean_calls'] >= 2 * on[t_]['200']['PB']['mean_calls'] and on[t_]['all']['PB']['mean_calls'] >= 100 for t_ in ok_))
         + " of " + str(len(ok_)) + " cell types; XDS met its criterion in " + str(sum(on[t_]['all']['LCPXd']['holds'] and on[t_]['200']['LCPXd']['holds'] for t_ in ok_)) + " and XDS-M in "
         + str(sum(on[t_]['all']['XDSM']['holds'] and on[t_]['200']['XDSM']['holds'] for t_ in ok_))
         + "; XDS-M made no false call but exceeded the top-1\\% bound at 200 transitional B cell donors (" + f3(on['B1']['200']['XDSM']['top1']) + "), a reminder that its $t$ reference needs many donors. Even in naive CD4 T cells, with a median of " + c(on['B3']['info']['median_n']) + " cells per donor, pseudobulk failed at " + c(on['B3']['info']['donors']) + " donors.")
@@ -285,12 +285,16 @@ M["DCtext"] = (
     f"Cell numbers differ between AD cases and controls in all three PsychAD subtypes (medians {_a('Homeo_CECR2')} nuclei in Homeo\\_CECR2, "
     f"{_a('PVM_CD163')} in PVM\\_CD163 and {_a('ADAM_GPNMB')} in ADAM\\_GPNMB; Mann--Whitney $p\\le{DCPs}$). " "By Propositions~\\ref{prop:leak} and~\\ref{prop:transform}, "
     "groups with different cell numbers have different biases, so comparing co-expression between groups should produce false "
-    "differences. On the pooled null with each pseudo-donor carrying the AD label of the real donor whose cell number it has (three reassignments per subtype; frozen plan DC\\_PREREG), "
+    "differences. On the pooled null with each pseudo-donor carrying the AD label of the real donor whose cell number it has (three reassignments per subtype; pre-specified), "
     f"pseudobulk differential co-expression (difference of Fisher-transformed correlations) made {rng([v for s in S for v in dc[s]['PB']['null_calls']])} false calls per reassignment "
     f"(per-pair type-I {rng([v for s in S for v in dc[s]['PB']['null_typeI']], f2)}), on average {100 * pbm['P1'] / dc['P1']['PB']['real_calls']:.0f}\\%, {100 * pbm['P2'] / dc['P2']['PB']['real_calls']:.0f}\\% and {100 * pbm['P3'] / dc['P3']['PB']['real_calls']:.0f}\\% "
     f"of the {c(dc['P1']['PB']['real_calls'])}, {c(dc['P2']['PB']['real_calls'])} and {c(dc['P3']['PB']['real_calls'])} AD-associated changes it reports on real donors, "
     f"whereas a Welch test of per-donor cross-split products between groups made {rng([v for s in S for v in dc[s]['XDS']['null_calls']])} (type-I {rng([v for s in S for v in dc[s]['XDS']['null_typeI']], f3)}). "
     ) if dc else None
+M["DCshare"] = (rng([100 * pbm[s_] / dc[s_]['PB']['real_calls'] for s_ in S], lambda x: f"{x:.0f}") + "\\%") if dc else None   # share of real-donor AD changes that pseudobulk reproduces on the null
+M["DCnullCalls"] = rng([v for s_ in S for v in dc[s_]['PB']['null_calls']]) if dc else None
+ds_ = J("diag/diag_sim.json")
+M["CouplingStress"] = f3(ds_["D16_STRESS_depth"]["coupling_W_median"])   # median |depth-state correlation| of the coupled genes in the simulation stress design (the 0.045 threshold)
 M["SplitText"] = ("XDS uses one random split per donor. On real PsychAD donors we repeated XDS with three split seeds (post hoc). The numbers of BH calls were "
     + "; ".join(f"{SUBN[s]} {', '.join(c(v) for v in sp[s]['n_calls'])}" for s in S)
     + ", and the Jaccard index between call sets from different seeds was "

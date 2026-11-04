@@ -1,4 +1,4 @@
-"""Run-level table and macros from REV2_SUMMARY.json (REV2_PREREG). python make_rev2.py <REV2_SUMMARY.json>"""
+"""Run-level table and macros from REV2_SUMMARY.json (Plan 3 in the paper; file REV2_PREREG). python make_rev2.py <REV2_SUMMARY.json>"""
 import sys, json, math, os
 S = json.load(open(sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), "rev2_summary.json")))
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -17,7 +17,7 @@ def cell(a):
     if a is None: return "--"
     x = f"{a['any']}"; return x if holds(a) else x + "$^\\dagger$"
 L = ["\\begin{table}[t]\\centering\\small\\setlength{\\tabcolsep}{2.6pt}",
-     "\\caption{Run-level error on real-cell nulls (frozen plan REV2\\_PREREG): number of reassignments with at least one BH call (under a complete null, the FDR equals the fraction of such reassignments). PsychAD, donor-centred null: P1 Homeo\\_CECR2, P2 PVM\\_CD163, P3 ADAM\\_GPNMB, " + ", ".join(sorted({str(S["A"][s]["all"]["PB"]["n"]) for s in S["A"]})) + " reassignments each at nested subsets of 200, 400 and all pseudo-donors. OneK1K, pooled null at full size: B1 transitional B cells, B2 naive B cells, B3 naive CD4 T cells; " + (", ".join(sorted({str(S["E"][t]["PB"]["n"]) for t in ecols})) if ecols else "--") + " reassignments (XDS-M: " + (", ".join(sorted({str(S["E"][t]["XDSM"]["n"]) for t in ecols})) if ecols else "--") + ", including the three ONEK\\_PREREG reassignments, as the plan specifies). $^\\dagger$ fails the frozen rule (fraction $>0.05+2$\\,SE).}\\label{tab:runlevel}",
+     "\\caption{Run-level error on real-cell nulls (pre-specified, Plan 3): number of reassignments with at least one BH call (under a complete null, the FDR equals the fraction of such reassignments). PsychAD, donor-centred null: P1 Homeo\\_CECR2, P2 PVM\\_CD163, P3 ADAM\\_GPNMB, " + ", ".join(sorted({str(S["A"][s]["all"]["PB"]["n"]) for s in S["A"]})) + " reassignments each at nested subsets of 200, 400 and all pseudo-donors. OneK1K, pooled null at full size: B1 transitional B cells, B2 naive B cells, B3 naive CD4 T cells; " + (", ".join(sorted({str(S["E"][t]["PB"]["n"]) for t in ecols})) if ecols else "--") + " reassignments (XDS-M: " + (", ".join(sorted({str(S["E"][t]["XDSM"]["n"]) for t in ecols})) if ecols else "--") + ", including the three reassignments of Plan 2, as the plan specifies). $^\\dagger$ fails the pre-specified rule (fraction $>0.05+2$\\,SE).}\\label{tab:runlevel}",
      "\\begin{tabular}{l" + "c" * len(cols) + ("|" + "c" * len(ecols) if ecols else "") + "}\\toprule"]
 hdr1 = " & " + " & ".join(f"\\multicolumn{{3}}{{c}}{{{s}}}" for s in ("P1", "P2", "P3") if s in S["A"]) + ((" & \\multicolumn{%d}{c}{OneK1K}" % len(ecols)) if ecols else "") + "\\\\"
 hdr2 = "Method & " + " & ".join("all" if D == "all" else D for _, D in cols) + ((" & " + " & ".join(ecols)) if ecols else "") + "\\\\\\midrule"
@@ -68,6 +68,7 @@ if os.path.exists(_b2):
 if S.get("C"):
     C = S["C"]; ss = [s for s in ("P1", "P2", "P3") if s in C]; pct = lambda x: f"{100 * x:.0f}\\%"
     M["RealXDSMfrac"] = ", ".join(pct(C[s]["seeds"]["frac_pairs"]) for s in ss)
+    M["RealXDSMfracRng"] = f"{pct(min(C[s]['seeds']['frac_pairs'] for s in ss))}--{pct(max(C[s]['seeds']['frac_pairs'] for s in ss))}"
     M["RealXDSMcalls"] = ", ".join(f"{C[s]['seeds']['n_calls'][0]:,}" for s in ss)
     J = [x for s in ss for x in C[s]["seeds"]["jaccard"]]; M["RealXDSMjac"] = f"{min(J):.2f}--{max(J):.2f}"
     R = [C[s]["halves"]["replicated"] / max(C[s]["halves"]["calls_h0"], 1) for s in ss]; M["RealXDSMrep"] = f"{100 * min(R):.0f}--{100 * max(R):.0f}\\%"
@@ -165,7 +166,7 @@ if os.path.exists(_a3):
     MS3 = [("PB", "PB"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("XDSperm", "XDS (perm.)"), ("XDSM", "XDS-M"), ("KX", "KX")]
     subs = [s for s in ("P1", "P2", "P3") if s in A3]; Ds3 = ("25", "50", "100")
     L3 = ["\\begin{table}[h]\\centering\\small\\setlength{\\tabcolsep}{3pt}",
-          "\\caption{Run-level error at small cohort sizes on the donor-centred null (frozen plan REV3\\_PREREG, analysis A3): reassignments with at least one BH call, out of " + ", ".join(f"{s}: {A3[s]['n']}" for s in subs) + ", at nested subsets of 25, 50 and 100 pseudo-donors. XDS (perm.), LCP and LCPd use donor-permutation $p$-values with $10^5$ permutations, whose smallest attainable value ($10^{-5}$) exceeds the first BH threshold among $\\sim$89{,}000 pairs, so their zeros here are uninformative; Table~\\ref{tab:R1} repeats them with $2\\times10^6$ permutations. In the last block (D $\\ge$ 200) XDS uses the normal-moment reference. Last block: P3 with the donor-centring factors clipped to $[0.5,2]$ instead of $[0.1,10]$ (analysis B3, " + (str(B3["n"]) if B3 else "--") + " reassignments); with the narrower clip single-split XDS fails less often than at $[0.1,10]$, so part of its failure depends on the clip. XDS-M's 49 of 100 runs at 25 pseudo-donors in every subtype is a coincidence: the runs with a call share 24, 22 and 27 reassignment indices between pairs of subtypes and 13 across all three, close to the 24 and 12 expected for independent runs (REV4 Amendment~3, C7). $^\\dagger$ fails the frozen rule.}\\label{tab:smallD}",
+          "\\caption{Run-level error at small cohort sizes on the donor-centred null (pre-specified, Plan 4): reassignments with at least one BH call, out of " + ", ".join(f"{s}: {A3[s]['n']}" for s in subs) + ", at nested subsets of 25, 50 and 100 pseudo-donors. XDS (perm.), LCP and LCPd use donor-permutation $p$-values with $10^5$ permutations, whose smallest attainable value ($10^{-5}$) exceeds the first BH threshold among $\\sim$89{,}000 pairs, so their zeros here are uninformative; Table~\\ref{tab:R1} repeats them with $2\\times10^6$ permutations. In the last block (D $\\ge$ 200) XDS uses the normal-moment reference. Last block: P3 with the donor-centring factors clipped to $[0.5,2]$ instead of $[0.1,10]$ (analysis B3, " + (str(B3["n"]) if B3 else "--") + " reassignments); with the narrower clip single-split XDS fails less often than at $[0.1,10]$, so part of its failure depends on the clip. XDS-M's 49 of 100 runs at 25 pseudo-donors in every subtype is a coincidence: the runs with a call share 24, 22 and 27 reassignment indices between pairs of subtypes and 13 across all three, close to the 24 and 12 expected for independent runs (Plan 5, amendment 3). $^\\dagger$ fails the pre-specified rule.}\\label{tab:smallD}",
           "\\begin{tabular}{l" + "ccc" * len(subs) + ("|ccc" if B3 else "") + "}\\toprule",
           " & " + " & ".join(f"\\multicolumn{{3}}{{c}}{{{s}}}" for s in subs) + (" & \\multicolumn{3}{c}{P3, clip $[0.5,2]$}" if B3 else "") + "\\\\",
           "Method & " + " & ".join(D for _ in subs for D in Ds3) + (" & 200 & 400 & all" if B3 else "") + "\\\\\\midrule"]
@@ -211,14 +212,14 @@ try:
     o3 = []
     if "AtwoHiDecM" in M: o3.append(f"(A2) XDS-M (S = 5) met the calibration rule in {M['AtwoHiDecM']} combinations for genes above 0.1 UMI per cell and in {M['AtwoLoDecM']} for 0.03--0.1 UMI per cell (B1 genes ranked 2,001--3,000, A2x); pseudobulk in none")
     if "AtwoPthreeDecM" in M: o3.append(f"(A2-P3, ADAM\\_GPNMB, 2{{,}}000 genes all above 0.3 UMI per cell) XDS-M met the rule in {M['AtwoPthreeDecM']}, single-split XDS in {M['AtwoPthreeDecS']}, pseudobulk in {M['AtwoPthreeDecPB']}")
-    if "AthreeHoldsXDSMHundred" in M: o3.append(f"(A3) XDS with permutation $p$-values held at every size (uninformative at $10^5$ permutations; superseded by REV4 R1); XDS-M held at 100 donors in {M['AthreeHoldsXDSMHundred']} subtypes, at 50 in {M['AthreeHoldsXDSMFifty']}, at 25 in {M['AthreeHoldsXDSMTwentyFive']}; LCP held at 25 and 50 and failed at 100 (the 25 and 50 results are uninformative at $10^5$ permutations and were overturned by REV4 R1)")
-    if "BtwoPBw" in M: o3.append("(B2) the frozen criterion that covariate adjustment does not fix pseudobulk was not met, because precision weighting left fewer than 100 mean false calls in two subtypes, although it made at least one false call in every run")
+    if "AthreeHoldsXDSMHundred" in M: o3.append(f"(A3) XDS with permutation $p$-values held at every size (uninformative at $10^5$ permutations; superseded by the runs with $2\\times10^6$ permutations, Table~\\ref{{tab:R1}}); XDS-M held at 100 donors in {M['AthreeHoldsXDSMHundred']} subtypes, at 50 in {M['AthreeHoldsXDSMFifty']}, at 25 in {M['AthreeHoldsXDSMTwentyFive']}; LCP held at 25 and 50 and failed at 100 (the 25 and 50 results are uninformative at $10^5$ permutations and were overturned by those runs)")
+    if "BtwoPBw" in M: o3.append("(B2) the pre-specified criterion that covariate adjustment does not fix pseudobulk was not met, because precision weighting left fewer than 100 mean false calls in two subtypes, although it made at least one false call in every run")
     if "BthreeXDSM" in M: o3.append(f"(B3) descriptive: XDS-M {M['BthreeXDSM']}, LCPd {M['BthreeLCPd']} runs with a false call")
     M["REVthreeOutcomes"] = "; ".join(o3) + "." if o3 else "[pending]"
 except Exception as e:
     print("outcome3 failed", e)
 
-# XDS-M: settings with >= 100 donors that hold the frozen run-level bound (REV2 A cells, REV3 A3 at 100, OneK1K E over 33 runs)
+# XDS-M: settings with >= 100 donors that hold the pre-specified run-level bound (REV2 A cells, REV3 A3 at 100, OneK1K E over 33 runs)
 try:
     _cells = [S["A"][s][D]["XDSM"] for s in ("P1", "P2", "P3") if s in S["A"] for D in ("200", "400", "all")]
     if "A3" in dir() or os.path.exists(_a3):
@@ -228,6 +229,28 @@ try:
     M["XDSMholdsLarge"] = f"{_w.get(sum(holds(c) for c in _cells), sum(holds(c) for c in _cells))} of {_w.get(len(_cells), len(_cells))}"
 except Exception as e:
     print("XDSMholdsLarge failed", e)
+# Pooled run-level error of XDS-M from 100 donors up (brain: 3 subtypes x {100, 200, 400, full}; blood: B1-B3) and the chance that an exactly calibrated method fails >= 1 setting
+try:
+    from scipy.stats import binom as _binom
+    _abp = json.load(open(os.path.join(HERE, "..", "rev3", "results", "A3B3_SUMMARY.json")))["A3"]
+    _br = [S["A"][s][D]["XDSM"] for s in ("P1", "P2", "P3") if s in S["A"] for D in ("200", "400", "all")] + [_abp[s]["100"]["XDSM"] for s in ("P1", "P2", "P3")]
+    _bl = [S["E"][t_]["XDSM"] for t_ in ("B1", "B2", "B3") if t_ in S.get("E", {})]
+    _kk = sum(a["any"] for a in _br); _nn = sum(a["n"] for a in _br); _lo, _hi = _cp(_kk, _nn); _fm = lambda x: f"{x:,}".replace(",", "{,}")
+    M["PoolBrainK"] = _fm(_kk); M["PoolBrainN"] = _fm(_nn); M["PoolBrainPct"] = f"{100 * _kk / _nn:.1f}\\%"; M["PoolBrainCI"] = f"{100 * _lo:.1f}--{100 * _hi:.1f}\\%"
+    M["PoolBrainCells"] = str(len(_br))
+    for _D, _w in (("100", "Hundred"), ("200", "TwoHundred"), ("400", "FourHundred"), ("all", "Full")):
+        _cc = [(_abp[s]["100"]["XDSM"] if _D == "100" else S["A"][s][_D]["XDSM"]) for s in ("P1", "P2", "P3")]
+        M[f"PoolBrain{_w}"] = f"{sum(a['any'] for a in _cc)}/{sum(a['n'] for a in _cc)}"
+    _kl = sum(a["any"] for a in _bl); _nl = sum(a["n"] for a in _bl); _lol, _hil = _cp(_kl, _nl)
+    M["PoolBloodK"] = str(_kl); M["PoolBloodN"] = str(_nl); M["PoolBloodPct"] = f"{100 * _kl / _nl:.1f}\\%"; M["PoolBloodCI"] = f"{100 * _lol:.1f}--{100 * _hil:.1f}\\%"
+    def _kmax(n): return int(math.floor((0.05 + 2 * math.sqrt(0.05 * 0.95 / n)) * n + 1e-9))
+    _pn = 1.0
+    for a in _br + _bl: _pn *= _binom.cdf(_kmax(a["n"]), a["n"], 0.05)
+    M["PoolSettings"] = str(len(_br) + len(_bl)); M["PoolPFail"] = f"{1 - _pn:.2f}"
+    M["PoolHoldN"] = str(sum(holds(a) for a in _br + _bl))
+    for _n, _w in ((20, "Twenty"), (33, "ThirtyThree"), (40, "Forty"), (60, "Sixty"), (100, "Hundred")): M[f"BoundRej{_w}"] = f"{100 * (1 - _binom.cdf(_kmax(_n), _n, 0.05)):.1f}\\%"
+except Exception as e:
+    print("pooled XDS-M macros failed", e)
 M.setdefault("REVtwoOutcomes", S.get("outcomes2", "[pending]")); M.setdefault("REVthreeOutcomes", S.get("outcomes3", "[pending]"))
 open(os.path.join(HERE, "rev2nums.tex"), "w").write("".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in M.items()))
 json.dump(M, open(os.path.join(HERE, "rev2_macros.json"), "w"), indent=1); print(len(M), "macros")

@@ -1,0 +1,262 @@
+donor,n_cells,disease,sex,cohort_modal,n_libraries
+1004,641,systemic lupus erythematosus,female,2.0,4
+1014,1714,systemic lupus erythematosus,female,2.0,8
+1015,709,systemic lupus erythematosus,female,4.0,4
+1019,680,systemic lupus erythematosus,female,2.0,4
+1022,654,systemic lupus erythematosus,female,2.0,4
+1031,712,systemic lupus erythematosus,female,2.0,4
+1039,555,systemic lupus erythematosus,female,4.0,4
+1045,1245,systemic lupus erythematosus,female,2.0,4
+1046,842,systemic lupus erythematosus,female,2.0,4
+1051,1132,systemic lupus erythematosus,male,2.0,4
+1054,1158,systemic lupus erythematosus,female,2.0,4
+1056,1132,systemic lupus erythematosus,female,2.0,4
+1063,615,systemic lupus erythematosus,female,2.0,4
+1068,1689,systemic lupus erythematosus,female,2.0,4
+1078,3124,systemic lupus erythematosus,female,4.0,8
+1087,1344,systemic lupus erythematosus,female,2.0,4
+1101,2175,systemic lupus erythematosus,female,2.0,8
+1110,2625,systemic lupus erythematosus,female,2.0,8
+1119,941,systemic lupus erythematosus,female,2.0,4
+1121,2221,systemic lupus erythematosus,female,2.0,4
+1122,851,systemic lupus erythematosus,female,2.0,4
+1127,454,systemic lupus erythematosus,female,2.0,4
+1130,883,systemic lupus erythematosus,female,3.0,8
+1132,2694,systemic lupus erythematosus,female,2.0,8
+1165,1333,systemic lupus erythematosus,male,2.0,4
+1193,1214,systemic lupus erythematosus,female,2.0,4
+1195,1287,systemic lupus erythematosus,male,2.0,4
+1196,1049,systemic lupus erythematosus,male,2.0,4
+1197,501,systemic lupus erythematosus,female,2.0,4
+1203,1020,systemic lupus erythematosus,female,2.0,4
+1216,680,systemic lupus erythematosus,female,2.0,4
+1219,895,systemic lupus erythematosus,female,2.0,4
+1221,1605,systemic lupus erythematosus,male,2.0,4
+1222,1634,systemic lupus erythematosus,female,2.0,8
+1225,2785,systemic lupus erythematosus,female,4.0,4
+1226,882,systemic lupus erythematosus,female,2.0,4
+1234,986,systemic lupus erythematosus,female,2.0,4
+1240,1133,systemic lupus erythematosus,female,2.0,4
+1243,1855,systemic lupus erythematosus,female,4.0,8
+1248,855,systemic lupus erythematosus,male,2.0,4
+1249,1289,systemic lupus erythematosus,female,4.0,4
+1250,1035,systemic lupus erythematosus,female,2.0,4
+1251,1040,systemic lupus erythematosus,female,2.0,4
+1256,1064,systemic lupus erythematosus,female,4.0,4
+1259,2659,systemic lupus erythematosus,female,4.0,8
+1262,2946,systemic lupus erythematosus,female,2.0,8
+1270,2053,systemic lupus erythematosus,female,2.0,8
+1279,2556,systemic lupus erythematosus,female,2.0,8
+1281,1806,systemic lupus erythematosus,female,2.0,8
+1285,809,systemic lupus erythematosus,female,4.0,4
+1294,1040,systemic lupus erythematosus,male,2.0,4
+1297,796,systemic lupus erythematosus,female,2.0,4
+1315,353,systemic lupus erythematosus,female,2.0,4
+1320,1598,systemic lupus erythematosus,female,4.0,4
+1324,978,systemic lupus erythematosus,female,2.0,4
+1325,1375,systemic lupus erythematosus,female,4.0,4
+1326,4950,systemic lupus erythematosus,female,4.0,8
+1329,1670,systemic lupus erythematosus,female,2.0,4
+1333,1351,systemic lupus erythematosus,female,4.0,4
+1334,3212,systemic lupus erythematosus,female,4.0,8
+1337,741,systemic lupus erythematosus,female,2.0,4
+1338,1234,systemic lupus erythematosus,female,2.0,4
+1340,1915,systemic lupus erythematosus,female,2.0,4
+1341,500,systemic lupus erythematosus,female,2.0,4
+1366,777,systemic lupus erythematosus,female,2.0,4
+1368,678,systemic lupus erythematosus,male,2.0,4
+1404,1418,systemic lupus erythematosus,female,2.0,4
+1414,1540,systemic lupus erythematosus,male,2.0,4
+1417,922,systemic lupus erythematosus,female,2.0,4
+1418,666,systemic lupus erythematosus,female,2.0,4
+1419,1264,systemic lupus erythematosus,female,4.0,8
+1420,1990,systemic lupus erythematosus,female,2.0,8
+1445,633,systemic lupus erythematosus,female,4.0,4
+1452,847,systemic lupus erythematosus,female,4.0,4
+1472,1138,systemic lupus erythematosus,female,2.0,4
+1479,1603,systemic lupus erythematosus,female,2.0,4
+1480,1117,systemic lupus erythematosus,female,2.0,4
+1492,982,systemic lupus erythematosus,female,2.0,4
+1493,313,systemic lupus erythematosus,female,4.0,4
+1496,1799,systemic lupus erythematosus,female,2.0,8
+1510,1870,systemic lupus erythematosus,female,2.0,8
+1514,1838,systemic lupus erythematosus,female,4.0,8
+1522,2393,systemic lupus erythematosus,male,2.0,4
+1535,581,systemic lupus erythematosus,female,2.0,4
+1543,1898,systemic lupus erythematosus,female,2.0,4
+1545,3808,systemic lupus erythematosus,female,4.0,8
+1558,1565,systemic lupus erythematosus,male,2.0,4
+1567,771,systemic lupus erythematosus,female,2.0,4
+1569,856,systemic lupus erythematosus,female,2.0,4
+1582,458,systemic lupus erythematosus,female,2.0,4
+1584,815,systemic lupus erythematosus,female,2.0,4
+1586,326,systemic lupus erythematosus,female,3.0,4
+1588,1432,systemic lupus erythematosus,male,2.0,4
+1596,1724,systemic lupus erythematosus,female,4.0,8
+1597,789,systemic lupus erythematosus,female,2.0,4
+1602,1442,systemic lupus erythematosus,female,2.0,4
+1614,1132,systemic lupus erythematosus,female,4.0,8
+1615,1236,systemic lupus erythematosus,male,2.0,4
+1621,716,systemic lupus erythematosus,male,2.0,4
+1623,747,systemic lupus erythematosus,female,2.0,4
+1633,1091,systemic lupus erythematosus,female,2.0,4
+1641,1005,systemic lupus erythematosus,female,2.0,4
+1660,1466,systemic lupus erythematosus,female,4.0,8
+1667,2169,systemic lupus erythematosus,female,2.0,8
+1672,1454,systemic lupus erythematosus,female,2.0,4
+1680,1247,systemic lupus erythematosus,female,4.0,4
+1682,2983,systemic lupus erythematosus,female,4.0,8
+1716,1094,systemic lupus erythematosus,female,2.0,8
+1721,2352,systemic lupus erythematosus,female,4.0,4
+1726,673,systemic lupus erythematosus,female,2.0,4
+1730,1493,systemic lupus erythematosus,female,4.0,8
+1731,590,systemic lupus erythematosus,female,2.0,4
+1737,926,systemic lupus erythematosus,female,4.0,4
+1741,846,systemic lupus erythematosus,female,2.0,4
+1743,1790,systemic lupus erythematosus,female,2.0,8
+1754,3238,systemic lupus erythematosus,female,2.0,6
+1760,2194,systemic lupus erythematosus,female,2.0,4
+1763,3662,systemic lupus erythematosus,female,2.0,8
+1767,758,systemic lupus erythematosus,female,2.0,4
+1768,1564,systemic lupus erythematosus,female,2.0,8
+1771,4965,systemic lupus erythematosus,female,2.0,6
+1772,1844,systemic lupus erythematosus,female,4.0,8
+1775,1575,systemic lupus erythematosus,female,2.0,4
+1785,1271,systemic lupus erythematosus,female,2.0,4
+1791,2531,systemic lupus erythematosus,female,2.0,6
+1799,462,systemic lupus erythematosus,female,2.0,4
+1804,1633,systemic lupus erythematosus,female,2.0,6
+1811,1889,systemic lupus erythematosus,female,2.0,8
+1815,1226,systemic lupus erythematosus,female,2.0,4
+1827,890,systemic lupus erythematosus,female,2.0,4
+1829,2070,systemic lupus erythematosus,female,2.0,4
+1848,940,systemic lupus erythematosus,female,2.0,4
+1857,813,systemic lupus erythematosus,female,4.0,4
+1881,455,systemic lupus erythematosus,female,4.0,4
+1886,592,systemic lupus erythematosus,female,4.0,4
+1888,1486,systemic lupus erythematosus,female,4.0,4
+1891,1170,systemic lupus erythematosus,female,2.0,4
+1892,1371,systemic lupus erythematosus,female,2.0,4
+1909,920,systemic lupus erythematosus,female,4.0,4
+1928,872,systemic lupus erythematosus,female,4.0,4
+1941,1768,systemic lupus erythematosus,female,4.0,4
+1947,1199,systemic lupus erythematosus,female,2.0,4
+1958,860,systemic lupus erythematosus,female,2.0,4
+1961,1917,systemic lupus erythematosus,female,2.0,4
+2061,1025,systemic lupus erythematosus,female,4.0,4
+2082,526,systemic lupus erythematosus,female,4.0,4
+2132,426,systemic lupus erythematosus,male,3.0,4
+2135,2835,systemic lupus erythematosus,female,4.0,4
+FLARE001,681,systemic lupus erythematosus,female,3.0,8
+FLARE004,3000,systemic lupus erythematosus,female,3.0,8
+FLARE005,472,systemic lupus erythematosus,female,3.0,4
+FLARE006,886,systemic lupus erythematosus,female,3.0,4
+FLARE007,506,systemic lupus erythematosus,female,3.0,4
+FLARE009,1591,systemic lupus erythematosus,female,3.0,8
+FLARE010,348,systemic lupus erythematosus,female,3.0,8
+FLARE011,1808,systemic lupus erythematosus,female,3.0,8
+FLARE013,779,systemic lupus erythematosus,female,3.0,8
+FLARE014,1130,systemic lupus erythematosus,female,3.0,4
+FLARE015,69,systemic lupus erythematosus,female,3.0,4
+FLARE016,2624,systemic lupus erythematosus,female,3.0,8
+FLARE017,821,systemic lupus erythematosus,female,3.0,4
+FLARE020,823,systemic lupus erythematosus,female,3.0,4
+HC-002,678,normal,male,3.0,4
+HC-006,1223,normal,female,4.0,4
+HC-008,395,normal,female,4.0,4
+HC-009,742,normal,female,4.0,4
+HC-011,165,normal,female,4.0,4
+HC-014,992,normal,female,4.0,8
+HC-015,183,normal,female,4.0,4
+HC-019,292,normal,female,4.0,4
+HC-020,905,normal,female,3.0,4
+HC-022,487,normal,female,4.0,4
+HC-500,743,normal,female,4.0,4
+HC-501,631,normal,female,3.0,4
+HC-502,1352,normal,female,3.0,4
+HC-503,459,normal,female,3.0,4
+HC-504,1551,normal,female,4.0,8
+HC-506,1161,normal,female,3.0,8
+HC-508,421,normal,female,4.0,4
+HC-512,327,normal,female,4.0,4
+HC-516,671,normal,female,4.0,4
+HC-519,1170,normal,female,4.0,4
+HC-520,439,normal,female,4.0,4
+HC-524,742,normal,female,4.0,4
+HC-526,1498,normal,female,4.0,4
+HC-531,504,normal,female,4.0,4
+HC-532,200,normal,female,4.0,4
+HC-533,756,normal,female,4.0,4
+HC-536,926,normal,female,4.0,4
+HC-538,816,normal,female,4.0,4
+HC-540,867,normal,female,4.0,4
+HC-541,1099,normal,female,4.0,4
+HC-543,587,normal,female,4.0,4
+HC-545,391,normal,female,4.0,4
+HC-546,1103,normal,female,4.0,4
+HC-551,408,normal,female,4.0,4
+HC-552,457,normal,female,4.0,4
+HC-554,766,normal,female,4.0,4
+HC-556,310,normal,female,4.0,4
+HC-558,821,normal,female,4.0,4
+HC-563,1295,normal,female,4.0,4
+HC-566,31,normal,female,4.0,4
+HC-567,792,normal,female,4.0,4
+HC-571,451,normal,female,4.0,4
+HC-572,1092,normal,female,4.0,4
+HC-573,1096,normal,female,4.0,4
+HC-574,517,normal,female,4.0,4
+HC-578,883,normal,female,4.0,4
+HC-580,245,normal,female,4.0,4
+HC-585,1085,normal,female,4.0,4
+ICC_control,244,normal,female,4.0,4
+IGTB1290,1434,normal,female,2.0,10
+IGTB1372,1382,normal,female,3.0,12
+IGTB141,1150,normal,female,1.0,8
+IGTB143,1087,normal,female,2.0,12
+IGTB1506,1188,normal,female,1.0,16
+IGTB1539,153,normal,female,1.0,8
+IGTB1540,1351,normal,female,2.0,12
+IGTB1542,460,normal,female,2.0,4
+IGTB1575,685,normal,female,1.0,8
+IGTB1650,1170,normal,female,2.0,12
+IGTB1731,888,normal,female,1.0,4
+IGTB1762,862,normal,female,1.0,4
+IGTB1768,763,normal,female,1.0,4
+IGTB1789,878,normal,female,1.0,4
+IGTB1793,582,normal,female,1.0,4
+IGTB1814,366,normal,female,1.0,4
+IGTB1815,649,normal,female,1.0,4
+IGTB1819,542,normal,male,1.0,4
+IGTB1826,793,normal,female,1.0,4
+IGTB1827,818,normal,female,1.0,4
+IGTB1828,670,normal,female,1.0,4
+IGTB1840,463,normal,female,1.0,4
+IGTB1844,1104,normal,female,1.0,4
+IGTB1871,693,normal,female,1.0,4
+IGTB1895,1292,normal,female,1.0,4
+IGTB1901,509,normal,female,1.0,4
+IGTB1906,577,normal,female,1.0,5
+IGTB1908,1068,normal,female,1.0,4
+IGTB1913,756,normal,female,1.0,4
+IGTB1916,737,normal,female,1.0,4
+IGTB1921,2058,normal,female,3.0,10
+IGTB195,1912,normal,female,3.0,16
+IGTB1952,521,normal,female,1.0,4
+IGTB1966,1137,normal,female,1.0,4
+IGTB1974,631,normal,female,1.0,4
+IGTB1982,923,normal,female,1.0,4
+IGTB1987,530,normal,female,1.0,4
+IGTB1996,1081,normal,female,1.0,4
+IGTB2007,764,normal,female,1.0,4
+IGTB2065,1288,normal,female,1.0,4
+IGTB256,1236,normal,female,2.0,10
+IGTB469,2299,normal,female,2.0,16
+IGTB498,1118,normal,female,2.0,12
+IGTB508,2359,normal,female,2.0,16
+IGTB514,1703,normal,female,2.0,14
+IGTB645,1861,normal,female,1.0,12
+IGTB670,869,normal,female,2.0,8
+IGTB826,1702,normal,female,3.0,12
+IGTB884,730,normal,female,2.0,12
+IGTB986,1446,normal,female,2.0,12

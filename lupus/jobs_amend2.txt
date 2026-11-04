@@ -1,0 +1,8 @@
+--mode FR --sub LM
+--mode F1 --sub LM --k0 0 --k1 20
+--mode F2 --sub LM --k0 0 --k1 20
+--mode F2B --sub LM --k0 0 --k1 20
+--mode FR --sub FC
+--mode F1 --sub FC --k0 0 --k1 20
+--mode F2 --sub FC --k0 0 --k1 20
+--mode F2B --sub FC --k0 0 --k1 20

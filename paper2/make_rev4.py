@@ -54,7 +54,7 @@ mac("RfPBmean", rng([r3[s]["PB"]["meanV"] for s in SUBS])); mac("RfPBres", rng([
 mac("RfPBwOne", fmt(r3["P1"]["PBw"]["meanV"])); mac("RfPBwTwo", fmt(r3["P2"]["PBw"]["meanV"])); mac("RfPBwThree", fmt(r3["P3"]["PBw"]["meanV"]))
 mac("RfPCadj", rng([r3[s][m]["meanV"] for s in SUBS for m in ("PC5", "PC10")]))
 mac("RfPCanyAll", "every" if all(r3[s][m]["any"] == r3[s][m]["n"] for s in SUBS for m in ("PC5", "PC10")) else "not every")
-mac("RfOnekPB", rng([r3o[t]["PB"]["meanV"] for t in r3o])); mac("RfOnekPBw", rng([r3o[t]["PBw"]["meanV"] for t in r3o])); mac("RfOnekPC", rng([r3o[t][m]["meanV"] for t in r3o for m in ("PC5", "PC10")]))
+mac("RfOnekPB", rng([r3o[t]["PB"]["meanV"] for t in r3o])); mac("RfOnekPBthree", fmt(r3o["B3"]["PB"]["meanV"])); mac("RfOnekPBw", rng([r3o[t]["PBw"]["meanV"] for t in r3o])); mac("RfOnekPC", rng([r3o[t][m]["meanV"] for t in r3o for m in ("PC5", "PC10")]))
 mac("RfOnekPBwTI", rng([1000 * r3o[t]["PBw"]["t05"] for t in r3o]).replace("{,}", "")); M["RfOnekPBwTI"] = "--".join(f"{x:.3f}" for x in (min(r3o[t]["PBw"]["t05"] for t in r3o), max(r3o[t]["PBw"]["t05"] for t in r3o)))
 r5 = S["R5"]; mac("RfDCPB", rng([r5[s]["PB"]["meanV"] for s in SUBS])); mac("RfDCgu", ", ".join(str(r5[s]["XDSMgu"]["any"]) for s in SUBS)); mac("RfDCg", ", ".join(str(r5[s]["XDSMg"]["any"]) for s in SUBS))
 mac("RfDCguHolds", str(sum(holds(r5[s]["XDSMgu"]["any"], 20) for s in SUBS))); mac("RfDCgHolds", str(sum(holds(r5[s]["XDSMg"]["any"], 20) for s in SUBS)))
@@ -111,6 +111,19 @@ if any(S["R1"][s]["n"] for s in SUBS):
     for D, w in (("25", "TwentyFive"), ("50", "Fifty"), ("100", "Hundred")):
         for m, mn in (("LCP", "LCP"), ("LCPd", "LCPd"), ("XDSperm", "XDSperm"), ("XDSM", "XDSM"), ("KX", "KX")):
             k, n, h = pooled(S["R1"], D, m); mac(f"Rf{mn}{w}", f"{k}/{n}"); mac(f"Rf{mn}{w}Holds", str(h))
+# ranges of pooled run-level percentages for the small-cohort text (one number per claim)
+def _pctrng(m):
+    v = []
+    for D in ("25", "50", "100"): k, n, h = pooled(S["R1"], D, m); v.append(100 * k / n)
+    return f"{min(v):.0f}--{max(v):.0f}\\%"
+if any(S["R1"][s]["n"] for s in SUBS):
+    mac("RfLCPpctRng", _pctrng("LCP")); mac("RfLCPdpctRng", _pctrng("LCPd")); mac("RfXDSpermpctRng", _pctrng("XDSperm"))
+    mac("RfXDSpermHoldsAll", f"{sum(sum(holds(S['R1'][s][D]['XDSperm']['any'], S['R1'][s][D]['XDSperm']['n']) for s in SUBS) for D in ('25', '50', '100'))} of 9")
+    _upv = [_up(*pooled(S['R1'], D, 'XDSperm')[:2]) for D in ('25', '50', '100')]; mac("RfXDSpermUpRng", f"{min(_upv):.0f}--{max(_upv):.0f}\\%")
+# first BH threshold |z| as the number of pairs grows (q = 0.05): the smallest p-value must be <= q/m
+from scipy.stats import norm as _norm
+for _m_, _w_ in ((89676, "Pairs"), (2_000_000, "TwoM"), (50_000_000, "FiftyM")): mac(f"BHz{_w_}", f"{_norm.isf(0.05 / (2 * _m_)):.1f}")
+mac("RfRealXDSMrng", rng([r4[s]["calls"]["XDSM"] for s in SUBS])); mac("RfRealPBrng", rng([r4[s]["calls"]["PB"] for s in SUBS]))
 if all(S["R2"][s]["PB"]["n"] for s in SUBS):
     for m in ("PB", "LCP", "LCPd", "XDS", "XDSM", "KX"):
         mac(f"RfBank{m}", ", ".join(f"{S['R2'][s][m]['any']}/{S['R2'][s][m]['n']}" for s in SUBS)); mac(f"RfBank{m}Holds", str(sum(holds(S['R2'][s][m]['any'], S['R2'][s][m]['n']) for s in SUBS)))
@@ -123,7 +136,7 @@ with open(P("paper2/rev4nums.tex"), "w") as fh:
 def cell(k, n): return f"{k}/{n}" + ("" if holds(k, n) else "$^\\dagger$")
 # Table 1: pseudobulk and its corrections
 L = ["\\begin{table}[t]\\centering\\small\\setlength{\\tabcolsep}{4pt}",
-     "\\caption{Pseudobulk and its corrections on real-cell nulls at full cohort size: mean BH false calls per reassignment (per-pair type-I error at 0.05 in parentheses). Every reassignment of every variant made at least one false call. PsychAD: donor-centred null, 20 reassignments per subtype ($\\sim$89{,}000 pairs). OneK1K: pooled null, 10 reassignments per cell type (B1 transitional, B2 naive B, B3 naive CD4$^+$ T; $\\sim$88{,}000 pairs). PBres: log-CPM adjusted for log cell number and log depth; PBw: donors weighted by cell number; PC$k$: top $k$ principal components removed.}\\label{tab:pbfix}",
+     "\\caption{Pseudobulk and its corrections on real-cell nulls at full cohort size: mean BH false calls per reassignment (per-pair type-I error in parentheses); every reassignment of every variant made at least one false call. PsychAD: donor-centred null, 20 reassignments per subtype. OneK1K: pooled null, 10 reassignments per cell type (B1, B2, B3 as in the text). Variants as in Table~\\ref{tab:methods}.}\\label{tab:pbfix}",
      "\\begin{tabular}{lcccccc}\\toprule & \\multicolumn{3}{c}{PsychAD (donor-centred)} & \\multicolumn{3}{c}{OneK1K (pooled)}\\\\\\cmidrule(lr){2-4}\\cmidrule(lr){5-7}",
      "Method & Homeo & PVM & ADAM & B1 & B2 & B3\\\\\\midrule"]
 for m, lab in (("PB", "Pseudobulk"), ("PBres", "PBres"), ("PBw", "PBw"), ("PC5", "PC5"), ("PC10", "PC10")):
@@ -136,7 +149,7 @@ open(P("paper2/table_pbfix.tex"), "w").write("\n".join(L) + "\n")
 # Appendix: R1 per subtype, R2 per subtype
 if all(S["R1"][s]["n"] for s in SUBS):
     L = ["\\begin{table}[h]\\centering\\small\\setlength{\\tabcolsep}{3pt}",
-         f"\\caption{{Small cohorts with $2\\times10^6$ donor permutations (REV4 R1): reassignments with at least one BH call, of {S['R1']['P1']['n']}, {S['R1']['P2']['n']} and {S['R1']['P3']['n']} per subtype, donor-centred null (clip $[0.1,10]$). $^\\dagger$: outside the frozen bound. LCP, LCPd and XDS (perm.) use donor-permutation $p$-values (smallest attainable $p=5\\times10^{{-7}}$, below the BH first-call threshold); XDS (normal), XDS-M and KX use normal references.}}\\label{{tab:R1}}",
+         f"\\caption{{Small cohorts with $2\\times10^6$ donor permutations (Plan 5): reassignments with at least one BH call, of {S['R1']['P1']['n']}, {S['R1']['P2']['n']} and {S['R1']['P3']['n']} per subtype, donor-centred null (clip $[0.1,10]$). $^\\dagger$: outside the pre-specified bound. LCP, LCPd and XDS (perm.) use donor-permutation $p$-values (smallest attainable $p=5\\times10^{{-7}}$, below the BH first-call threshold); XDS (normal), XDS-M and KX use normal references.}}\\label{{tab:R1}}",
          "\\begin{tabular}{lccccccccc}\\toprule & \\multicolumn{3}{c}{Homeo\\_CECR2} & \\multicolumn{3}{c}{PVM\\_CD163} & \\multicolumn{3}{c}{ADAM\\_GPNMB}\\\\",
          "Method & 25 & 50 & 100 & 25 & 50 & 100 & 25 & 50 & 100\\\\\\midrule"]
     for m, lab in (("PB", "PB"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("XDSperm", "XDS (perm.)"), ("XDS", "XDS (normal)"), ("XDSM", "XDS-M"), ("KX", "KX")):
@@ -144,7 +157,7 @@ if all(S["R1"][s]["n"] for s in SUBS):
     L += ["\\bottomrule\\end{tabular}\\end{table}"]; open(P("paper2/table_R1.tex"), "w").write("\n".join(L) + "\n")
 if all(S["R2"][s]["PB"]["n"] for s in SUBS):
     L = ["\\begin{table}[h]\\centering\\small\\setlength{\\tabcolsep}{4pt}",
-         "\\caption{Brain-bank-stratified null (REV4 R2): donor-centred cells reassigned only among donors of the same brain bank, full cohort size. Reassignments with at least one BH call (mean false calls). $^\\dagger$: outside the frozen bound.}\\label{tab:R2}",
+         "\\caption{Brain-bank-stratified null (Plan 5): donor-centred cells reassigned only among donors of the same brain bank, full cohort size. Reassignments with at least one BH call (mean false calls). $^\\dagger$: outside the pre-specified bound.}\\label{tab:R2}",
          "\\begin{tabular}{lccc}\\toprule Method & Homeo\\_CECR2 & PVM\\_CD163 & ADAM\\_GPNMB\\\\\\midrule"]
     for m, lab in (("PB", "PB"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("XDS", "XDS (one split)"), ("XDSM", "XDS-M"), ("KX", "KX")):
         L.append(lab + " & " + " & ".join(f"{cell(S['R2'][s][m]['any'], S['R2'][s][m]['n'])} ({fmt(S['R2'][s][m]['meanV']) if S['R2'][s][m]['meanV'] >= 1 else round(S['R2'][s][m]['meanV'], 2)})" for s in SUBS) + "\\\\")
@@ -154,35 +167,41 @@ if all(S["R2"][s]["PB"]["n"] for s in SUBS):
 import re
 A3 = json.load(open(P("rev3/results/A3B3_SUMMARY.json")))["A3"]; RA = json.load(open(P("rev2/interim/REV2_SUMMARY_latest.json")))["A"]
 r2n = open(P("paper2/rev2nums.tex")).read()
-def macro(name): return re.search(r"\\newcommand\{\\" + name + r"\}\{([^}]*)\}", r2n).group(1)
+def macro(name): return re.search(r"\\newcommand\{\\" + name + r"\}\{(.*)\}[ \t]*$", r2n, flags=re.M).group(1)
 oneK = {"PB": macro("OnekEanyPB"), "LCP": macro("OnekEanyLCP"), "XDSM": macro("OnekEanyXDSM")}
 R2c = load("rev4/out/R2c_P*_k*.json"); S["R2c"] = {}
 for s_ in SUBS:
     runs = [v for k, v in R2c.items() if k.startswith(f"R2c_{s_}_")]
     S["R2c"][s_] = {m: dict(any=sum(r[m]["V"] > 0 for r in runs), n=len(runs), meanV=float(np.mean([r[m]["V"] for r in runs])) if runs else None) for m in ("PB", "PBb", "XDSM", "XDSMb")}
     if runs: S["R2c"][s_]["bank_shift_median"] = {b: float(np.median([r["bank_shift_median"][b] for r in runs])) for b in runs[0]["bank_shift_median"]}
-def pool(cells):   # cells: list of (any, n) per subtype -> "k/n" with dagger if any cell is outside its bound
+def pool(cells):   # cells: list of (any, n) per subtype -> (k, n, all cells within their bound)
     k = sum(a for a, n in cells); n = sum(n for a, n in cells)
+    return k, n, all(holds(a, n_) for a, n_ in cells if n_)
+def pcell(cells):  # percentage of runs with at least one call, dagger if any subtype / cell type is outside its bound
+    k, n, ok = pool(cells)
     if n == 0: return "--"
-    return f"{k}/{n}" + ("" if all(holds(a, n_) for a, n_ in cells if n_) else "$^\dagger$")
-rows = [("PB", "Pseudobulk"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("XDS", "XDS, one split$^\\ddagger$"), ("XDSM", "XDS-M"), ("KX", "KX")]
+    pc = 100 * k / n
+    return (f"{pc:.1f}" if pc < 10 else f"{pc:.0f}") + "\\%" + ("" if ok else "$^\\dagger$")
+rows = [("PB", "Pseudobulk"), ("LCP", "LCP"), ("LCPd", "LCPd"), ("XDS", "XDS (one split)$^\\ddagger$"), ("XDSM", "XDS-M"), ("KX", "KX")]
 perm = {"LCP", "LCPd", "XDS"}
-L = ["\\begin{table}[t]\\centering\\small\\setlength{\\tabcolsep}{3.2pt}",
-     "\\caption{Run-level error on real-cell nulls: reassignments with at least one BH call, pooled over the three PsychAD subtypes (under a complete null this fraction is the FDR). $^\\dagger$: outside the frozen bound ($0.05+2$\\,SE) in at least one subtype or cell type. $^\\ddagger$: permutation $p$-values at 25--100, normal-moment reference from 200. Donor-centred null: 25--100 pseudo-donors from REV3 (100 runs per subtype) for pseudobulk, XDS-M and KX, and from REV4 with $2\\times10^6$ donor permutations (" + rng([S["R1"][x]["n"] for x in SUBS]) + " runs per subtype) for LCP, LCPd and XDS, which use permutation $p$-values at $D\\le100$; 200 to full size from REV2 (100 runs per subtype, normal references). Bank: brain-bank-stratified null at full size (REV4, 40 runs per subtype); the bank-centred row is post hoc (Section~\\ref{sec:calib}). OneK1K: pooled null at full size, three cell types (REV2; 30--33 runs each).}\\label{tab:calib}",
-     "\\begin{tabular}{lcccccc|c|c}\\toprule & \\multicolumn{6}{c|}{Donor-centred null, pseudo-donors} & Bank & OneK1K\\\\",
-     "Method & 25 & 50 & 100 & 200 & 400 & full & full & full\\\\\\midrule"]
+L = ["\\begin{table}[!t]\\centering\\small\\setlength{\\tabcolsep}{3.2pt}",
+     "\\caption{Run-level error on real-cell nulls: percentage of reassignments with at least one BH call, pooled over the three PsychAD subtypes (under a complete null this is the FDR); $n$ runs per column as in the header, except $n=60$ for LCP, LCPd and XDS at 25--100 pseudo-donors (permutation $p$-values) and $n=99$ for XDS-M in blood. $^\\dagger$: outside the pre-specified bound ($0.05+2$\\,SE) in at least one subtype or cell type; $^\\ddagger$: permutation $p$-values at 25--100, normal moments from 200. Run sets are listed in Appendix~\\ref{app:prereg}; the bank-centred row is post hoc. Last row: XDS-M over the 12 brain settings with at least 100 donors and the three blood settings (exact 95\\% intervals, runs treated as independent).}\\label{tab:calib}",
+     "\\begin{tabular}{lcccccc|c|c}\\toprule & \\multicolumn{6}{c|}{Donor-centred null, pseudo-donors} & Bank & Blood\\\\",
+     "Method & 25 & 50 & 100 & 200 & 400 & full & full & full\\\\",
+     "Runs $n$ & 300 & 300 & 300 & 300 & 300 & 300 & 120 & 90\\\\\\midrule"]
 for m, lab in rows:
     row = [lab]
     for D in ("25", "50", "100"):
-        if m in perm: mm = "XDSperm" if m == "XDS" else m; row.append(pool([(S["R1"][x][D][mm]["any"], S["R1"][x][D][mm]["n"]) for x in SUBS]))
-        else: row.append(pool([(A3[x][D][m]["any"], A3[x][D][m]["n"]) for x in SUBS]))
-    for D in ("200", "400", "all"): row.append(pool([(RA[x][D][m]["any"], RA[x][D][m]["n"]) for x in SUBS]))
-    row.append(pool([(S["R2"][x][m]["any"], S["R2"][x][m]["n"]) for x in SUBS]) if all(S["R2"][x][m]["n"] for x in SUBS) else "--")
-    if m in oneK: row.append(pool([tuple(int(v) for v in c.strip().split("/")) for c in oneK[m].split(",")]))
+        if m in perm: mm = "XDSperm" if m == "XDS" else m; row.append(pcell([(S["R1"][x][D][mm]["any"], S["R1"][x][D][mm]["n"]) for x in SUBS]))
+        else: row.append(pcell([(A3[x][D][m]["any"], A3[x][D][m]["n"]) for x in SUBS]))
+    for D in ("200", "400", "all"): row.append(pcell([(RA[x][D][m]["any"], RA[x][D][m]["n"]) for x in SUBS]))
+    row.append(pcell([(S["R2"][x][m]["any"], S["R2"][x][m]["n"]) for x in SUBS]) if all(S["R2"][x][m]["n"] for x in SUBS) else "--")
+    if m in oneK: row.append(pcell([tuple(int(v) for v in c.strip().split("/")) for c in oneK[m].split(",")]))
     else: row.append("--")
     L.append(" & ".join(row) + "\\\\")
 if all(S["R2c"][x]["XDSMb"]["n"] for x in SUBS):
-    L.append("XDS-M, bank-centred & & & & & & & " + pool([(S["R2c"][x]["XDSMb"]["any"], S["R2c"][x]["XDSMb"]["n"]) for x in SUBS]) + " & \\\\")
+    L.append("XDS-M, bank-centred (post hoc) & & & & & & & " + pcell([(S["R2c"][x]["XDSMb"]["any"], S["R2c"][x]["XDSMb"]["n"]) for x in SUBS]) + " & \\\\")
+L.append("\\midrule XDS-M, $\\ge$100 donors, pooled & & & \\multicolumn{4}{c}{" + macro("PoolBrainPct") + " (" + macro("PoolBrainK") + "/" + macro("PoolBrainN") + "; 95\\% CI " + macro("PoolBrainCI") + ")} & & " + macro("PoolBloodPct") + " (" + macro("PoolBloodK") + "/" + macro("PoolBloodN") + ")\\\\")
 L += ["\\bottomrule\\end{tabular}\\end{table}"]
 open(P("paper2/table_calib.tex"), "w").write("\n".join(L) + "\n")
 if all(S["R2c"][x]["XDSMb"]["n"] for x in SUBS):
@@ -286,6 +305,8 @@ if os.path.exists(a5f):
     mac("AfLeafGOin", rr([100 * A5[x]["leaf_GO_check"]["within_leaf_shared"] for x in SUBS], 0) + "\\%"); mac("AfLeafGOall", rr([100 * A5[x]["leaf_GO_check"]["all_pairs_shared"] for x in SUBS], 0) + "\\%")
     mac("AfGOterms", ", ".join(str(A5[x]["GO"]["n_terms"]) for x in SUBS)); mac("AfRule", f"{A5['rule']['a']}, {A5['rule']['b']} and {A5['rule']['d']}")
     mac("OvORall", ", ".join(f"{A5[x]['PBonly_null_OR']['OR']:.2f}" for x in SUBS))
+    mac("OvORrng", rr([A5[x]["PBonly_null_OR"]["OR"] for x in SUBS], 2))
+    mac("AfTopNullZr", rr([A5[x]["leaf"]["top5000_null_PB"]["Q_z"] for x in SUBS], 1)); mac("AfTopPBZr", rr([A5[x]["leaf"]["top5000_real_PB"]["Q_z"] for x in SUBS], 1)); mac("AfTopXZr", rr([A5[x]["leaf"]["top5000_real_XDSM"]["Q_z"] for x in SUBS], 1))
     sx = {x: json.load(open(P(f"rev4/out/A5sex_{x}.json"))) for x in SUBS if os.path.exists(P(f"rev4/out/A5sex_{x}.json"))}
     if len(sx) == 3:
         mac("SexXYc", ", ".join(str(sx[x]["XIST_Y"]["called_XDSMc"]) for x in SUBS)); mac("SexYYc", ", ".join(str(sx[x]["Y_Y"]["called_XDSMc"]) for x in SUBS))

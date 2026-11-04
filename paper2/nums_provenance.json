@@ -95,6 +95,9 @@
   "OnekText": "OneK1K (onek/out/ON_*.npz or paper2/onek_summary.json)",
   "OnekAbs": "OneK1K (onek/out/ON_*.npz or paper2/onek_summary.json)",
   "DCtext": "DC (dc/out/DC_*.npz or paper2/dc_summary.json)",
+  "DCshare": "DC (dc/out/DC_*.npz or paper2/dc_summary.json)",
+  "DCnullCalls": "DC (dc/out/DC_*.npz or paper2/dc_summary.json)",
+  "CouplingStress": "DC (dc/out/DC_*.npz or paper2/dc_summary.json)",
   "SplitText": "DC (dc/out/DC_*.npz or paper2/dc_summary.json)"
  },
  "tables": {
