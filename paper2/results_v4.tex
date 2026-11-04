@@ -72,7 +72,7 @@ On real PsychAD donors between-donor co-expression is dense: XDS-M called \RfRea
 
 Treating the donor as the unit of replication is necessary but not sufficient: a per-donor summary must have an expectation that does not depend on the donor's cell number, and the two genes of a pair must not be measured on the same cells. Pseudobulk violates both.
 
-\paragraph{Recommendations.} Pseudobulk correlation and every pseudobulk repair made false calls in every run of every real-cell null we built in brain and blood, and pseudobulk did so in a lupus cohort with a median of 1{,}005 cells per donor; in cohorts of hundreds of donors with unequal cell numbers, as here, it should not be used to test between-donor co-expression. \RecText{} Any method can be checked against the pooled and donor-centred nulls, which \texttt{examples/make\_null.py} builds from an h5ad file.
+\paragraph{Recommendations.} Pseudobulk correlation and every pseudobulk repair made false calls in every run of every real-cell null we built in brain and blood, and pseudobulk did so in a lupus cohort with a median of 1{,}005 cells per donor; in cohorts of hundreds of donors with unequal cell numbers, as here, it should not be used to test between-donor co-expression. \RecText{} Any method can be checked on the pooled and donor-centred nulls, which \texttt{examples/make\_null.py} builds from an h5ad file.
 
 \paragraph{Limitations.} \LimText{}
 
