@@ -15,3 +15,20 @@ All analyses in this section follow Plan~6 (pre-specified; \texttt{rev5/PLAN6.md
 \paragraph{Sex control.} Expression sex disagreed with recorded sex for \SexMismatch{} donors. Within men and within women separately, XDS-M called XIST--Y pairs in \SexWithinXY{} (men/women) of 7, so the XIST--Y association that survived XDS-Mc came from pooling the sexes after standardization; under XDS-Mca \CaXISTY{} of 7 were called. Y--Y pairs were called within men in \SexWithinMaleYY{} of 21, and the men's mean standardized Y score fell with age (Spearman \SexLOY), consistent with age-related mosaic loss of chromosome Y in microglia; within women, where Y genes are barely expressed, \SexWithinFemaleYY{} of 21 were called, which we cannot explain and suspect reflects ambient RNA from male donors in the same library. Removing discordant nuclei did not change these conclusions (\texttt{rev5/out/post\_R\_*.json}).
 
 \paragraph{OneK1K real donors.} Pseudobulk made \OnekRealPB{} calls and XDS-M \OnekRealX{} in B1--B3.
+
+\paragraph{Lupus cohort (Plan 7).} Classical monocytes (LM; 307{,}429 cells, 261 donors, median 1{,}005 per donor) and plasmacytoid dendritic cells (pDC; 5{,}181 cells, 235 donors, median 15), 447 genes (99{,}681 pairs) each; 20 reassignments per null. The 88 libraries form 24 pools of libraries with identical donor sets, inferred from library--donor incidence; processing cohort 1 has no SLE donor, and SLE donors had more monocytes and fewer pDCs than controls. Plan, amendments, code and every result: \texttt{lupus/}.
+\begin{table}[h]\centering\footnotesize\setlength{\tabcolsep}{3pt}
+\caption{Lupus nulls: mean BH false calls per run (runs with $\ge1$ call of 20; per-pair type-I). Label null: pseudo-donors keep each real donor's cell number and SLE label (differential co-expression). Library-preserving null: donor labels permuted within libraries. Rows ``+ pool'' (pool-adjusted) are post hoc (Amendment 2). ``--'': not run.}\label{tab:lupus}
+\begin{tabular}{@{}lllllll@{}}\toprule
+ & \multicolumn{2}{c}{Donor-centred null} & \multicolumn{2}{c}{SLE-label null} & \multicolumn{2}{c}{Library-preserving null}\\
+Method & LM & pDC & LM & pDC & LM & pDC\\\midrule
+PB / PB-DC & 16{,}631 (20; 0.29) & 3{,}472 (20; 0.17) & 8{,}937 (20; 0.23) & 1{,}493 (20; 0.14) & 62{,}723 (20; 0.66) & 11{,}126 (20; 0.24)\\
+PBw & 410 (20; 0.06) & 81 (20; 0.03) & -- & -- & 53{,}164 (20; 0.58) & 1{,}046 (20; 0.07)\\
+KX & 0.2 (4; 0.054) & 0.15 (3; 0.054) & -- & -- & 25{,}069 (20; 0.37) & 1.9 (13; 0.068)\\
+XDS-M & 0.0 (0; 0.051) & 0.1 (2; 0.050) & -- & -- & 48{,}661 (20; 0.54) & 13.1 (19; 0.064)\\
+XDS-Mlib & -- & -- & -- & -- & 34{,}664 (20; 0.43) & 0.1 (2; 0.057)\\
+XDS-Mgu & -- & -- & 0.0 (0; 0.038) & 0.0 (0; 0.048) & -- & --\\
+XDS-M + pool & (0.061) & (0.064) & -- & -- & 0.5 (7; 0.080) & 0.3 (4; 0.063)\\
+XDS-Mgu + pool & -- & -- & (0.055) & (0.052) & 0.0 (0; 0.033)$^{*}$ & 0.0 (0; 0.052)$^{*}$\\\bottomrule
+\end{tabular}\par\smallskip{\footnotesize $^{*}$ Library-preserving null for differential co-expression. Values in parentheses alone: per-pair type-I only.}
+\end{table}
