@@ -1,0 +1,21 @@
+{
+ "i": 8,
+ "dataset_id": "67b6b9ac-b841-42ce-b2d4-ed2ec12327bd",
+ "dataset_title": "Single cell atlas of LBCL (LME)",
+ "collection_name": "Single cell atlas of large B-cell lymphoma",
+ "collection_doi": "10.1016/j.ccell.2025.06.002",
+ "cell_type": "fibroblast",
+ "cells": 66885,
+ "donors": 221,
+ "median_nd": 154.0,
+ "min_nd": 4,
+ "max_nd": 3312,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x multiome": 66885
+ },
+ "median_lib": 5417.0,
+ "nnz_per_cell": 285.21725349480454
+}

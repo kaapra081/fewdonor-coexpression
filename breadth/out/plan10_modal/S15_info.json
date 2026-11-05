@@ -1,0 +1,28 @@
+{
+ "i": 15,
+ "dataset_id": "1e6a6ef9-7ec9-4c90-bbfb-2ad3c3165fd1",
+ "dataset_title": "The single-cell lung cancer atlas (LuCA) -- extended atlas",
+ "collection_name": "High-resolution single-cell atlas reveals diversity and plasticity of tumor-associated neutrophils in non-small cell lung cancer",
+ "collection_doi": "10.1016/j.ccell.2022.10.008",
+ "cell_type": "macrophage",
+ "cells": 79845,
+ "donors": 190,
+ "median_nd": 208.5,
+ "min_nd": 4,
+ "max_nd": 4959,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x 3' v2": 49588,
+  "BD Rhapsody Whole Transcriptome Analysis": 8864,
+  "10x 3' v3": 8443,
+  "GEXSCOPE technology": 7124,
+  "Smart-seq2": 2687,
+  "inDrop": 2360,
+  "10x 5' v1": 709,
+  "10x 3' v1": 70
+ },
+ "median_lib": 4875.0,
+ "nnz_per_cell": 311.0056734923915
+}

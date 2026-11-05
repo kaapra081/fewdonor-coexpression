@@ -14,6 +14,10 @@ All analyses in this section follow Plan~6 (pre-specified; \texttt{rev5/PLAN6.md
 
 \input{table_breadth.tex}
 
+\paragraph{Plan 10 (post hoc; \texttt{breadth/PLAN10.md}, SHA-256 \BtSha\ldots, written after Plan 9's results and before any of its data were read).} As Plan 9 but with $\ge100$ donors, up to three cell types per cohort, no cell cap and PsychAD's collection excluded by id: \BtN{} settings from \BtColl{} cohorts (\BtCells{} cells per setting). Pseudobulk made false calls in all 20 runs of every setting; KX held in \BtKXheld; XDS-M held in \BtXheld{} (runs with a call \BtXpct, 95\% CI \BtXci; failed: \BtXfail); XDS-Mh held in \BtHheld{} (\BtHpct, \BtHci; failed: \BtHfail). Under the rule, an exactly calibrated test fails a setting with probability 0.076, so about \BtExpFail{} of \BtN{} failures are expected. The settings were split between two machines (Modal, Python 3.11/NumPy 1.26; Colab, Python 3.13/NumPy 2.4); the \BtOverlap{} runs computed on both gave identical call counts. Files: \texttt{breadth/out/plan10\_*}.
+
+\input{table_breadth10.tex}
+
 
 \paragraph{Library-preserving null.} Most PsychAD donors were sequenced in two multiplexed libraries (\texttt{poolID}; about four donors per library). Cells were centred by exact donor-mean removal and donor labels were permuted within each library. XDS-M made false calls in \LnXany{} of 20 runs (mean \LnXmean), and so did splitting by library. This null is confounded by its own construction: exact centring fixes each donor's total, so disjoint subsets of one donor's cells have negatively correlated means, and within-library permutation puts many cells of one donor into both halves of a pseudo-donor. As predicted, \LnOpp\% of XDS-M's false calls had sign opposite to $r_w$ (expected by chance \LnOppBase\%) in P1, P2, P3; the exception, P1, means the artifact does not explain everything. Splitting by source donor, which removes the artifact, still left false calls in \LnSrcAny{} of 20 runs (mean \LnSrcMean), so library-level effects are not excluded. On real donors, splitting by library instead of at random kept \LibKeep{} of the calls of an equal-power single random split.
 

@@ -1,0 +1,1358 @@
+{
+ "plan": "breadth/PLAN10.md",
+ "plan_sha256": "bbe8e1884fba04d9d65f15cb6f2541c4d64d2e48a3569ffd59f41f92999fd71e",
+ "n_selected": 24,
+ "n_complete": 24,
+ "n_collections": 9,
+ "n_eligible_settings": 280,
+ "excluded_collections": [
+  "Population-scale cross-disorder atlas of the human prefrontal cortex at single-cell resolution",
+  "Single-cell RNA-seq reveals the cell-type-specific molecular and genetic associations to lupus",
+  "Single-cell eQTL mapping identifies cell type specific genetic control of autoimmune disease"
+ ],
+ "overlap": [
+  {
+   "i": 18,
+   "identical_calls": 20,
+   "n": 20
+  },
+  {
+   "i": 19,
+   "identical_calls": 20,
+   "n": 20
+  },
+  {
+   "i": 20,
+   "identical_calls": 20,
+   "n": 20
+  },
+  {
+   "i": 21,
+   "identical_calls": 20,
+   "n": 20
+  },
+  {
+   "i": 22,
+   "identical_calls": 20,
+   "n": 20
+  },
+  {
+   "i": 23,
+   "identical_calls": 20,
+   "n": 20
+  },
+  {
+   "i": 24,
+   "identical_calls": 20,
+   "n": 20
+  }
+ ],
+ "settings": [
+  {
+   "i": 1,
+   "info": {
+    "i": 1,
+    "dataset_id": "c838aec3-03ef-4398-b882-0e3912abfff0",
+    "dataset_title": "AIDA Phase 1 Data Freeze v2: Chinese, Indian, Japanese, Korean, Malay, and Thai donors in Japan, Singapore, South Korea, Thailand, and India",
+    "collection_name": "Asian Immune Diversity Atlas (AIDA)",
+    "collection_doi": "10.1016/j.cell.2025.02.017",
+    "cell_type": "myeloid cell",
+    "cells": 26000,
+    "donors": 614,
+    "median_nd": 29.0,
+    "min_nd": 4,
+    "max_nd": 789,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 5' v2": 26000
+    },
+    "median_lib": 6254.0,
+    "nnz_per_cell": 352.8353846153846
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 31348.05,
+    "mean_t05": 0.4678508771929826,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 3,
+    "mean_calls": 0.25,
+    "mean_t05": 0.06380827067669173,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 1,
+    "mean_calls": 0.05,
+    "mean_t05": 0.04908333333333333,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 2,
+    "mean_calls": 0.1,
+    "mean_t05": 0.04951190476190476,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 2,
+   "info": {
+    "i": 2,
+    "dataset_id": "c838aec3-03ef-4398-b882-0e3912abfff0",
+    "dataset_title": "AIDA Phase 1 Data Freeze v2: Chinese, Indian, Japanese, Korean, Malay, and Thai donors in Japan, Singapore, South Korea, Thailand, and India",
+    "collection_name": "Asian Immune Diversity Atlas (AIDA)",
+    "collection_doi": "10.1016/j.cell.2025.02.017",
+    "cell_type": "T cell",
+    "cells": 54778,
+    "donors": 612,
+    "median_nd": 33.0,
+    "min_nd": 4,
+    "max_nd": 2301,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 5' v2": 54778
+    },
+    "median_lib": 4320.0,
+    "nnz_per_cell": 325.22501734272885
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 30766.0,
+    "mean_t05": 0.4588051378446115,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 1,
+    "mean_calls": 0.25,
+    "mean_t05": 0.058332706766917285,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 3,
+    "mean_calls": 0.15,
+    "mean_t05": 0.050303258145363405,
+    "holds": false
+   },
+   "XDSMh": {
+    "runs_with_call": 2,
+    "mean_calls": 0.15,
+    "mean_t05": 0.05095238095238096,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 3,
+   "info": {
+    "i": 3,
+    "dataset_id": "c838aec3-03ef-4398-b882-0e3912abfff0",
+    "dataset_title": "AIDA Phase 1 Data Freeze v2: Chinese, Indian, Japanese, Korean, Malay, and Thai donors in Japan, Singapore, South Korea, Thailand, and India",
+    "collection_name": "Asian Immune Diversity Atlas (AIDA)",
+    "collection_doi": "10.1016/j.cell.2025.02.017",
+    "cell_type": "CD14-positive monocyte",
+    "cells": 202124,
+    "donors": 595,
+    "median_nd": 298.0,
+    "min_nd": 6,
+    "max_nd": 4989,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 5' v2": 202124
+    },
+    "median_lib": 5505.0,
+    "nnz_per_cell": 353.53493894836834
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 28784.95,
+    "mean_t05": 0.4433721804511279,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 3,
+    "mean_calls": 0.15,
+    "mean_t05": 0.051031954887218046,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.04954699248120301,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.049790100250626565,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 4,
+   "info": {
+    "i": 4,
+    "dataset_id": "9f222629-9e39-47d0-b83f-e08d610c7479",
+    "dataset_title": "An integrated cell atlas of the human lung in health and disease (full)",
+    "collection_name": "The integrated Human Lung Cell Atlas",
+    "collection_doi": "10.1038/s41591-023-02327-2",
+    "cell_type": "multiciliated columnar cell of tracheobronchial tree",
+    "cells": 105586,
+    "donors": 396,
+    "median_nd": 88.0,
+    "min_nd": 4,
+    "max_nd": 4481,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v2": 37240,
+     "10x 5' v1": 29873,
+     "10x 3' v3": 14445,
+     "10x 5' transcription profiling": 13746,
+     "Drop-seq": 5085,
+     "10x 5' v2": 3840,
+     "Seq-Well": 1313,
+     "10x 3' v1": 44
+    },
+    "median_lib": 4478.0,
+    "nnz_per_cell": 284.18557384501736
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 45079.55,
+    "mean_t05": 0.6068239348370927,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 10,
+    "mean_calls": 52.3,
+    "mean_t05": 0.08450814536340852,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 1,
+    "mean_calls": 0.05,
+    "mean_t05": 0.049783834586466166,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 1,
+    "mean_calls": 0.05,
+    "mean_t05": 0.050281328320801996,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 5,
+   "info": {
+    "i": 5,
+    "dataset_id": "9f222629-9e39-47d0-b83f-e08d610c7479",
+    "dataset_title": "An integrated cell atlas of the human lung in health and disease (full)",
+    "collection_name": "The integrated Human Lung Cell Atlas",
+    "collection_doi": "10.1038/s41591-023-02327-2",
+    "cell_type": "CD1c-positive myeloid dendritic cell",
+    "cells": 26911,
+    "donors": 329,
+    "median_nd": 47.0,
+    "min_nd": 4,
+    "max_nd": 884,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v2": 14549,
+     "10x 5' v1": 4315,
+     "10x 5' transcription profiling": 2983,
+     "10x 3' v3": 2486,
+     "Drop-seq": 1034,
+     "10x 5' v2": 893,
+     "Seq-Well": 511,
+     "10x 3' v1": 140
+    },
+    "median_lib": 4863.0,
+    "nnz_per_cell": 281.4270372710044
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 28212.75,
+    "mean_t05": 0.4379555137844612,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 8,
+    "mean_calls": 4.05,
+    "mean_t05": 0.06142606516290726,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 1,
+    "mean_calls": 0.05,
+    "mean_t05": 0.05130513784461153,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 1,
+    "mean_calls": 0.05,
+    "mean_t05": 0.05174248120300752,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 6,
+   "info": {
+    "i": 6,
+    "dataset_id": "9f222629-9e39-47d0-b83f-e08d610c7479",
+    "dataset_title": "An integrated cell atlas of the human lung in health and disease (full)",
+    "collection_name": "The integrated Human Lung Cell Atlas",
+    "collection_doi": "10.1038/s41591-023-02327-2",
+    "cell_type": "CD8-positive, alpha-beta T cell",
+    "cells": 87079,
+    "donors": 321,
+    "median_nd": 104.0,
+    "min_nd": 4,
+    "max_nd": 5186,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v2": 45644,
+     "10x 5' v1": 18004,
+     "10x 3' v3": 12031,
+     "10x 5' transcription profiling": 3629,
+     "Seq-Well": 3351,
+     "Drop-seq": 2875,
+     "10x 3' v1": 1162,
+     "10x 5' v2": 383
+    },
+    "median_lib": 1550.0,
+    "nnz_per_cell": 206.64586180364955
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 32605.5,
+    "mean_t05": 0.4778483709273183,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 1,
+    "mean_calls": 0.2,
+    "mean_t05": 0.0530858395989975,
+    "holds": true
+   },
+   "XDSM": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.05002130325814537,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.05040476190476191,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 7,
+   "info": {
+    "i": 7,
+    "dataset_id": "67b6b9ac-b841-42ce-b2d4-ed2ec12327bd",
+    "dataset_title": "Single cell atlas of LBCL (LME)",
+    "collection_name": "Single cell atlas of large B-cell lymphoma",
+    "collection_doi": "10.1016/j.ccell.2025.06.002",
+    "cell_type": "macrophage",
+    "cells": 125266,
+    "donors": 225,
+    "median_nd": 298.0,
+    "min_nd": 4,
+    "max_nd": 4069,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x multiome": 125266
+    },
+    "median_lib": 5914.0,
+    "nnz_per_cell": 319.01254929510003
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 27283.95,
+    "mean_t05": 0.43376817042606514,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 4,
+    "mean_calls": 0.85,
+    "mean_t05": 0.0579736842105263,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 2,
+    "mean_calls": 0.15,
+    "mean_t05": 0.051016917293233086,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 3,
+    "mean_calls": 0.2,
+    "mean_t05": 0.051823308270676695,
+    "holds": false
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 8,
+   "info": {
+    "i": 8,
+    "dataset_id": "67b6b9ac-b841-42ce-b2d4-ed2ec12327bd",
+    "dataset_title": "Single cell atlas of LBCL (LME)",
+    "collection_name": "Single cell atlas of large B-cell lymphoma",
+    "collection_doi": "10.1016/j.ccell.2025.06.002",
+    "cell_type": "fibroblast",
+    "cells": 66885,
+    "donors": 221,
+    "median_nd": 154.0,
+    "min_nd": 4,
+    "max_nd": 3312,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x multiome": 66885
+    },
+    "median_lib": 5417.0,
+    "nnz_per_cell": 285.21725349480454
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 26786.2,
+    "mean_t05": 0.42832581453634083,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 6,
+    "mean_calls": 3.45,
+    "mean_t05": 0.058126566416040096,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.05046929824561404,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.051096491228070175,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 9,
+   "info": {
+    "i": 9,
+    "dataset_id": "67b6b9ac-b841-42ce-b2d4-ed2ec12327bd",
+    "dataset_title": "Single cell atlas of LBCL (LME)",
+    "collection_name": "Single cell atlas of large B-cell lymphoma",
+    "collection_doi": "10.1016/j.ccell.2025.06.002",
+    "cell_type": "endothelial cell",
+    "cells": 46550,
+    "donors": 219,
+    "median_nd": 110.0,
+    "min_nd": 4,
+    "max_nd": 1664,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x multiome": 46550
+    },
+    "median_lib": 6228.0,
+    "nnz_per_cell": 308.9926530612245
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 25017.4,
+    "mean_t05": 0.4118784461152882,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 7,
+    "mean_calls": 62.85,
+    "mean_t05": 0.062241228070175444,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 1,
+    "mean_calls": 0.05,
+    "mean_t05": 0.05028383458646617,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 1,
+    "mean_calls": 0.05,
+    "mean_t05": 0.050856516290726815,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 10,
+   "info": {
+    "i": 10,
+    "dataset_id": "56c4912d-2bae-4b64-98f2-af8a84389208",
+    "dataset_title": "Extended GBmap",
+    "collection_name": "Harmonized single-cell landscape, intercellular crosstalk and tumor architecture of glioblastoma",
+    "collection_doi": "10.1101/2022.08.27.505439",
+    "cell_type": "macrophage",
+    "cells": 263529,
+    "donors": 204,
+    "median_nd": 413.0,
+    "min_nd": 4,
+    "max_nd": 21316,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v3": 205974,
+     "10x 3' v2": 42955,
+     "10x 5' v1": 4745,
+     "BD Rhapsody Whole Transcriptome Analysis": 4618,
+     "microwell-seq": 3560,
+     "Drop-seq": 517,
+     "CEL-seq2": 438,
+     "STRT-seq": 392,
+     "Smart-seq2": 330
+    },
+    "median_lib": 5813.0,
+    "nnz_per_cell": 288.19729896899395
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 35049.05,
+    "mean_t05": 0.5065676691729324,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 17,
+    "mean_calls": 16.05,
+    "mean_t05": 0.06131328320802004,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.05146052631578948,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.05033145363408521,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 11,
+   "info": {
+    "i": 11,
+    "dataset_id": "56c4912d-2bae-4b64-98f2-af8a84389208",
+    "dataset_title": "Extended GBmap",
+    "collection_name": "Harmonized single-cell landscape, intercellular crosstalk and tumor architecture of glioblastoma",
+    "collection_doi": "10.1101/2022.08.27.505439",
+    "cell_type": "microglial cell",
+    "cells": 195934,
+    "donors": 203,
+    "median_nd": 247.0,
+    "min_nd": 4,
+    "max_nd": 11063,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v3": 142686,
+     "10x 3' v2": 47576,
+     "CEL-seq2": 2488,
+     "10x 5' v1": 1224,
+     "microwell-seq": 624,
+     "BD Rhapsody Whole Transcriptome Analysis": 501,
+     "STRT-seq": 470,
+     "Drop-seq": 226,
+     "Smart-seq2": 139
+    },
+    "median_lib": 3703.0,
+    "nnz_per_cell": 258.0392836363265
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 36441.8,
+    "mean_t05": 0.5195300751879699,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 12,
+    "mean_calls": 4.5,
+    "mean_t05": 0.057597744360902245,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 1,
+    "mean_calls": 0.05,
+    "mean_t05": 0.05086842105263158,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 2,
+    "mean_calls": 0.15,
+    "mean_t05": 0.050513784461152886,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 12,
+   "info": {
+    "i": 12,
+    "dataset_id": "56c4912d-2bae-4b64-98f2-af8a84389208",
+    "dataset_title": "Extended GBmap",
+    "collection_name": "Harmonized single-cell landscape, intercellular crosstalk and tumor architecture of glioblastoma",
+    "collection_doi": "10.1101/2022.08.27.505439",
+    "cell_type": "malignant cell",
+    "cells": 390741,
+    "donors": 197,
+    "median_nd": 800.0,
+    "min_nd": 4,
+    "max_nd": 19714,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v3": 221349,
+     "10x 3' v2": 119288,
+     "microwell-seq": 21145,
+     "Drop-seq": 19476,
+     "Smart-seq2": 4866,
+     "STRT-seq": 2800,
+     "BD Rhapsody Whole Transcriptome Analysis": 1712,
+     "10x 5' v1": 105
+    },
+    "median_lib": 4659.0,
+    "nnz_per_cell": 242.2677835190062
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 28978.3,
+    "mean_t05": 0.44679824561403525,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 18,
+    "mean_calls": 534.8,
+    "mean_t05": 0.09878320802005013,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 2,
+    "mean_calls": 0.5,
+    "mean_t05": 0.0591810776942356,
+    "holds": false
+   },
+   "XDSMh": {
+    "runs_with_call": 5,
+    "mean_calls": 7.85,
+    "mean_t05": 0.05295175438596491,
+    "holds": false
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 13,
+   "info": {
+    "i": 13,
+    "dataset_id": "9dbab10c-118d-496b-966a-67f1763a6b7d",
+    "dataset_title": "Large-scale single-cell analysis reveals critical immune characteristics of COVID-19 patients",
+    "collection_name": "COVID-19 immune features revealed by a large-scale single-cell transcriptome atlas",
+    "collection_doi": "10.1016/j.cell.2021.01.053",
+    "cell_type": "B cell",
+    "cells": 403475,
+    "donors": 192,
+    "median_nd": 517.0,
+    "min_nd": 4,
+    "max_nd": 49194,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 5' v2": 389458,
+     "10x 3' v3": 14017
+    },
+    "median_lib": 3827.0,
+    "nnz_per_cell": 297.8955796517752
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 47539.45,
+    "mean_t05": 0.6321102756892231,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 17,
+    "mean_calls": 26.1,
+    "mean_t05": 0.059572055137844616,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.05099498746867167,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.051744360902255634,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 14,
+   "info": {
+    "i": 14,
+    "dataset_id": "9dbab10c-118d-496b-966a-67f1763a6b7d",
+    "dataset_title": "Large-scale single-cell analysis reveals critical immune characteristics of COVID-19 patients",
+    "collection_name": "COVID-19 immune features revealed by a large-scale single-cell transcriptome atlas",
+    "collection_doi": "10.1016/j.cell.2021.01.053",
+    "cell_type": "CD14-positive, CD16-negative classical monocyte",
+    "cells": 250148,
+    "donors": 191,
+    "median_nd": 934.0,
+    "min_nd": 7,
+    "max_nd": 7130,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 5' v2": 215953,
+     "10x 3' v3": 34195
+    },
+    "median_lib": 4811.0,
+    "nnz_per_cell": 324.3893974766938
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 38499.45,
+    "mean_t05": 0.5413402255639098,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 15,
+    "mean_calls": 96.65,
+    "mean_t05": 0.06665538847117794,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 1,
+    "mean_calls": 0.1,
+    "mean_t05": 0.05081641604010025,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 2,
+    "mean_calls": 0.2,
+    "mean_t05": 0.051692982456140346,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 15,
+   "info": {
+    "i": 15,
+    "dataset_id": "1e6a6ef9-7ec9-4c90-bbfb-2ad3c3165fd1",
+    "dataset_title": "The single-cell lung cancer atlas (LuCA) -- extended atlas",
+    "collection_name": "High-resolution single-cell atlas reveals diversity and plasticity of tumor-associated neutrophils in non-small cell lung cancer",
+    "collection_doi": "10.1016/j.ccell.2022.10.008",
+    "cell_type": "macrophage",
+    "cells": 79845,
+    "donors": 190,
+    "median_nd": 208.5,
+    "min_nd": 4,
+    "max_nd": 4959,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v2": 49588,
+     "BD Rhapsody Whole Transcriptome Analysis": 8864,
+     "10x 3' v3": 8443,
+     "GEXSCOPE technology": 7124,
+     "Smart-seq2": 2687,
+     "inDrop": 2360,
+     "10x 5' v1": 709,
+     "10x 3' v1": 70
+    },
+    "median_lib": 4875.0,
+    "nnz_per_cell": 311.0056734923915
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 26622.7,
+    "mean_t05": 0.42509461152882205,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 9,
+    "mean_calls": 1.1,
+    "mean_t05": 0.05078634085213033,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.04966040100250627,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.049877192982456145,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 16,
+   "info": {
+    "i": 16,
+    "dataset_id": "9dbab10c-118d-496b-966a-67f1763a6b7d",
+    "dataset_title": "Large-scale single-cell analysis reveals critical immune characteristics of COVID-19 patients",
+    "collection_name": "COVID-19 immune features revealed by a large-scale single-cell transcriptome atlas",
+    "collection_doi": "10.1016/j.cell.2021.01.053",
+    "cell_type": "CD8-positive, alpha-beta T cell",
+    "cells": 354749,
+    "donors": 187,
+    "median_nd": 1713.0,
+    "min_nd": 4,
+    "max_nd": 7809,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 5' v2": 320936,
+     "10x 3' v3": 33813
+    },
+    "median_lib": 3505.0,
+    "nnz_per_cell": 299.92167137891863
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 53367.0,
+    "mean_t05": 0.693327694235589,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 14,
+    "mean_calls": 27.5,
+    "mean_t05": 0.06517418546365915,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 3,
+    "mean_calls": 0.35,
+    "mean_t05": 0.05191478696741854,
+    "holds": false
+   },
+   "XDSMh": {
+    "runs_with_call": 4,
+    "mean_calls": 0.3,
+    "mean_t05": 0.05320551378446116,
+    "holds": false
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 17,
+   "info": {
+    "i": 17,
+    "dataset_id": "1e6a6ef9-7ec9-4c90-bbfb-2ad3c3165fd1",
+    "dataset_title": "The single-cell lung cancer atlas (LuCA) -- extended atlas",
+    "collection_name": "High-resolution single-cell atlas reveals diversity and plasticity of tumor-associated neutrophils in non-small cell lung cancer",
+    "collection_doi": "10.1016/j.ccell.2022.10.008",
+    "cell_type": "CD4-positive, alpha-beta T cell",
+    "cells": 170439,
+    "donors": 185,
+    "median_nd": 465.0,
+    "min_nd": 4,
+    "max_nd": 12720,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v2": 119116,
+     "BD Rhapsody Whole Transcriptome Analysis": 20367,
+     "10x 3' v3": 10018,
+     "10x 5' v1": 8030,
+     "inDrop": 5211,
+     "Smart-seq2": 4816,
+     "10x 3' v1": 1869,
+     "GEXSCOPE technology": 1012
+    },
+    "median_lib": 2284.0,
+    "nnz_per_cell": 257.64035813399516
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 29382.9,
+    "mean_t05": 0.45230325814536343,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 20,
+    "mean_calls": 145.1,
+    "mean_t05": 0.05601378446115289,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 16,
+    "mean_calls": 71.45,
+    "mean_t05": 0.05742293233082707,
+    "holds": false
+   },
+   "XDSMh": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.05105200501253132,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 18,
+   "info": {
+    "i": 18,
+    "dataset_id": "a19d1667-a7b5-4556-9e5f-f9bfa690c0f1",
+    "dataset_title": "Human dermal fibroblast atlas",
+    "collection_name": "Human and mouse dermal fibroblast atlas",
+    "collection_doi": "10.1101/2024.09.05.611379",
+    "cell_type": "skin fibroblast",
+    "cells": 93316,
+    "donors": 185,
+    "median_nd": 218.0,
+    "min_nd": 6,
+    "max_nd": 9243,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v2": 43816,
+     "10x 3' v3": 30772,
+     "MARS-seq": 15393,
+     "10x 5' v1": 2885,
+     "Seq-Well S3": 450
+    },
+    "median_lib": 3051.0,
+    "nnz_per_cell": 271.1910283338334
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 25202.85,
+    "mean_t05": 0.40800250626566414,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 9,
+    "mean_calls": 10.75,
+    "mean_t05": 0.054140350877192975,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 2,
+    "mean_calls": 0.1,
+    "mean_t05": 0.05089974937343359,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 2,
+    "mean_calls": 0.1,
+    "mean_t05": 0.05180827067669173,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 19,
+   "info": {
+    "i": 19,
+    "dataset_id": "1e6a6ef9-7ec9-4c90-bbfb-2ad3c3165fd1",
+    "dataset_title": "The single-cell lung cancer atlas (LuCA) -- extended atlas",
+    "collection_name": "High-resolution single-cell atlas reveals diversity and plasticity of tumor-associated neutrophils in non-small cell lung cancer",
+    "collection_doi": "10.1016/j.ccell.2022.10.008",
+    "cell_type": "CD8-positive, alpha-beta T cell",
+    "cells": 121626,
+    "donors": 182,
+    "median_nd": 377.5,
+    "min_nd": 4,
+    "max_nd": 11324,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v2": 76396,
+     "BD Rhapsody Whole Transcriptome Analysis": 19133,
+     "10x 3' v3": 9922,
+     "10x 5' v1": 5804,
+     "Smart-seq2": 5151,
+     "inDrop": 2561,
+     "10x 3' v1": 1422,
+     "GEXSCOPE technology": 1237
+    },
+    "median_lib": 2100.0,
+    "nnz_per_cell": 257.9679180438393
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 34806.05,
+    "mean_t05": 0.5078452380952382,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 4,
+    "mean_calls": 0.75,
+    "mean_t05": 0.04715413533834587,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 2,
+    "mean_calls": 0.4,
+    "mean_t05": 0.05098684210526315,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 1,
+    "mean_calls": 0.05,
+    "mean_t05": 0.04982393483709273,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 20,
+   "info": {
+    "i": 20,
+    "dataset_id": "d9f3a82c-24bb-4277-b715-8ec92a33dd32",
+    "dataset_title": "human cHSPCs - Illumina",
+    "collection_name": "Human circulating hematopoietic stem and progenitor cells in aging, cytopenia and MDS",
+    "collection_doi": "10.1038/s41591-025-03716-5",
+    "cell_type": "hematopoietic multipotent progenitor cell",
+    "cells": 190600,
+    "donors": 132,
+    "median_nd": 1031.0,
+    "min_nd": 37,
+    "max_nd": 8410,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v3": 190600
+    },
+    "median_lib": 2820.0,
+    "nnz_per_cell": 281.9611962224554
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 16829.5,
+    "mean_t05": 0.3357493734335839,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 10,
+    "mean_calls": 12.65,
+    "mean_t05": 0.062080200501253124,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.0522951127819549,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 1,
+    "mean_calls": 0.1,
+    "mean_t05": 0.053703634085213024,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 21,
+   "info": {
+    "i": 21,
+    "dataset_id": "d9f3a82c-24bb-4277-b715-8ec92a33dd32",
+    "dataset_title": "human cHSPCs - Illumina",
+    "collection_name": "Human circulating hematopoietic stem and progenitor cells in aging, cytopenia and MDS",
+    "collection_doi": "10.1038/s41591-025-03716-5",
+    "cell_type": "hematopoietic precursor cell",
+    "cells": 184356,
+    "donors": 132,
+    "median_nd": 1158.5,
+    "min_nd": 50,
+    "max_nd": 4834,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v3": 184356
+    },
+    "median_lib": 2517.0,
+    "nnz_per_cell": 270.2358371845777
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 17808.5,
+    "mean_t05": 0.344765664160401,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 6,
+    "mean_calls": 0.4,
+    "mean_t05": 0.0572844611528822,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 4,
+    "mean_calls": 0.2,
+    "mean_t05": 0.0518107769423559,
+    "holds": false
+   },
+   "XDSMh": {
+    "runs_with_call": 3,
+    "mean_calls": 0.2,
+    "mean_t05": 0.05318358395989975,
+    "holds": false
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 22,
+   "info": {
+    "i": 22,
+    "dataset_id": "d9f3a82c-24bb-4277-b715-8ec92a33dd32",
+    "dataset_title": "human cHSPCs - Illumina",
+    "collection_name": "Human circulating hematopoietic stem and progenitor cells in aging, cytopenia and MDS",
+    "collection_doi": "10.1038/s41591-025-03716-5",
+    "cell_type": "B cell",
+    "cells": 92085,
+    "donors": 130,
+    "median_nd": 418.5,
+    "min_nd": 4,
+    "max_nd": 5982,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v3": 92085
+    },
+    "median_lib": 1156.0,
+    "nnz_per_cell": 213.09536840962156
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 38918.15,
+    "mean_t05": 0.543765664160401,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 12,
+    "mean_calls": 85.1,
+    "mean_t05": 0.06488283208020051,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 1,
+    "mean_calls": 0.1,
+    "mean_t05": 0.05217230576441103,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 0,
+    "mean_calls": 0.0,
+    "mean_t05": 0.05333834586466165,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 23,
+   "info": {
+    "i": 23,
+    "dataset_id": "842c6f5d-4a94-4eef-8510-8c792d1124bc",
+    "dataset_title": "scRNA-seq data - all cells",
+    "collection_name": "A spatially resolved single cell genomic atlas of the adult human breast",
+    "collection_doi": "10.1038/s41586-023-06252-9",
+    "cell_type": "endothelial cell of artery",
+    "cells": 12919,
+    "donors": 126,
+    "median_nd": 75.0,
+    "min_nd": 5,
+    "max_nd": 1139,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v3": 10745,
+     "10x 3' v2": 2174
+    },
+    "median_lib": 3939.0,
+    "nnz_per_cell": 296.05820883969346
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 17579.4,
+    "mean_t05": 0.3374392230576441,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 18,
+    "mean_calls": 29.25,
+    "mean_t05": 0.06518671679197995,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 1,
+    "mean_calls": 0.1,
+    "mean_t05": 0.05290476190476191,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 1,
+    "mean_calls": 0.05,
+    "mean_t05": 0.05429511278195489,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  },
+  {
+   "i": 24,
+   "info": {
+    "i": 24,
+    "dataset_id": "842c6f5d-4a94-4eef-8510-8c792d1124bc",
+    "dataset_title": "scRNA-seq data - all cells",
+    "collection_name": "A spatially resolved single cell genomic atlas of the adult human breast",
+    "collection_doi": "10.1038/s41586-023-06252-9",
+    "cell_type": "fibroblast",
+    "cells": 208390,
+    "donors": 126,
+    "median_nd": 1477.5,
+    "min_nd": 63,
+    "max_nd": 5394,
+    "capped_donors": 0,
+    "cap": 0,
+    "G": 400,
+    "assays": {
+     "10x 3' v3": 195127,
+     "10x 3' v2": 13263
+    },
+    "median_lib": 6032.0,
+    "nnz_per_cell": 334.5538269590671
+   },
+   "status": "complete",
+   "machine": "out",
+   "PB": {
+    "runs_with_call": 20,
+    "mean_calls": 20386.4,
+    "mean_t05": 0.3664974937343359,
+    "holds": false
+   },
+   "KX": {
+    "runs_with_call": 7,
+    "mean_calls": 6.5,
+    "mean_t05": 0.05895488721804511,
+    "holds": false
+   },
+   "XDSM": {
+    "runs_with_call": 1,
+    "mean_calls": 0.05,
+    "mean_t05": 0.052594611528822055,
+    "holds": true
+   },
+   "XDSMh": {
+    "runs_with_call": 1,
+    "mean_calls": 0.05,
+    "mean_t05": 0.05404824561403508,
+    "holds": true
+   },
+   "xdsm_consistency": 20
+  }
+ ],
+ "held": {
+  "PB": 0,
+  "KX": 1,
+  "XDSM": 19,
+  "XDSMh": 20
+ },
+ "pb_failed": 24,
+ "pb_runs_all20": 24
+}

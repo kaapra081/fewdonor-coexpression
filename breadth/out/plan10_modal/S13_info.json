@@ -1,0 +1,22 @@
+{
+ "i": 13,
+ "dataset_id": "9dbab10c-118d-496b-966a-67f1763a6b7d",
+ "dataset_title": "Large-scale single-cell analysis reveals critical immune characteristics of COVID-19 patients",
+ "collection_name": "COVID-19 immune features revealed by a large-scale single-cell transcriptome atlas",
+ "collection_doi": "10.1016/j.cell.2021.01.053",
+ "cell_type": "B cell",
+ "cells": 403475,
+ "donors": 192,
+ "median_nd": 517.0,
+ "min_nd": 4,
+ "max_nd": 49194,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x 5' v2": 389458,
+  "10x 3' v3": 14017
+ },
+ "median_lib": 3827.0,
+ "nnz_per_cell": 297.8955796517752
+}

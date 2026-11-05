@@ -1,0 +1,21 @@
+{
+ "i": 22,
+ "dataset_id": "d9f3a82c-24bb-4277-b715-8ec92a33dd32",
+ "dataset_title": "human cHSPCs - Illumina",
+ "collection_name": "Human circulating hematopoietic stem and progenitor cells in aging, cytopenia and MDS",
+ "collection_doi": "10.1038/s41591-025-03716-5",
+ "cell_type": "B cell",
+ "cells": 92085,
+ "donors": 130,
+ "median_nd": 418.5,
+ "min_nd": 4,
+ "max_nd": 5982,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x 3' v3": 92085
+ },
+ "median_lib": 1156.0,
+ "nnz_per_cell": 213.09536840962156
+}

@@ -1,0 +1,28 @@
+{
+ "i": 5,
+ "dataset_id": "9f222629-9e39-47d0-b83f-e08d610c7479",
+ "dataset_title": "An integrated cell atlas of the human lung in health and disease (full)",
+ "collection_name": "The integrated Human Lung Cell Atlas",
+ "collection_doi": "10.1038/s41591-023-02327-2",
+ "cell_type": "CD1c-positive myeloid dendritic cell",
+ "cells": 26911,
+ "donors": 329,
+ "median_nd": 47.0,
+ "min_nd": 4,
+ "max_nd": 884,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x 3' v2": 14549,
+  "10x 5' v1": 4315,
+  "10x 5' transcription profiling": 2983,
+  "10x 3' v3": 2486,
+  "Drop-seq": 1034,
+  "10x 5' v2": 893,
+  "Seq-Well": 511,
+  "10x 3' v1": 140
+ },
+ "median_lib": 4863.0,
+ "nnz_per_cell": 281.4270372710044
+}

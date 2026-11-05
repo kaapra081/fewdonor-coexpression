@@ -1,0 +1,28 @@
+{
+ "i": 4,
+ "dataset_id": "9f222629-9e39-47d0-b83f-e08d610c7479",
+ "dataset_title": "An integrated cell atlas of the human lung in health and disease (full)",
+ "collection_name": "The integrated Human Lung Cell Atlas",
+ "collection_doi": "10.1038/s41591-023-02327-2",
+ "cell_type": "multiciliated columnar cell of tracheobronchial tree",
+ "cells": 105586,
+ "donors": 396,
+ "median_nd": 88.0,
+ "min_nd": 4,
+ "max_nd": 4481,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x 3' v2": 37240,
+  "10x 5' v1": 29873,
+  "10x 3' v3": 14445,
+  "10x 5' transcription profiling": 13746,
+  "Drop-seq": 5085,
+  "10x 5' v2": 3840,
+  "Seq-Well": 1313,
+  "10x 3' v1": 44
+ },
+ "median_lib": 4478.0,
+ "nnz_per_cell": 284.18557384501736
+}

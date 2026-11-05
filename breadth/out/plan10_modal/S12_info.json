@@ -1,0 +1,28 @@
+{
+ "i": 12,
+ "dataset_id": "56c4912d-2bae-4b64-98f2-af8a84389208",
+ "dataset_title": "Extended GBmap",
+ "collection_name": "Harmonized single-cell landscape, intercellular crosstalk and tumor architecture of glioblastoma",
+ "collection_doi": "10.1101/2022.08.27.505439",
+ "cell_type": "malignant cell",
+ "cells": 390741,
+ "donors": 197,
+ "median_nd": 800.0,
+ "min_nd": 4,
+ "max_nd": 19714,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x 3' v3": 221349,
+  "10x 3' v2": 119288,
+  "microwell-seq": 21145,
+  "Drop-seq": 19476,
+  "Smart-seq2": 4866,
+  "STRT-seq": 2800,
+  "BD Rhapsody Whole Transcriptome Analysis": 1712,
+  "10x 5' v1": 105
+ },
+ "median_lib": 4659.0,
+ "nnz_per_cell": 242.2677835190062
+}

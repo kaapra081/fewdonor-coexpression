@@ -1,0 +1,28 @@
+{
+ "i": 6,
+ "dataset_id": "9f222629-9e39-47d0-b83f-e08d610c7479",
+ "dataset_title": "An integrated cell atlas of the human lung in health and disease (full)",
+ "collection_name": "The integrated Human Lung Cell Atlas",
+ "collection_doi": "10.1038/s41591-023-02327-2",
+ "cell_type": "CD8-positive, alpha-beta T cell",
+ "cells": 87079,
+ "donors": 321,
+ "median_nd": 104.0,
+ "min_nd": 4,
+ "max_nd": 5186,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x 3' v2": 45644,
+  "10x 5' v1": 18004,
+  "10x 3' v3": 12031,
+  "10x 5' transcription profiling": 3629,
+  "Seq-Well": 3351,
+  "Drop-seq": 2875,
+  "10x 3' v1": 1162,
+  "10x 5' v2": 383
+ },
+ "median_lib": 1550.0,
+ "nnz_per_cell": 206.64586180364955
+}

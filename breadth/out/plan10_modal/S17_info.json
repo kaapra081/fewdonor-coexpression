@@ -1,0 +1,28 @@
+{
+ "i": 17,
+ "dataset_id": "1e6a6ef9-7ec9-4c90-bbfb-2ad3c3165fd1",
+ "dataset_title": "The single-cell lung cancer atlas (LuCA) -- extended atlas",
+ "collection_name": "High-resolution single-cell atlas reveals diversity and plasticity of tumor-associated neutrophils in non-small cell lung cancer",
+ "collection_doi": "10.1016/j.ccell.2022.10.008",
+ "cell_type": "CD4-positive, alpha-beta T cell",
+ "cells": 170439,
+ "donors": 185,
+ "median_nd": 465.0,
+ "min_nd": 4,
+ "max_nd": 12720,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x 3' v2": 119116,
+  "BD Rhapsody Whole Transcriptome Analysis": 20367,
+  "10x 3' v3": 10018,
+  "10x 5' v1": 8030,
+  "inDrop": 5211,
+  "Smart-seq2": 4816,
+  "10x 3' v1": 1869,
+  "GEXSCOPE technology": 1012
+ },
+ "median_lib": 2284.0,
+ "nnz_per_cell": 257.64035813399516
+}

@@ -1,0 +1,22 @@
+{
+ "i": 23,
+ "dataset_id": "842c6f5d-4a94-4eef-8510-8c792d1124bc",
+ "dataset_title": "scRNA-seq data - all cells",
+ "collection_name": "A spatially resolved single cell genomic atlas of the adult human breast",
+ "collection_doi": "10.1038/s41586-023-06252-9",
+ "cell_type": "endothelial cell of artery",
+ "cells": 12919,
+ "donors": 126,
+ "median_nd": 75.0,
+ "min_nd": 5,
+ "max_nd": 1139,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x 3' v3": 10745,
+  "10x 3' v2": 2174
+ },
+ "median_lib": 3939.0,
+ "nnz_per_cell": 296.05820883969346
+}

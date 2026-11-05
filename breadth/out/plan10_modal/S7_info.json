@@ -1,0 +1,21 @@
+{
+ "i": 7,
+ "dataset_id": "67b6b9ac-b841-42ce-b2d4-ed2ec12327bd",
+ "dataset_title": "Single cell atlas of LBCL (LME)",
+ "collection_name": "Single cell atlas of large B-cell lymphoma",
+ "collection_doi": "10.1016/j.ccell.2025.06.002",
+ "cell_type": "macrophage",
+ "cells": 125266,
+ "donors": 225,
+ "median_nd": 298.0,
+ "min_nd": 4,
+ "max_nd": 4069,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x multiome": 125266
+ },
+ "median_lib": 5914.0,
+ "nnz_per_cell": 319.01254929510003
+}

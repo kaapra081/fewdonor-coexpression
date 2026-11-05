@@ -1,0 +1,25 @@
+{
+ "i": 18,
+ "dataset_id": "a19d1667-a7b5-4556-9e5f-f9bfa690c0f1",
+ "dataset_title": "Human dermal fibroblast atlas",
+ "collection_name": "Human and mouse dermal fibroblast atlas",
+ "collection_doi": "10.1101/2024.09.05.611379",
+ "cell_type": "skin fibroblast",
+ "cells": 93316,
+ "donors": 185,
+ "median_nd": 218.0,
+ "min_nd": 6,
+ "max_nd": 9243,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x 3' v2": 43816,
+  "10x 3' v3": 30772,
+  "MARS-seq": 15393,
+  "10x 5' v1": 2885,
+  "Seq-Well S3": 450
+ },
+ "median_lib": 3051.0,
+ "nnz_per_cell": 271.1910283338334
+}

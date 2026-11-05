@@ -1,0 +1,22 @@
+{
+ "i": 24,
+ "dataset_id": "842c6f5d-4a94-4eef-8510-8c792d1124bc",
+ "dataset_title": "scRNA-seq data - all cells",
+ "collection_name": "A spatially resolved single cell genomic atlas of the adult human breast",
+ "collection_doi": "10.1038/s41586-023-06252-9",
+ "cell_type": "fibroblast",
+ "cells": 208390,
+ "donors": 126,
+ "median_nd": 1477.5,
+ "min_nd": 63,
+ "max_nd": 5394,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x 3' v3": 195127,
+  "10x 3' v2": 13263
+ },
+ "median_lib": 6032.0,
+ "nnz_per_cell": 334.5538269590671
+}

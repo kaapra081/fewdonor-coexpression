@@ -1,0 +1,21 @@
+{
+ "i": 1,
+ "dataset_id": "c838aec3-03ef-4398-b882-0e3912abfff0",
+ "dataset_title": "AIDA Phase 1 Data Freeze v2: Chinese, Indian, Japanese, Korean, Malay, and Thai donors in Japan, Singapore, South Korea, Thailand, and India",
+ "collection_name": "Asian Immune Diversity Atlas (AIDA)",
+ "collection_doi": "10.1016/j.cell.2025.02.017",
+ "cell_type": "myeloid cell",
+ "cells": 26000,
+ "donors": 614,
+ "median_nd": 29.0,
+ "min_nd": 4,
+ "max_nd": 789,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x 5' v2": 26000
+ },
+ "median_lib": 6254.0,
+ "nnz_per_cell": 352.8353846153846
+}

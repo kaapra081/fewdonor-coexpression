@@ -1,0 +1,21 @@
+{
+ "i": 3,
+ "dataset_id": "c838aec3-03ef-4398-b882-0e3912abfff0",
+ "dataset_title": "AIDA Phase 1 Data Freeze v2: Chinese, Indian, Japanese, Korean, Malay, and Thai donors in Japan, Singapore, South Korea, Thailand, and India",
+ "collection_name": "Asian Immune Diversity Atlas (AIDA)",
+ "collection_doi": "10.1016/j.cell.2025.02.017",
+ "cell_type": "CD14-positive monocyte",
+ "cells": 202124,
+ "donors": 595,
+ "median_nd": 298.0,
+ "min_nd": 6,
+ "max_nd": 4989,
+ "capped_donors": 0,
+ "cap": 0,
+ "G": 400,
+ "assays": {
+  "10x 5' v2": 202124
+ },
+ "median_lib": 5505.0,
+ "nnz_per_cell": 353.53493894836834
+}
