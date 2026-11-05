@@ -6,6 +6,8 @@ import os, sys, json, time, urllib.parse, numpy as np, scipy.sparse as sp
 OUT = os.environ.get("OUT", "out"); DATA = os.environ.get("BDATA", "data"); os.makedirs(OUT, exist_ok=True); os.makedirs(DATA, exist_ok=True)
 CENSUS = "2025-11-08"; KEYS = ["psychad", "onek1k", "yazar", "lupus", "sea-ad", "seattle alzheimer", "cell type specific genetic control of autoimmune"]
 USED_DIDS = ["09642770-9a4c-4fe6-9f45-67e1249adc33", "218acb0f-9f2f-4f76-b90b-15a4b7c7f629"]   # PsychAD myeloid, Perez lupus (their whole collections are excluded)
+USED_COLLS = ["84ce6837-548d-4a1f-919f-0bc0d9a3952f"] if os.environ.get("PLAN") == "10" else []   # Plan 10: PsychAD collection by id
+MIN_DONORS = int(os.environ.get("MIN_DONORS", 200)); PER_COLL = int(os.environ.get("PER_COLL", 1)); MAX_SET = int(os.environ.get("MAX_SET", 8)); CAP = int(os.environ.get("CAP", 200)); SEED0 = int(os.environ.get("SEED0", 90_000_000))
 stage = sys.argv[1]
 
 
@@ -27,13 +29,13 @@ if stage == "select":
     obs = obs[obs.is_primary_data]
     n = obs.groupby(["dataset_id", "cell_type", "donor_id"], observed=True).size().rename("n").reset_index()
     el = n[n.n >= 4].groupby(["dataset_id", "cell_type"], observed=True).agg(donors=("donor_id", "nunique"), cells=("n", "sum"), median_n=("n", "median")).reset_index()
-    el = el[(el.donors >= 200) & (el.cell_type.astype(str).str.lower() != "unknown")]
+    el = el[(el.donors >= MIN_DONORS) & (el.cell_type.astype(str).str.lower() != "unknown")]
     el = el.merge(ds[["dataset_id", "dataset_title", "collection_id", "collection_name", "collection_doi"]], on="dataset_id", how="left")
     txt = (el.collection_name.fillna("") + " | " + el.dataset_title.fillna("")).str.lower()
-    used_coll = set(ds[ds.dataset_id.isin(USED_DIDS)].collection_id)
+    used_coll = set(ds[ds.dataset_id.isin(USED_DIDS)].collection_id) | set(USED_COLLS)
     el["excluded"] = txt.apply(lambda s: any(k in s for k in KEYS)) | el.collection_id.isin(used_coll)
     el = el.sort_values("donors", ascending=False, kind="stable").reset_index(drop=True); el.to_csv(f"{OUT}/candidates.csv", index=False)
-    keep = el[~el.excluded].drop_duplicates("collection_id").head(8).reset_index(drop=True)
+    keep = el[~el.excluded].groupby("collection_id", sort=False).head(PER_COLL).head(MAX_SET).reset_index(drop=True)
     sel = [dict(i=i + 1, **{k: (str(v) if not isinstance(v, (int, float, np.integer, np.floating)) else float(v)) for k, v in r.items()}) for i, r in keep.iterrows()]
     json.dump(dict(census=CENSUS, n_eligible_settings=int(len(el)), excluded_collections=sorted(set(el[el.excluded].collection_name.astype(str))), settings=sel), open(f"{OUT}/selection.json", "w"), indent=1)
     print(json.dumps(sel, indent=1)[:4000], flush=True)
@@ -47,7 +49,7 @@ elif stage == "extract":
         ob = ob[ob.cell_type.astype(str) == S["cell_type"]]; cnt = ob.groupby("donor_id", observed=True).size(); ob = ob[ob.donor_id.isin(cnt[cnt >= 4].index)]
         rng = np.random.default_rng(91_000_000 + i); keep = []
         for d, g in ob.groupby("donor_id", observed=True):
-            idx = g.index.values; keep.append(idx if len(idx) <= 200 else rng.choice(idx, 200, replace=False))
+            idx = g.index.values; keep.append(idx if (CAP <= 0 or len(idx) <= CAP) else rng.choice(idx, CAP, replace=False))
         s = ob.loc[np.concatenate(keep)].sort_values("soma_joinid").reset_index(drop=True); ids = s.soma_joinid.values.astype(np.int64); lib = s.raw_sum.values.astype(float); NC = len(s)
         print("S", i, S["cell_type"], "cells", NC, "donors", s.donor_id.nunique(), flush=True)
         var = exp.ms["RNA"].var.read(column_names=["soma_joinid", "feature_id", "feature_name"]).concat().to_pandas().sort_values("soma_joinid").reset_index(drop=True); NV = len(var); X = exp.ms["RNA"].X["raw"]
@@ -72,7 +74,7 @@ elif stage == "extract":
     np.savez_compressed(f"{DATA}/S{i}_meta.npz", lib=lib, donor=s.donor_id.astype(str).values, sym=sym[panel], gene_id=var.feature_id.values[panel].astype(str), soma_joinid=ids, assay=s.assay.astype(str).values, disease=s.disease.astype(str).values)
     nd = s.groupby("donor_id", observed=True).size()
     json.dump(dict(i=i, dataset_id=S["dataset_id"], dataset_title=S["dataset_title"], collection_name=S["collection_name"], collection_doi=S["collection_doi"], cell_type=S["cell_type"],
-                   cells=int(NC), donors=int(len(nd)), median_nd=float(nd.median()), min_nd=int(nd.min()), max_nd=int(nd.max()), capped_donors=int((cnt[cnt >= 4] > 200).sum()), G=int(G),
+                   cells=int(NC), donors=int(len(nd)), median_nd=float(nd.median()), min_nd=int(nd.min()), max_nd=int(nd.max()), capped_donors=(int((cnt[cnt >= 4] > CAP).sum()) if CAP > 0 else 0), cap=CAP, G=int(G),
                    assays={k: int(v) for k, v in s.assay.astype(str).value_counts().items()}, median_lib=float(np.median(lib)), nnz_per_cell=float(Xp.nnz / NC)), open(f"{OUT}/S{i}_info.json", "w"), indent=1)
 
 elif stage == "null":
@@ -100,7 +102,7 @@ elif stage == "null":
     for k in range(k0, k1):
         fn = f"{OUT}/b_S{i}_k{k}.json"
         if os.path.exists(fn): continue
-        t0 = time.time(); seed = 90_000_000 + 10 * k + i; rng = np.random.default_rng(seed); lab = rng.permutation(don); pu = np.unique(lab)
+        t0 = time.time(); seed = SEED0 + 10 * k + i; rng = np.random.default_rng(seed); lab = rng.permutation(don); pu = np.unique(lab)
         rr = [np.where(lab == u)[0] for u in pu]; cl = [(Xs[r].toarray().astype(np.float64), lib[r]) for r in rr]; nd = np.array([len(r) for r in rr], float)
         fs, hs = stats_from_cells(cl, seed); o = rmethods(fs, hs, iu)
         Rs = [(design_R(h["mA"], h["psiA"], h["kappaA"], h["SA"])[0], design_R(h["mB"], h["psiB"], h["kappaB"], h["SB"])[0]) for h in hs]; nA = np.floor(nd / 2); nB = nd - nA; Rh = []
