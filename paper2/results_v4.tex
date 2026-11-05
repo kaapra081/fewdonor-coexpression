@@ -64,6 +64,8 @@ Cell numbers differ between AD cases and controls in all three subtypes, so by P
 
 \LupusText
 
+\paragraph{Four further cohorts.} Under Plan 9 (post hoc, hashed before any data were read) we ran the donor-centred null in every other CELLxGENE Census collection with a cell type of at least 200 donors (blood myeloid cells, airway ciliated cells, lymphoma and glioblastoma macrophages; \BrDonors{} donors; Appendix Table~\ref{tab:breadth}). Pseudobulk made false calls in every run of every cohort (\BrPBcalls{} per run), KX held in \BrKXheld{} of \BrN, and XDS-M and XDS-Mh held in all \BrN{} (type-I \BrXtI).
+
 \subsection{Real donors}\label{sec:real}
 
 On real PsychAD donors between-donor co-expression is dense: XDS-M called \RfRealXDSMrng{} pairs per subtype (\RealXDSMfracRng{} of pairs), stable across split seeds and replicated in independent halves of the donors (\RealXDSMrep{} of calls). As a sign check, XDS-M and pseudobulk both found all 7 \emph{XIST}--Y-linked pairs negative in every subtype and all 21 Y--Y pairs positive. Pseudobulk called \RfRealPBrng{} pairs, fewer than XDS-M in \RfPBfewer: on dense real signal both tests saturate, and \RfRealPBonlyPct{} of its calls were not made by XDS-M. Top pairs and hubs are stable across split seeds (\OvSeedTop{} of the 5{,}000 strongest pairs) and overlap less between XDS-M and pseudobulk (\OvPBXTop{}), a difference no larger than between two independent halves of the donors (\OvHalfXTop{} for XDS-M; pre-specified). Pseudobulk-only calls were at most slightly enriched for pairs called falsely in the matched null (odds ratios \OvORrng; post hoc), so on real donors we could not attribute edges or hubs to the artifact beyond split-half noise; its demonstrated harms are lost error control under nulls and false group differences (Section~\ref{sec:dc}). XDS-M is a pair test, not a network method.
@@ -76,4 +78,4 @@ Treating the donor as the unit of replication is necessary but not sufficient: a
 
 \paragraph{Limitations.} \LimText{}
 
-\paragraph{Availability.} Code, plans and results: \url{https://github.com/kaapra081/fewdonor-coexpression}; data: CZ CELLxGENE \citep{CZICellxGene2025}.
+\paragraph{Availability.} \url{https://github.com/kaapra081/fewdonor-coexpression}; data: CELLxGENE \citep{CZICellxGene2025}.
