@@ -9,8 +9,9 @@ export OUT=$PWD/out BDATA=$PWD/data REPO=$PWD/code/repo OMP_NUM_THREADS=2 OPENBL
 snap() { (cd out && tar czf _snap.tgz *.json *.csv *.log 2>/dev/null); }
 trap 'snap' EXIT TERM
 ( while true; do sleep 180; snap; done ) &
-python3 -m venv $PWD/cenv && ($PWD/cenv/bin/pip install -q "cellxgene-census==1.18.0" scipy > out/pip.log 2>&1 || $PWD/cenv/bin/pip install -q cellxgene-census scipy >> out/pip.log 2>&1); echo "pip exit $?"
-export CPY=$PWD/cenv/bin/python APY=$(command -v python3)
+if python3 -m venv $PWD/cenv > out/venv.log 2>&1; then CPY=$PWD/cenv/bin/python; else CPY=$(command -v python3); fi
+($CPY -m pip install -q "cellxgene-census==1.18.0" scipy > out/pip.log 2>&1 || $CPY -m pip install -q cellxgene-census scipy >> out/pip.log 2>&1); echo "pip exit $? census python $CPY"
+export CPY APY=$(command -v python3)
 $CPY -c "import cellxgene_census, numpy, tiledbsoma; print('census', cellxgene_census.__version__, 'numpy', numpy.__version__, 'soma', tiledbsoma.__version__)"
 $APY -c "import numpy, scipy; print('analysis numpy', numpy.__version__, 'scipy', scipy.__version__)"
 date -u; $CPY code/repo/breadth/breadth_job.py select > out/select.log 2>&1; echo "select exit $?"; date -u
